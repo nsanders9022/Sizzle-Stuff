@@ -122,7 +122,39 @@ namespace OnlineStore.Objects
             }
 
             DB.CloseSqlConnection(conn, rdr);
+        }
 
+        //Finds instance in database
+        public static User Find(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE id = @UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", id.ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int foundid = 0;
+            string foundfirstName = null;
+            string foundlastName = null;
+            string foundusername = null;
+            string foundpassword = null;
+            bool foundadminPrivileges = false;
+
+            while(rdr.Read())
+            {
+                foundid = rdr.GetInt32(0);
+                foundfirstName = rdr.GetString(1);
+                foundlastName = rdr.GetString(2);
+                foundusername = rdr.GetString(3);
+                foundpassword = rdr.GetString(4);
+                foundadminPrivileges = rdr.GetBoolean(5);
+            }
+            User newUser = new User(foundfirstName, foundlastName, foundusername, foundpassword, foundadminPrivileges, foundid);
+
+            DB.CloseSqlConnection(conn, rdr);
+            return newUser;
         }
     }
 }

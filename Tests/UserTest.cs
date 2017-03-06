@@ -84,18 +84,18 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
-        // //Checks that Find method finds correct band in databasejj
-        // [Fact]
-        // public void Find_ForUser_FindsUserInDatabase()
-        // {
-        //     //Arrange
-        //     User testUser = new User("Pajama Funnel");
-        //     testUser.Save();
-        //
-        //     //Act, Assert
-        //     User foundUser = User.Find(testUser.GetId());
-        //     Assert.Equal(testUser, foundUser);
-        // }
+        //Checks that Find method finds correct user in database
+        [Fact]
+        public void Find_ForUser_FindsUserInDatabase()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+
+            //Act, Assert
+            User foundUser = User.Find(testUser.GetId());
+            Assert.Equal(testUser, foundUser);
+        }
 
 
     }

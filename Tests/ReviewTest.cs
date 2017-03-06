@@ -40,15 +40,15 @@ namespace OnlineStore.Objects
         }
 
         //Checks if EqualOverride is working
-        // [Fact]
-        // public void EqualOverride_ReviewsAreSame_true()
-        // {
-        //     //Arrange, Act
-        //     Review firstReview = new Review("Allie", "Holcombe", "eylookturkeys", "password", false);
-        //     Review secondReview = new Review("Allie", "Holcombe", "eylookturkeys", "password", false);
-        //
-        //     Assert.Equal(firstReview, secondReview);
-        // }
+        [Fact]
+        public void EqualOverride_ReviewsAreSame_true()
+        {
+            //Arrange, Act
+            Review firstReview = new Review(1,500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+            Review secondReview = new Review(1,500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+
+            Assert.Equal(firstReview, secondReview);
+        }
 
     }
 }

@@ -50,5 +50,23 @@ namespace OnlineStore.Objects
             Assert.Equal(firstUser, secondUser);
         }
 
+        //Checks if instances are saved to database
+       [Fact]
+       public void Save_ForUser_SavesToDatabase()
+       {
+           //Arrange
+           User newUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+
+           //Act
+           newUser.Save();
+
+           //Assert
+           List<User> actualResult = User.GetAll();
+           List<User> expectedResult = new List<User>{newUser};
+
+           Assert.Equal(expectedResult, actualResult);
+       }
+
+
     }
 }

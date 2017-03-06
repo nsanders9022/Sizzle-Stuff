@@ -101,5 +101,28 @@ namespace OnlineStore.Objects
             }
         }
 
+        //Saves instances to database
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO users (first_name, last_name, username, password, admin_privileges) OUTPUT INSERTED.id VALUES (@FirstName, @LastName, @Username, @Password, @AdminPrivileges);", conn);
+            cmd.Parameters.Add(new SqlParameter("@FirstName", this.GetFirstName()));
+            cmd.Parameters.Add(new SqlParameter("@LastName", this.GetLastName()));
+            cmd.Parameters.Add(new SqlParameter("@Username", this.GetUsername()));
+            cmd.Parameters.Add(new SqlParameter("@Password", this.GetPassword()));
+            cmd.Parameters.Add(new SqlParameter("@AdminPrivileges", this.GetAdminPrivileges()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._id = rdr.GetInt32(0);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+
+        }
     }
 }

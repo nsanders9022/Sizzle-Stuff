@@ -133,5 +133,22 @@ namespace OnlineStore.Objects
 
             DB.CloseSqlConnection(conn, rdr);
         }
+
+        public static void DeleteAll()
+        {
+            DB.DeleteAll("profiles");
+        }
+
+        public void DeleteProfile()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM profiles WHERE id = @ProfileId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@ProfileId", this.GetId()));
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
     }
 }

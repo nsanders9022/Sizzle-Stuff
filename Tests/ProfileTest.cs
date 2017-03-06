@@ -83,5 +83,24 @@ namespace OnlineStore.Objects
 
             Assert.Equal(expectedResult, actualResult);
         }
+
+        [Fact]
+        public void DeleteProfile_DeletsProfileFromDB_removeRow()
+        {
+            //Arrange
+            Profile firstProfile = new Profile(1, "123 First Street", "Seattle", "WA", 98006, "206-206-2062");
+            Profile secondProfile = new Profile(2, "1001 Second Avenue", "Portland", "OR", 97006, "503-503-5035");
+            firstProfile.Save();
+            secondProfile.Save();
+
+            //Act
+            firstProfile.DeleteProfile();
+
+            List<Profile> actualResult = Profile.GetAll();
+            List<Profile> expectedResult = new List<Profile>{secondProfile};
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
     }
 }

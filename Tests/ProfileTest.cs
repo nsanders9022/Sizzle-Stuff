@@ -66,5 +66,22 @@ namespace OnlineStore.Objects
 
             Assert.Equal(expectedResult, actualResult);
         }
+
+        //Checks that GetAll method works for multiple instances
+        [Fact]
+        public void GetAll_ForMultipleProfiles_ReturnsListWithAllProfiles()
+        {
+            //Arrange
+            Profile firstProfile = new Profile(1, "123 First Street", "Seattle", "WA", 98006, "206-206-2062");
+            Profile secondProfile = new Profile(2, "1001 Second Avenue", "Portland", "OR", 97006, "503-503-5035");
+            firstProfile.Save();
+            secondProfile.Save();
+
+            //Act, Assert
+            List<Profile> actualResult = Profile.GetAll();
+            List<Profile> expectedResult = new List<Profile> {firstProfile, secondProfile};
+
+            Assert.Equal(expectedResult, actualResult);
+        }
     }
 }

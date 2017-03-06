@@ -187,8 +187,5 @@ namespace OnlineStore.Objects
             //Assert
             Assert.Equal(expectedResult, actualResult);
         }
-
-
-
     }
 }

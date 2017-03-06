@@ -74,6 +74,11 @@ namespace OnlineStore.Objects
             return _price;
         }
 
+        public void SetPrice(decimal newPrice)
+        {
+            _price = newPrice;
+        }
+
         public string GetDescription()
         {
             return _description;
@@ -195,6 +200,36 @@ namespace OnlineStore.Objects
             }
             DB.CloseSqlConnection(conn, rdr);
         }
+        public void UpdatePrice(decimal newPrice)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd  = new SqlCommand("UPDATE products Set price = @NewPrice OUTPUT INSERTED.price WHERE id = @ProductId;", conn);
+            cmd.Parameters.Add(new SqlParameter ("@NewPrice",newPrice));
+            cmd.Parameters.Add(new SqlParameter("@ProductId",this.GetId()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                this.SetPrice(rdr.GetDecimal(0));
+            }
+            DB.CloseSqlConnection(conn, rdr);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         public static void DeleteAll()
         {

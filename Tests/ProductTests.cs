@@ -100,21 +100,21 @@ namespace OnlineStore.Objects
         Assert.Equal(expected, result);
     }
     //
-    // [Fact]
-    // public void Update_AlterPrice_UpdateProduct()
-    // {
-    //     //Arrange
-    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
-    //     testProduct.Save();
-    //
-    //     //Act
-    //     testProduct.Update(15, 10.99m);
-    //     decimal expected = 10.99m;
-    //     decimal result = Product.Find(testProduct.GetId()).GetPrice();
-    //
-    //     //Assert
-    //     Assert.Equal(expected, result);
-    // }
+    [Fact]
+    public void UpdatePrice_AlterPrice_UpdateProduct()
+    {
+        //Arrange
+        Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+        testProduct.Save();
+
+        //Act
+        testProduct.UpdatePrice(10.99m);
+        decimal expected = 10.99m;
+        decimal result = Product.Find(testProduct.GetId()).GetPrice();
+
+        //Assert
+        Assert.Equal(expected, result);
+    }
     //
     // [Fact]
     // public void SearchByName_SearchAndReturn_TargetProduct()

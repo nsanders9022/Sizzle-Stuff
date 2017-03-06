@@ -55,6 +55,31 @@ namespace OnlineStore.Objects
             return _adminPrivileges;
         }
 
+        public static List<User> GetAll()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
 
+            SqlCommand cmd = new SqlCommand("SELECT * FROM users;", conn);
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<User> allUsers = new List<User>{};
+
+            while(rdr.Read())
+            {
+                int id = rdr.GetInt32(0);
+                string firstName = rdr.GetString(1);
+                string lastName = rdr.GetString(2);
+                string username = rdr.GetString(3);
+                string password = rdr.GetString(4);
+                bool adminPrivileges = rdr.GetBoolean(5);
+
+                User newUser = new User(firstName, lastName, username, password, adminPrivileges, id);
+                allUsers.Add(newUser);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return allUsers;
+        }
     }
 }

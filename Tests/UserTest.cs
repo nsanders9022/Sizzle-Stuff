@@ -26,7 +26,7 @@ namespace OnlineStore.Objects
 
         public void Dispose()
         {
-            User.DeleteAll("users");
+            DB.DeleteAll("users");
         }
 
     }

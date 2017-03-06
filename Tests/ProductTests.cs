@@ -36,5 +36,29 @@ namespace OnlineStore.Objects
         //Assert
         Assert.Equal(firstProduct, secondProduct);
     }
+    [Fact]
+    public void Save_SingleProduct_ProductSaveToDatabase()
+    {
+        //Arrange
+        Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+
+        //Act
+        testProduct.Save();
+        List<Product> testList = Product.GetAll();
+        List<Product> result = new List<Product> {testProduct};
+
+        //Assert
+        Assert.Equal(testList, result);
+    }
+
+
+
+
+
+
+
+
+
+
   }
 }

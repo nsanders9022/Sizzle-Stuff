@@ -49,6 +49,11 @@ namespace OnlineStore.Objects
             return _id;
         }
 
+        public void SetId(int newId)
+        {
+            _id = newId;
+        }
+
         public string GetName()
         {
             return _name;
@@ -92,7 +97,7 @@ namespace OnlineStore.Objects
                 string productName = rdr.GetString(1);
                 int productCount = rdr.GetInt32(2);
                 int productRating = rdr.GetInt32(3);
-                int productPrice = rdr.GetInt32(4);
+                decimal productPrice = rdr.GetDecimal(4);
                 string productDescription = rdr.GetString(5);
                 Product newProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
                 allProducts.Add(newProduct);
@@ -100,6 +105,33 @@ namespace OnlineStore.Objects
 
             DB.CloseSqlConnection(conn,rdr);
             return allProducts;
+        }
+
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd  = new SqlCommand ("INSERT into products (name, count,rating, price,description) OUTPUT INSERTED.id VALUES(@ProductName,@ProductCount, @ProductRating, @ProductPrice, @ProductDescription);",conn);
+
+
+            cmd.Parameters.Add(new SqlParameter("@ProductName", this.GetName()));
+            cmd.Parameters.Add(new SqlParameter("@ProductCount", this.GetCount()));
+            cmd.Parameters.Add(new SqlParameter("@ProductRating", this.GetRating()));
+            cmd.Parameters.Add(new SqlParameter("@ProductPrice", this.GetPrice()));
+            cmd.Parameters.Add(new SqlParameter("@ProductDescription", this.GetDescription()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.SetId(rdr.GetInt32(0));
+            }
+            DB.CloseSqlConnection(conn,rdr);
+
+
+
+
         }
 
         public static void DeleteAll()

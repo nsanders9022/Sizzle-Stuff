@@ -115,5 +115,24 @@ namespace OnlineStore.Objects
             Profile foundProfile = Profile.Find(testProfile.GetId());
             Assert.Equal(testProfile, foundProfile);
         }
+
+        //Checks that update method changes firstName
+        [Fact]
+        public void UpdateProfile_ForUserProfile_ChangesProfile()
+        {
+            //Arrange
+            Profile testProfile = new Profile(1, "123 First Street", "Seattle", "WA", 98006, "206-206-2062");
+            testProfile.Save();
+            string newStreet = "111 Main Street";
+            string newCity = "Vancouver";
+
+            //Act
+            testProfile.UpdateProfile(newStreet, newCity, null, 0, null);
+
+
+            //Assert
+            Assert.Equal(newStreet, testProfile.GetStreet());
+            Assert.Equal(newCity, testProfile.GetCity());
+        }
     }
 }

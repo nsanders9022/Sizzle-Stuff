@@ -62,6 +62,31 @@ namespace OnlineStore.Objects
             return _phoneNumber;
         }
 
+        public void SetStreet(string newStreet)
+        {
+            _street = newStreet;
+        }
+
+        public void SetCity(string newCity)
+        {
+            _city = newCity;
+        }
+
+        public void SetState(string newState)
+        {
+            _state = newState;
+        }
+
+        public void SetZipCode(int newZipCode)
+        {
+            _zipCode = newZipCode;
+        }
+
+        public void SetPhoneNumber(string newPhoneNumber)
+        {
+            _phoneNumber = newPhoneNumber;
+        }
+
         public static List<Profile> GetAll()
         {
             SqlConnection conn = DB.Connection();
@@ -185,5 +210,94 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn, rdr);
             return newProfile;
         }
+
+        //Change name of user
+        public void UpdateProfile(string newStreet = null, string newCity = null, string newState = null, int newZipCode = 0, string newPhoneNumber = null)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            //new command to change any changed fields
+            SqlCommand cmd = new SqlCommand("UPDATE profiles SET street = @newStreet, city = @newCity, state = @newState, zip_code = @newZipCode, phone_number = @newPhoneNumber OUTPUT INSERTED.street, INSERTED.city, INSERTED.state, INSERTED.zip_code, INSERTED.phone_number WHERE id = @ProfileId;", conn);
+
+            //Get id of user to use in command
+
+            cmd.Parameters.Add(new SqlParameter("@ProfileId", this.GetId()));
+
+            //CHANGE STREET
+            //If there is a new street, change it
+            if (!String.IsNullOrEmpty(newStreet))
+            {
+                cmd.Parameters.Add(new SqlParameter("@newStreet", newStreet));
+            }
+            //if there isn't a new street, don't change the name
+            else
+            {
+                cmd.Parameters.Add(new SqlParameter("@newStreet", this.GetStreet()));
+            }
+
+            //CHANGE CITY
+            //If there is a new city, change it
+            if (!String.IsNullOrEmpty(newCity))
+            {
+                cmd.Parameters.Add(new SqlParameter("@newCity", newCity));
+            }
+            //if there isn't a new city, don't change the name
+            else
+            {
+                cmd.Parameters.Add(new SqlParameter("@newCity", this.GetCity()));
+            }
+
+            //CHANGE STATE
+            //If there is a new state, change it
+            if (!String.IsNullOrEmpty(newState))
+            {
+                cmd.Parameters.Add(new SqlParameter("@newState", newState));
+            }
+            //if there isn't a new state, don't change the name
+            else
+            {
+                cmd.Parameters.Add(new SqlParameter("@newState", this.GetState()));
+            }
+
+            //CHANGE ZIP CODE
+            //If there is a new zip code, change it
+            if (!String.IsNullOrEmpty(newZipCode.ToString()))
+            {
+                cmd.Parameters.Add(new SqlParameter("@newZipCode", newZipCode.ToString()));
+            }
+            //if there isn't a new state, don't change the name
+            else
+            {
+                cmd.Parameters.Add(new SqlParameter("@newZipCode", this.GetZipCode()));
+            }
+
+            //CHANGE PHONE NUMBER
+            //If there is a new phone number, change it
+            if (!String.IsNullOrEmpty(newPhoneNumber))
+            {
+                cmd.Parameters.Add(new SqlParameter("@newPhoneNumber", newPhoneNumber));
+            }
+            //if there isn't a new state, don't change the name
+            else
+            {
+                cmd.Parameters.Add(new SqlParameter("@newPhoneNumber", this.GetPhoneNumber()));
+            }
+
+            //execute reader
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                this.SetStreet(rdr.GetString(0));
+                this.SetCity(rdr.GetString(1));
+                this.SetState(rdr.GetString(2));
+                this.SetZipCode(rdr.GetInt32(3));
+                this.SetPhoneNumber(rdr.GetString(4));
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+        }
+
     }
 }

@@ -15,7 +15,7 @@ namespace OnlineStore.Objects
         private string _username;
         private bool _adminPrivileges;
 
-        public User (string firstName, string lastName, string userName, string password, bool adminPrivileges, int id = 0)
+        public User (string firstName, string lastName, string username, string password, bool adminPrivileges, int id = 0)
         {
             _id = id;
             _firstName = firstName;

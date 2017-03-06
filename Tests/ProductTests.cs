@@ -51,20 +51,20 @@ namespace OnlineStore.Objects
         Assert.Equal(testList, result);
     }
 
-    // [Fact]
-    // public void Find_GetProductById_ReturnTargetProduct()
-    // {
-    //     //Arrange
-    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
-    //     testProduct.Save();
-    //
-    //     //Act
-    //     Product expected = testProduct;
-    //     Product result = Product.Find(testProduct.GetId());
-    //
-    //     //Assert
-    //     Assert.Equal(expected, result);
-    // }
+    [Fact]
+    public void Find_GetProductById_ReturnTargetProduct()
+    {
+        //Arrange
+        Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+        testProduct.Save();
+
+        //Act
+        Product expected = testProduct;
+        Product result = Product.Find(testProduct.GetId());
+
+        //Assert
+        Assert.Equal(expected, result);
+    }
     //
     // [Fact]
     // public void Delete_RemovesAProductFromDatabase_DecrementDatabase()

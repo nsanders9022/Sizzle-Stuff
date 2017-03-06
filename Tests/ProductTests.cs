@@ -26,5 +26,15 @@ namespace OnlineStore.Objects
         //Assert
         Assert.Equal(0, result);
     }
+
+    [Fact]
+    public void Product_IdentityTest_ReturnTrueOnIdenticalObjects()
+    {
+        //Arrange,Act
+        Product firstProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+        Product secondProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+        //Assert
+        Assert.Equal(firstProduct, secondProduct);
+    }
   }
 }

@@ -143,5 +143,22 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn, rdr);
             return newReview;
         }
+
+        public static void DeleteAll()
+        {
+            DB.DeleteAll("reviews");
+        }
+
+        public void Delete()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM reviews WHERE id = @ReviewId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@ReviewId", this.GetId()));
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
     }
 }

@@ -97,5 +97,25 @@ namespace OnlineStore.Objects
             Assert.Equal(testReview, foundReview);
         }
 
+        //Deletes an individual user from the table
+        [Fact]
+        public void DeleteReview_DeletsReviewFromDB_removeRow()
+        {
+            //Arrange
+            Review firstReview = new Review(1, 500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+            Review secondReview = new Review(2, 50, 8, "Awesome");
+            firstReview.Save();
+            secondReview.Save();
+
+            //Act
+            firstReview.Delete();
+
+            List<Review> actualResult = Review.GetAll();
+            List<Review> expectedResult = new List<Review>{secondReview};
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+
     }
 }

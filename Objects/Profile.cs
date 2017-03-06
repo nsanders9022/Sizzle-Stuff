@@ -109,5 +109,29 @@ namespace OnlineStore.Objects
                 return (idEquality && customerIdEqulity && streetEquality && cityEquality && stateEquality && zipCodeEquality && phoneNumberEquality);
             }
         }
+
+        //Saves instances to database
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO profiles (customer_id, street, city, state, zip_code, phone_number) OUTPUT INSERTED.id VALUES (@CustomerId, @Street, @City, @State, @ZipCode, @PhoneNumber);", conn);
+            cmd.Parameters.Add(new SqlParameter("@CustomerId", this.GetCustomerId()));
+            cmd.Parameters.Add(new SqlParameter("@Street", this.GetStreet()));
+            cmd.Parameters.Add(new SqlParameter("@City", this.GetCity()));
+            cmd.Parameters.Add(new SqlParameter("@State", this.GetState()));
+            cmd.Parameters.Add(new SqlParameter("@ZipCode", this.GetZipCode()));
+            cmd.Parameters.Add(new SqlParameter("@PhoneNumber", this.GetPhoneNumber()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._id = rdr.GetInt32(0);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+        }
     }
 }

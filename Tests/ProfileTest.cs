@@ -49,5 +49,22 @@ namespace OnlineStore.Objects
 
             Assert.Equal(firstProfile, secondProfile);
         }
+
+        //Checks if instances are saved to database
+        [Fact]
+        public void Save_ForProfile_SavesToDatabase()
+        {
+            //Arrange
+            Profile newProfile = new Profile(1, "123 First Street", "Seattle", "WA", 98006, "2062062062");
+
+            //Act
+            newProfile.Save();
+
+            //Assert
+            List<Profile> actualResult = Profile.GetAll();
+            List<Profile> expectedResult = new List<Profile>{newProfile};
+
+            Assert.Equal(expectedResult, actualResult);
+        }
     }
 }

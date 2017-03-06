@@ -90,5 +90,27 @@ namespace OnlineStore.Objects
                 return (idEquality && userIdEquality && productIdEquality && ratingEquality && reviewTextEquality);
             }
         }
+
+        //Saves instances to database
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO reviews (user_id, product_id, rating, review_text) OUTPUT INSERTED.id VALUES (@UserId, @ProductId, @Rating, @ReviewText);", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetUserId()));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetProductId()));
+            cmd.Parameters.Add(new SqlParameter("@Rating", this.GetRating()));
+            cmd.Parameters.Add(new SqlParameter("@ReviewText", this.GetReviewText()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._id = rdr.GetInt32(0);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+        }
     }
 }

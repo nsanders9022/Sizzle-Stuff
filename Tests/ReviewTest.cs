@@ -50,5 +50,22 @@ namespace OnlineStore.Objects
             Assert.Equal(firstReview, secondReview);
         }
 
+        //Checks if instances are saved to database
+        [Fact]
+        public void Save_ForReview_SavesToDatabase()
+        {
+            //Arrange
+            Review newReview = new Review(1,500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+
+            //Act
+            newReview.Save();
+
+            //Assert
+            List<Review> actualResult = Review.GetAll();
+            List<Review> expectedResult = new List<Review>{newReview};
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
     }
 }

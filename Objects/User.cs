@@ -235,5 +235,22 @@ namespace OnlineStore.Objects
 
             DB.CloseSqlConnection(conn, rdr);
         }
+
+        public static void DeleteAll()
+        {
+            DB.DeleteAll("users");
+        }
+
+        public void DeleteUser()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM users WHERE id = @UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId()));
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
     }
 }

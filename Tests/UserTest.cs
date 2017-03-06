@@ -168,6 +168,26 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
+        //Deletes an individual user from the table
+        [Fact]
+        public void DeleteUser_DeletsUserFromDB_removeRow()
+        {
+            //Arrange
+            User firstUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            User secondUser = new User("Nicole", "Sanders", "feet", "password", false);
+            firstUser.Save();
+            secondUser.Save();
+
+            //Act
+            firstUser.DeleteUser();
+
+            List<User> actualResult = User.GetAll();
+            List<User> expectedResult = new List<User>{secondUser};
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+
 
 
     }

@@ -216,5 +216,24 @@ namespace OnlineStore.Objects
 
             DB.CloseSqlConnection(conn, rdr);
         }
+
+        public void UpdatePassword(string newPassword)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE users SET password = @NewPassword OUTPUT INSERTED.password WHERE id=@UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@NewPassword", newPassword));
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._password = rdr.GetString(0);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+        }
     }
 }

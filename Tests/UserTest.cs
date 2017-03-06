@@ -149,6 +149,26 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
+        //CHecks that update method changes password
+        [Fact]
+        public void UpdatePassword_ForUserPassword_ChangesPassword()
+        {
+            //Arrange
+            User testUser = new User("Ally", "Holcomb", "eylookturkeys", "password", false);
+            testUser.Save();
+            string newPassword = "banana phone";
+
+            //Act
+            testUser.UpdatePassword(newPassword);
+
+            string expectedResult = newPassword;
+            string actualResult = testUser.GetPassword();
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+
 
     }
 }

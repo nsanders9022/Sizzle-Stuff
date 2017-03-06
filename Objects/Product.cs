@@ -219,6 +219,7 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn, rdr);
         }
 
+        //Search products by name
         public static List<Product> SearchProductByName(string productName)
         {
             List<Product> foundProducts = new List<Product>{};
@@ -247,7 +248,33 @@ namespace OnlineStore.Objects
             return foundProducts;
         }
 
+        public static List<Product> SearchByRating(int minimumRating)
+        {
+            List<Product> foundProducts = new List<Product>{};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
 
+            SqlCommand cmd = new SqlCommand ("SELECT * FROM products WHERE rating >= @MinimumRating;", conn);
+            cmd.Parameters.Add(new SqlParameter("@MinimumRating", minimumRating));
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+
+            while(rdr.Read())
+            {
+                int searchedProductId = rdr.GetInt32(0);
+                string searchedProductName =rdr.GetString(1);
+                int productCount = rdr.GetInt32(2);
+                int productRating = rdr.GetInt32(3);
+                decimal productPrice = rdr.GetDecimal(4);
+                string productDescription = rdr.GetString(5);
+
+                Product foundProduct = new Product(searchedProductName, productCount, productRating, productPrice, productDescription, searchedProductId);
+                foundProducts.Add(foundProduct);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return foundProducts;
+        }
 
 
 

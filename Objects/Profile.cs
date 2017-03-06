@@ -54,5 +54,32 @@ namespace OnlineStore.Objects
         {
             return _phoneNumber;
         }
+
+        public static List<Profile> GetAll()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM profiles;", conn);
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Profile> allProfiles = new List<Profile>{};
+
+            while(rdr.Read())
+            {
+                int id = rdr.GetInt32(0);
+                int customerId = rdr.GetInt32(1);
+                string street = rdr.GetString(2);
+                string city = rdr.GetString(3);
+                string state = rdr.GetString(4);
+                string phoneNumber = rdr.GetString(5);
+
+                Profile newProfile = new Profile(customerId, street, city, state, phoneNumber, id);
+                allProfiles.Add(newProfile);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return allProfiles;
+        }
     }
 }

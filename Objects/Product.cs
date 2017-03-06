@@ -54,5 +54,6 @@ namespace OnlineStore.Objects
         {
             return _description;
         }
+
     }
 }

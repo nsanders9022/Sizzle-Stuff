@@ -21,7 +21,7 @@ namespace OnlineStore.Objects
             _firstName = firstName;
             _lastName = lastName;
             _password = password;
-            _username = userName;
+            _username = username;
             _adminPrivileges = adminPrivileges;
         }
 

@@ -38,5 +38,16 @@ namespace OnlineStore.Objects
 
             Assert.Equal(expectedResult, actualResult);
         }
+
+        //Checks if EqualOverride is working
+        [Fact]
+        public void EqualOverride_ProfilesAreSame_true()
+        {
+            //Arrange, Act
+            Profile firstProfile = new Profile(1, "123 First Street", "Seattle", "WA", 98006, "2062062062");
+            Profile secondProfile = new Profile(1, "123 First Street", "Seattle", "WA", 98006, "2062062062");
+
+            Assert.Equal(firstProfile, secondProfile);
+        }
     }
 }

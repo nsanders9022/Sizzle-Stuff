@@ -19,7 +19,7 @@ namespace OnlineStore.Objects
         }
 
         [Fact]
-        public void Test_EmptyDatabseAtFirst()
+        public void Test_EmptyDatabaseAtFirst()
         {
             //Arrange,Act
             int result = Product.GetAll().Count;

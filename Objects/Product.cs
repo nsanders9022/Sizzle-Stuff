@@ -277,16 +277,6 @@ namespace OnlineStore.Objects
         }
 
 
-
-
-
-
-
-
-
-
-
-
         public static void DeleteAll()
         {
             DB.DeleteAll("products");

@@ -13,7 +13,7 @@ namespace OnlineStore.Objects
         private int _count;
         private int _rating;
         private decimal _price;
-        private string description;
+        private string _description;
 
         public Product (string newName, int newCount, int newRating, decimal newPrice, string newDescription, int newId = 0)
         {

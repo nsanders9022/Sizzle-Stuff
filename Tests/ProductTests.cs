@@ -51,14 +51,84 @@ namespace OnlineStore.Objects
         Assert.Equal(testList, result);
     }
 
-
-
-
-
-
-
-
-
-
+    // [Fact]
+    // public void Find_GetProductById_ReturnTargetProduct()
+    // {
+    //     //Arrange
+    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+    //     testProduct.Save();
+    //
+    //     //Act
+    //     Product expected = testProduct;
+    //     Product result = Product.Find(testProduct.GetId());
+    //
+    //     //Assert
+    //     Assert.Equal(expected, result);
+    // }
+    //
+    // [Fact]
+    // public void Delete_RemovesAProductFromDatabase_DecrementDatabase()
+    // {
+    //     //Arrange
+    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+    //     testProduct.Save();
+    //     Product secondProduct = new Product("Banana Corer", 13, 5, 20.99m, "Kind of weird");
+    //     secondProduct.Save();
+    //
+    //     //Act
+    //     testProduct.Delete();
+    //     List<Product> expected = new List<Product> {secondProduct};
+    //     List<Product> result = Product.GetAll();
+    //
+    //     //Assert
+    //     Assert.Equal(expected, result);
+    // }
+    //
+    // [Fact]
+    // public void Update_AlterCount_UpdateProduct()
+    // {
+    //     //Arrange
+    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+    //     testProduct.Save();
+    //
+    //     //Act
+    //     testProduct.Update(15, 10.99m);
+    //     int expected = 15;
+    //     int result = Product.Find(testProduct.GetId()).GetCount();
+    //
+    //     //Assert
+    //     Assert.Equal(expected, result);
+    // }
+    //
+    // [Fact]
+    // public void Update_AlterPrice_UpdateProduct()
+    // {
+    //     //Arrange
+    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+    //     testProduct.Save();
+    //
+    //     //Act
+    //     testProduct.Update(15, 10.99m);
+    //     decimal expected = 10.99m;
+    //     decimal result = Product.Find(testProduct.GetId()).GetPrice();
+    //
+    //     //Assert
+    //     Assert.Equal(expected, result);
+    // }
+    //
+    // [Fact]
+    // public void SearchByName_SearchAndReturn_TargetProduct()
+    // {
+    //     //Arrange
+    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+    //     testProduct.Save();
+    //
+    //     //Act
+    //     Product expected = testProduct;
+    //     Product result = Product.SearchByName("Veg");
+    //
+    //     //Assert
+    //     Assert.Equal(expected, result);
+    // }
   }
 }

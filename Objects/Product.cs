@@ -128,9 +128,38 @@ namespace OnlineStore.Objects
                 this.SetId(rdr.GetInt32(0));
             }
             DB.CloseSqlConnection(conn,rdr);
+        }
 
+        public static Product Find(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
 
+            SqlCommand cmd = new SqlCommand("SELECT * FROM products WHERE id = @ProductId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@ProductId", id.ToString()));
+            SqlDataReader rdr = cmd.ExecuteReader();
 
+            int productId = 0;
+            string productName = null;
+            int productCount = null;
+            int productRating = null;
+            decimal productPrice = null;
+            string productDescription = null;
+
+            while(rdr.Read())
+            {
+                 productId = rdr.GetInt32(0);
+                 productName = rdr.GetString(1);
+                 productCount = rdr.GetInt32(2);
+                 productRating = rdr.GetInt32(3)
+                 productPrice = rdr.GetDecimal(4);
+                 productDescription = rdr.GetString(5);
+
+                 Product foundProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
+
+                 DB.CloseSqlConnection(conn, rdr);
+                 return foundProduct;
+            }
 
         }
 

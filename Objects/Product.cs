@@ -141,9 +141,9 @@ namespace OnlineStore.Objects
 
             int productId = 0;
             string productName = null;
-            int productCount = null;
-            int productRating = null;
-            decimal productPrice = null;
+            int productCount = 0;
+            int productRating = 0;
+            decimal productPrice = 0;
             string productDescription = null;
 
             while(rdr.Read())
@@ -151,16 +151,13 @@ namespace OnlineStore.Objects
                  productId = rdr.GetInt32(0);
                  productName = rdr.GetString(1);
                  productCount = rdr.GetInt32(2);
-                 productRating = rdr.GetInt32(3)
+                 productRating = rdr.GetInt32(3);
                  productPrice = rdr.GetDecimal(4);
                  productDescription = rdr.GetString(5);
-
-                 Product foundProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
-
-                 DB.CloseSqlConnection(conn, rdr);
-                 return foundProduct;
             }
-
+            Product foundProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
+            DB.CloseSqlConnection(conn, rdr);
+            return foundProduct;
         }
 
         public static void DeleteAll()

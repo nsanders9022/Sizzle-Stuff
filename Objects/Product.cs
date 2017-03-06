@@ -25,6 +25,25 @@ namespace OnlineStore.Objects
             _description = newDescription;
         }
 
+        public override bool Equals(System.Object otherProduct)
+        {
+            if (!(otherProduct is Product))
+            {
+                return false;
+            }
+            else
+            {
+                Product newProduct = (Product) otherProduct;
+                bool idIdentity = this.GetId() == newProduct.GetId();
+                bool nameIdentity = this.GetName() == newProduct.GetName();
+                bool countIdentity = this.GetCount() == newProduct.GetCount();
+                bool ratingIdentity = this.GetRating() == newProduct.GetRating();
+                bool priceIdentity = this.GetPrice() == newProduct.GetPrice();
+                bool descriptionIdentity = this.GetDescription() == newProduct.GetDescription();
+                return (idIdentity && nameIdentity && countIdentity && ratingIdentity && priceIdentity && descriptionIdentity);
+            }
+        }
+
         public int GetId()
         {
             return _id;

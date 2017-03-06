@@ -160,6 +160,18 @@ namespace OnlineStore.Objects
             return foundProduct;
         }
 
+        public void DeleteProduct()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM products WHERE id = @ProductId;",conn);
+            cmd.Parameters.Add(new SqlParameter ("@ProductId",this.GetId()));
+
+            cmd.ExecuteNonQuery();
+            DB.CloseSqlConnection(conn);
+        }
+
         public static void DeleteAll()
         {
             DB.DeleteAll("products");

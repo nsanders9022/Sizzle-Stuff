@@ -66,23 +66,23 @@ namespace OnlineStore.Objects
         Assert.Equal(expected, result);
     }
     //
-    // [Fact]
-    // public void Delete_RemovesAProductFromDatabase_DecrementDatabase()
-    // {
-    //     //Arrange
-    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
-    //     testProduct.Save();
-    //     Product secondProduct = new Product("Banana Corer", 13, 5, 20.99m, "Kind of weird");
-    //     secondProduct.Save();
-    //
-    //     //Act
-    //     testProduct.Delete();
-    //     List<Product> expected = new List<Product> {secondProduct};
-    //     List<Product> result = Product.GetAll();
-    //
-    //     //Assert
-    //     Assert.Equal(expected, result);
-    // }
+    [Fact]
+    public void Delete_RemovesAProductFromDatabase_DecrementDatabase()
+    {
+        //Arrange
+        Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+        testProduct.Save();
+        Product secondProduct = new Product("Banana Corer", 13, 5, 20.99m, "Kind of weird");
+        secondProduct.Save();
+
+        //Act
+        testProduct.DeleteProduct();
+        List<Product> expected = new List<Product> {secondProduct};
+        List<Product> result = Product.GetAll();
+
+        //Assert
+        Assert.Equal(expected, result);
+    }
     //
     // [Fact]
     // public void Update_AlterCount_UpdateProduct()

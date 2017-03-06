@@ -29,5 +29,26 @@ namespace OnlineStore.Objects
             DB.DeleteAll("reviews");
         }
 
+        //Checks that reviews table is empty at first
+        [Fact]
+        public void Test_ForNoRowsInReviewTable()
+        {
+            int actualResult = Review.GetAll().Count;
+            int expectedResult = 0;
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        //Checks if EqualOverride is working
+        // [Fact]
+        // public void EqualOverride_ReviewsAreSame_true()
+        // {
+        //     //Arrange, Act
+        //     Review firstReview = new Review("Allie", "Holcombe", "eylookturkeys", "password", false);
+        //     Review secondReview = new Review("Allie", "Holcombe", "eylookturkeys", "password", false);
+        //
+        //     Assert.Equal(firstReview, secondReview);
+        // }
+
     }
 }

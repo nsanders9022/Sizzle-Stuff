@@ -88,6 +88,27 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn,rdr);
         }
 
+        public static Category Find(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd  = new SqlCommand ("SELECT * FROM categories WHERE id = @CategoryId;",conn);
+            cmd.Parameters.Add(new SqlParameter("@CategoryId", id.ToString()));
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int categoryId = 0;
+            string categoryName = null;
+            while(rdr.Read())
+            {
+                categoryId = rdr.GetInt32(0);
+                categoryName = rdr.GetString(1);
+            }
+             Category foundCategory = new Category (categoryName,categoryId);
+             DB.CloseSqlConnection(conn,rdr);
+             return foundCategory;
+        }
+
 
 
 

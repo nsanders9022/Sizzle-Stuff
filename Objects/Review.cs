@@ -112,5 +112,36 @@ namespace OnlineStore.Objects
 
             DB.CloseSqlConnection(conn, rdr);
         }
+
+        //Finds instance in database
+        public static Review Find(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM reviews WHERE id = @ReviewId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@ReviewId", id.ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int foundid = 0;
+            int foundUserId = 0;
+            int foundProductId = 0;
+            int foundRating = 0;
+            string foundReviewText = null;
+
+            while(rdr.Read())
+            {
+                foundid = rdr.GetInt32(0);
+                foundUserId = rdr.GetInt32(1);
+                foundProductId = rdr.GetInt32(2);
+                foundRating = rdr.GetInt32(3);
+                foundReviewText = rdr.GetString(4);
+                       }
+            Review newReview = new Review(foundUserId, foundProductId, foundRating, foundReviewText, foundid);
+
+            DB.CloseSqlConnection(conn, rdr);
+            return newReview;
+        }
     }
 }

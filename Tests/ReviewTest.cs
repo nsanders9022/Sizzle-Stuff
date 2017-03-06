@@ -84,5 +84,18 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
+        //Checks that Find method finds correct user in database
+        [Fact]
+        public void Find_ForReview_FindsReviewInDatabase()
+        {
+            //Arrange
+            Review testReview = new Review(1, 500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+            testReview.Save();
+
+            //Act, AReviewt
+            Review foundReview = Review.Find(testReview.GetId());
+            Assert.Equal(testReview, foundReview);
+        }
+
     }
 }

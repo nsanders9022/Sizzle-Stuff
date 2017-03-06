@@ -51,23 +51,23 @@ namespace OnlineStore.Objects
         }
 
         //Checks if instances are saved to database
-       [Fact]
-       public void Save_ForUser_SavesToDatabase()
-       {
-           //Arrange
-           User newUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+        [Fact]
+        public void Save_ForUser_SavesToDatabase()
+        {
+            //Arrange
+            User newUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
 
-           //Act
-           newUser.Save();
+            //Act
+            newUser.Save();
 
-           //Assert
-           List<User> actualResult = User.GetAll();
-           List<User> expectedResult = new List<User>{newUser};
+            //Assert
+            List<User> actualResult = User.GetAll();
+            List<User> expectedResult = new List<User>{newUser};
 
-           Assert.Equal(expectedResult, actualResult);
-       }
+            Assert.Equal(expectedResult, actualResult);
+        }
 
-       //Checks that GetAll method works for multiple instances
+        //Checks that GetAll method works for multiple instances
         [Fact]
         public void GetAll_ForMultipleUsers_ReturnsListWithAllUsers()
         {
@@ -95,6 +95,58 @@ namespace OnlineStore.Objects
             //Act, Assert
             User foundUser = User.Find(testUser.GetId());
             Assert.Equal(testUser, foundUser);
+        }
+
+        //Checks that update method changes firstName
+        [Fact]
+        public void UpdateName_ForUserFirstName_ChangesFirstName()
+        {
+            //Arrange
+            User testUser = new User("Ally", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+            string newName = "Allie";
+
+            //Act
+            testUser.UpdateName(newName, null);
+
+            //Assert
+            Assert.Equal(newName, testUser.GetFirstName());
+        }
+
+        //Checks that update method changes lastName
+        [Fact]
+        public void UpdateName_ForUserLastName_ChangesLastName()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcomb", "eylookturkeys", "password", false);
+            testUser.Save();
+            string newName = "Holcombe";
+
+            //Act
+            testUser.UpdateName(null, newName);
+
+            //Assert
+            Assert.Equal(newName, testUser.GetLastName());
+        }
+
+        //Checks that update method changes both first and last names
+        [Fact]
+        public void UpdateName_ForUserFirstAndLastName_ChangesFirstAndLastName()
+        {
+            //Arrange
+            User testUser = new User("Ally", "Holcomb", "eylookturkeys", "password", false);
+            testUser.Save();
+            string newFirstName = "Allie";
+            string newLastName = "Holcombe";
+
+            //Act
+            testUser.UpdateName(newFirstName, newLastName);
+
+            string expectedResult = newFirstName + " " + newLastName;
+            string actualResult = testUser.GetFirstName() + " " + testUser.GetLastName();
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
         }
 
 

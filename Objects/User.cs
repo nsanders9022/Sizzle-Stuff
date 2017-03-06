@@ -55,6 +55,16 @@ namespace OnlineStore.Objects
             return _adminPrivileges;
         }
 
+        public void SetFirstName(string newFirstName)
+        {
+            _firstName = newFirstName;
+        }
+
+        public void SetLastName(string newLastName)
+        {
+            _lastName = newLastName;
+        }
+
         public static List<User> GetAll()
         {
             SqlConnection conn = DB.Connection();
@@ -155,6 +165,56 @@ namespace OnlineStore.Objects
 
             DB.CloseSqlConnection(conn, rdr);
             return newUser;
+        }
+
+        //Change name of user
+        public void UpdateName(string newFirstName = null, string newLastName = null)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            //new command to change any changed fields
+            SqlCommand cmd = new SqlCommand("UPDATE users SET first_name = @newFirstName, last_Name = @newLastName OUTPUT INSERTED.first_name, INSERTED.last_name WHERE id = @UserId;", conn);
+
+            //Get id of user to use in command
+
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId()));
+
+            //CHANGE FIRST NAME
+            //If there is a new first name, change it
+            if (!String.IsNullOrEmpty(newFirstName))
+            {
+                cmd.Parameters.Add(new SqlParameter("@newFirstName", newFirstName));
+            }
+            //if there isn't a new restaurant name, don't change the name
+            else
+            {
+                cmd.Parameters.Add(new SqlParameter("@newFirstName", this.GetFirstName()));
+            }
+
+            //CHANGE LAST NAME
+            //If there is a new last name, change it
+            if (!String.IsNullOrEmpty(newLastName))
+            {
+                cmd.Parameters.Add(new SqlParameter("@newLastName", newLastName));
+            }
+            //if there isn't a new restaurant name, don't change the name
+            else
+            {
+                cmd.Parameters.Add(new SqlParameter("@newLastName", this.GetLastName()));
+            }
+
+
+            //execute reader
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                this.SetFirstName(rdr.GetString(0));
+                this.SetLastName(rdr.GetString(1));
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
         }
     }
 }

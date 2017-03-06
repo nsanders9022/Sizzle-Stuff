@@ -32,6 +32,21 @@ namespace OnlineStore.Objects
             Assert.Equal(firstCategory, secondCategory);
         }
 
+        [Fact]
+        public void Save_SaveCategory_CategorySavesToDatabase()
+        {
+            //Arrange
+            Category testCategory = new Category("Dinnerware");
+
+            //Act
+            testCategory.Save();
+            List<Category> testCategoryList = Category.GetAll();
+            List<Category> result = new List<Category> {testCategory};
+
+            //Assert
+            Assert.Equal(testCategoryList, result);
+        }
+
 
 
 

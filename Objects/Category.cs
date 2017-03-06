@@ -71,6 +71,23 @@ namespace OnlineStore.Objects
             return allCategories;
         }
 
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd  = new SqlCommand("INSERT INTO categories (name) OUTPUT inserted.id VALUES (@CategoryName);", conn);
+            cmd.Parameters.Add(new SqlParameter ("@CategoryName",this.GetName()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.SetId(rdr.GetInt32(0));
+            }
+            DB.CloseSqlConnection(conn,rdr);
+        }
+
 
 
 

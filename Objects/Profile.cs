@@ -150,5 +150,40 @@ namespace OnlineStore.Objects
 
             conn.Close();
         }
+
+        //Finds instance in database
+        public static Profile Find(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM profiles WHERE id = @ProfileId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@ProfileId", id.ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int foundId = 0;
+            int foundCustomerId = 0;
+            string foundStreet = null;
+            string foundCity = null;
+            string foundState = null;
+            int foundZipCode = 0;
+            string foundPhoneNumber = null;
+
+            while(rdr.Read())
+            {
+                foundId = rdr.GetInt32(0);
+                foundCustomerId = rdr.GetInt32(1);
+                foundStreet = rdr.GetString(2);
+                foundCity = rdr.GetString(3);
+                foundState = rdr.GetString(4);
+                foundZipCode = rdr.GetInt32(5);
+                foundPhoneNumber = rdr.GetString(6);
+            }
+            Profile newProfile = new Profile(foundCustomerId, foundStreet, foundCity, foundState, foundZipCode, foundPhoneNumber, foundId);
+
+            DB.CloseSqlConnection(conn, rdr);
+            return newProfile;
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace OnlineStore.Objects
             DB.DeleteAll("profiles");
         }
 
-        //Checks that user table is empty at first
+        //Checks that profile table is empty at first
         [Fact]
         public void Test_ForNoRowsInProfileTable()
         {
@@ -101,6 +101,19 @@ namespace OnlineStore.Objects
 
             //Assert
             Assert.Equal(expectedResult, actualResult);
+        }
+
+        //Checks that Find method finds correct profile in database
+        [Fact]
+        public void Find_ForProfile_FindsProfileInDatabase()
+        {
+            //Arrange
+            Profile testProfile = new Profile(1, "123 First Street", "Seattle", "WA", 98006, "206-206-2062");
+            testProfile.Save();
+
+            //Act, Assert
+            Profile foundProfile = Profile.Find(testProfile.GetId());
+            Assert.Equal(testProfile, foundProfile);
         }
     }
 }

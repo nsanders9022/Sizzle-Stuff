@@ -179,7 +179,7 @@ namespace OnlineStore.Objects
             secondUser.Save();
 
             //Act
-            firstUser.DeleteUser();
+            firstUser.Delete();
 
             List<User> actualResult = User.GetAll();
             List<User> expectedResult = new List<User>{secondUser};

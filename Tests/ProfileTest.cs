@@ -94,7 +94,7 @@ namespace OnlineStore.Objects
             secondProfile.Save();
 
             //Act
-            firstProfile.DeleteProfile();
+            firstProfile.Delete();
 
             List<Profile> actualResult = Profile.GetAll();
             List<Profile> expectedResult = new List<Profile>{secondProfile};

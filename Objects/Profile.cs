@@ -164,7 +164,7 @@ namespace OnlineStore.Objects
             DB.DeleteAll("profiles");
         }
 
-        public void DeleteProfile()
+        public void Delete()
         {
             SqlConnection conn = DB.Connection();
             conn.Open();

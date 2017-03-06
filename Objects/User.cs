@@ -241,7 +241,7 @@ namespace OnlineStore.Objects
             DB.DeleteAll("users");
         }
 
-        public void DeleteUser()
+        public void Delete()
         {
             SqlConnection conn = DB.Connection();
             conn.Open();

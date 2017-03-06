@@ -26,6 +26,9 @@
 
 * Get all reviews by a user
 
+* Add profile to user
+
+
 ## Product
 
 * Delete All products
@@ -100,6 +103,7 @@
 
 * Get total purchase price
 
+
 ## reviews
 
 * Save a review
@@ -107,3 +111,18 @@
 * Delete a reviews
 
 * Find a reviews
+
+
+## Profile
+
+* Get all profiles
+
+* Save profile
+
+* Update profile
+
+* Delete individual profile
+
+* Delete all profiles
+
+* Find a profile

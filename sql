@@ -18,3 +18,4 @@ CREATE TABLE users (id INT IDENTITY(1,1), first_name VARCHAR(255), last_name VAR
 GO;
 CREATE TABLE profiles (id INT IDENTITY(1,1), customer_id INT, street VARCHAR(255), city VARCHAR(255), state VARCHAR(255), phone_number VARCHAR(255));
 GO;
+CREATE TABLE

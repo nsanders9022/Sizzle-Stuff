@@ -81,5 +81,25 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn, rdr);
             return allUsers;
         }
+
+        public override bool Equals(System.Object otherUser)
+        {
+            if(!(otherUser is User))
+            {
+                return false;
+            }
+            else
+            {
+                User newUser = (User) otherUser;
+                bool idEquality = (this.GetId() == newUser.GetId());
+                bool firstNameEquality = (this.GetFirstName() == newUser.GetFirstName());
+                bool lastNameEquality = (this.GetLastName() == newUser.GetLastName());
+                bool usernameEquality = (this.GetUsername() == newUser.GetUsername());
+                bool passwordEquality = (this.GetPassword() == newUser.GetPassword());
+                bool adminPrivilegesEquality = (this.GetAdminPrivileges() == newUser.GetAdminPrivileges());
+                return (idEquality && firstNameEquality && lastNameEquality && usernameEquality && passwordEquality && adminPrivilegesEquality);
+            }
+        }
+
     }
 }

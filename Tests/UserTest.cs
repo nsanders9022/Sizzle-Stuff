@@ -29,5 +29,26 @@ namespace OnlineStore.Objects
             DB.DeleteAll("users");
         }
 
+        //Checks that user table is empty at first
+        [Fact]
+        public void Test_ForNoRowsInUserTable()
+        {
+            int actualResult = User.GetAll().Count;
+            int expectedResult = 0;
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        //Checks if EqualOverride is working
+        [Fact]
+        public void EqualOverride_UsersAreSame_true()
+        {
+            //Arrange, Act
+            User firstUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            User secondUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+
+            Assert.Equal(firstUser, secondUser);
+        }
+
     }
 }

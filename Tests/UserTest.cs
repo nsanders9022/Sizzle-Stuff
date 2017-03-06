@@ -67,6 +67,36 @@ namespace OnlineStore.Objects
            Assert.Equal(expectedResult, actualResult);
        }
 
+       //Checks that GetAll method works for multiple instances
+        [Fact]
+        public void GetAll_ForMultipleUsers_ReturnsListWithAllUsers()
+        {
+            //Arrange
+            User firstUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            User secondUser = new User("Nicole", "Sanders", "feet", "password", false);
+            firstUser.Save();
+            secondUser.Save();
+
+            //Act, Assert
+            List<User> actualResult = User.GetAll();
+            List<User> expectedResult = new List<User> {firstUser, secondUser};
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        // //Checks that Find method finds correct band in databasejj
+        // [Fact]
+        // public void Find_ForUser_FindsUserInDatabase()
+        // {
+        //     //Arrange
+        //     User testUser = new User("Pajama Funnel");
+        //     testUser.Save();
+        //
+        //     //Act, Assert
+        //     User foundUser = User.Find(testUser.GetId());
+        //     Assert.Equal(testUser, foundUser);
+        // }
+
 
     }
 }

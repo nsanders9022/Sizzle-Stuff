@@ -116,19 +116,19 @@ namespace OnlineStore.Objects
         Assert.Equal(expected, result);
     }
     //
-    // [Fact]
-    // public void SearchByName_SearchAndReturn_TargetProduct()
-    // {
-    //     //Arrange
-    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
-    //     testProduct.Save();
-    //
-    //     //Act
-    //     Product expected = testProduct;
-    //     Product result = Product.SearchByName("Veg");
-    //
-    //     //Assert
-    //     Assert.Equal(expected, result);
-    // }
+    [Fact]
+    public void SearchByName_SearchAndReturn_TargetProduct()
+    {
+        //Arrange
+        Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+        testProduct.Save();
+
+        //Act
+        List<Product> expected = new List<Product> {testProduct};
+        List<Product> result = Product.SearchProductByName("Veg");
+
+        //Assert
+        Assert.Equal(expected, result);
+    }
   }
 }

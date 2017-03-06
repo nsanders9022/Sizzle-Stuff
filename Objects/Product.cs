@@ -158,12 +158,12 @@ namespace OnlineStore.Objects
 
             while(rdr.Read())
             {
-                 productId = rdr.GetInt32(0);
-                 productName = rdr.GetString(1);
-                 productCount = rdr.GetInt32(2);
-                 productRating = rdr.GetInt32(3);
-                 productPrice = rdr.GetDecimal(4);
-                 productDescription = rdr.GetString(5);
+                productId = rdr.GetInt32(0);
+                productName = rdr.GetString(1);
+                productCount = rdr.GetInt32(2);
+                productRating = rdr.GetInt32(3);
+                productPrice = rdr.GetDecimal(4);
+                productDescription = rdr.GetString(5);
             }
             Product foundProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
             DB.CloseSqlConnection(conn, rdr);
@@ -200,6 +200,7 @@ namespace OnlineStore.Objects
             }
             DB.CloseSqlConnection(conn, rdr);
         }
+
         public void UpdatePrice(decimal newPrice)
         {
             SqlConnection conn = DB.Connection();
@@ -216,8 +217,36 @@ namespace OnlineStore.Objects
                 this.SetPrice(rdr.GetDecimal(0));
             }
             DB.CloseSqlConnection(conn, rdr);
-
         }
+
+        public static List<Product> SearchProductByName(string productName)
+        {
+            List<Product> foundProducts = new List<Product>{};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand ("SELECT * FROM products WHERE name LIKE @ProductName;", conn);
+            cmd.Parameters.Add(new SqlParameter("@ProductName", "%" + productName + "%"));
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+
+            while(rdr.Read())
+            {
+                int searchedProductId = rdr.GetInt32(0);
+                string searchedProductName =rdr.GetString(1);
+                int productCount = rdr.GetInt32(2);
+                int productRating = rdr.GetInt32(3);
+                decimal productPrice = rdr.GetDecimal(4);
+                string productDescription = rdr.GetString(5);
+
+                Product foundProduct = new Product(searchedProductName, productCount, productRating, productPrice, productDescription, searchedProductId);
+                foundProducts.Add(foundProduct);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return foundProducts;
+        }
+
 
 
 

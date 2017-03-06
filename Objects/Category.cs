@@ -34,6 +34,22 @@ namespace OnlineStore.Objects
             _name = newName;
         }
 
+
+        public override bool Equals(System.Object otherCategory)
+        {
+            if (!(otherCategory is Category))
+            {
+                return false;
+            }
+            else
+            {
+                Category newCategory = (Category) otherCategory;
+                bool idEquality = (this.GetId() == newCategory.GetId());
+                bool nameEquality = (this.GetName() == newCategory.GetName());
+                return (idEquality && nameEquality);
+            }
+        }
+
         public  static List<Category>  GetAll()
         {
             List<Category> allCategories = new List<Category>{};

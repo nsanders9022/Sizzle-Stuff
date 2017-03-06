@@ -22,6 +22,16 @@ namespace OnlineStore.Objects
             Assert.Equal(0, result);
         }
 
+        [Fact]
+        public void Category_EqualityTest_ReturnTrueOnIdenticalObjects()
+        {
+            //Arrange,Act
+            Category firstCategory = new Category("Dinnerware");
+            Category secondCategory = new Category("Dinnerware");
+            //Assert
+            Assert.Equal(firstCategory, secondCategory);
+        }
+
 
 
 

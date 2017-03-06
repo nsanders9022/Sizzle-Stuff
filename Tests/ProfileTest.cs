@@ -28,5 +28,15 @@ namespace OnlineStore.Objects
         {
             DB.DeleteAll("profiles");
         }
+
+        //Checks that user table is empty at first
+        [Fact]
+        public void Test_ForNoRowsInProfileTable()
+        {
+            int actualResult = Profile.GetAll().Count;
+            int expectedResult = 0;
+
+            Assert.Equal(expectedResult, actualResult);
+        }
     }
 }

@@ -44,8 +44,8 @@ namespace OnlineStore.Objects
         public void EqualOverride_ReviewsAreSame_true()
         {
             //Arrange, Act
-            Review firstReview = new Review(1,500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
-            Review secondReview = new Review(1,500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+            Review firstReview = new Review(1, 500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+            Review secondReview = new Review(1, 500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
 
             Assert.Equal(firstReview, secondReview);
         }
@@ -55,7 +55,7 @@ namespace OnlineStore.Objects
         public void Save_ForReview_SavesToDatabase()
         {
             //Arrange
-            Review newReview = new Review(1,500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+            Review newReview = new Review(1, 500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
 
             //Act
             newReview.Save();
@@ -63,6 +63,23 @@ namespace OnlineStore.Objects
             //Assert
             List<Review> actualResult = Review.GetAll();
             List<Review> expectedResult = new List<Review>{newReview};
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        //Checks that GetAll method works for multiple instances
+        [Fact]
+        public void GetAll_ForMultipleReviews_ReturnsListWithAllReviews()
+        {
+            //Arrange
+            Review firstReview = new Review(1, 500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+            Review secondReview = new Review(2, 50, 8, "Awesome");
+            firstReview.Save();
+            secondReview.Save();
+
+            //Act, Assert
+            List<Review> actualResult = Review.GetAll();
+            List<Review> expectedResult = new List<Review> {firstReview, secondReview};
 
             Assert.Equal(expectedResult, actualResult);
         }

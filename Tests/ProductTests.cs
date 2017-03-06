@@ -83,22 +83,22 @@ namespace OnlineStore.Objects
         //Assert
         Assert.Equal(expected, result);
     }
-    //
-    // [Fact]
-    // public void Update_AlterCount_UpdateProduct()
-    // {
-    //     //Arrange
-    //     Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
-    //     testProduct.Save();
-    //
-    //     //Act
-    //     testProduct.Update(15, 10.99m);
-    //     int expected = 15;
-    //     int result = Product.Find(testProduct.GetId()).GetCount();
-    //
-    //     //Assert
-    //     Assert.Equal(expected, result);
-    // }
+
+    [Fact]
+    public void UpdateCount_AlterCount_UpdateProduct()
+    {
+        //Arrange
+        Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+        testProduct.Save();
+
+        //Act
+        testProduct.UpdateCount(15);
+        int expected = 15;
+        int result = Product.Find(testProduct.GetId()).GetCount();
+
+        //Assert
+        Assert.Equal(expected, result);
+    }
     //
     // [Fact]
     // public void Update_AlterPrice_UpdateProduct()

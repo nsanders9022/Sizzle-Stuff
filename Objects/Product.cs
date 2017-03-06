@@ -79,6 +79,11 @@ namespace OnlineStore.Objects
             return _description;
         }
 
+        public void SetCount(int newCount)
+        {
+            _count = newCount;
+        }
+
 
         public static List<Product> GetAll()
         {
@@ -170,6 +175,25 @@ namespace OnlineStore.Objects
 
             cmd.ExecuteNonQuery();
             DB.CloseSqlConnection(conn);
+        }
+
+        //Change product count
+        public void UpdateCount(int newCount)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE products SET count = @NewCount OUTPUT INSERTED.count WHERE id = @ProductId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@NewCount", newCount));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetId()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.SetCount(rdr.GetInt32(0));
+            }
+            DB.CloseSqlConnection(conn, rdr);
         }
 
         public static void DeleteAll()

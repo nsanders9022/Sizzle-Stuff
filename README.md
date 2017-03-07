@@ -42,9 +42,11 @@ This website will host a multitude of kitchen gadgets. Users can create a profil
 * Use command "dnx kestrel" to start server
 * Navigate to http://localhost:5004 in web browser of choice
 
-## User
+## Specifications
 
-* Delete All users
+### User Class
+
+* Delete All
 
 * Get All users
 
@@ -73,7 +75,7 @@ This website will host a multitude of kitchen gadgets. Users can create a profil
 * Add profile to user
 
 
-## Product
+### Product
 
 * Delete All products
 
@@ -116,7 +118,7 @@ This website will host a multitude of kitchen gadgets. Users can create a profil
 * Get all reviews for a product
 
 
-## category
+### category
 
 * Delete All categories
 
@@ -135,7 +137,7 @@ This website will host a multitude of kitchen gadgets. Users can create a profil
 * Search by category name
 
 
-## Cart
+### Cart
 
 * Checkout cart
 
@@ -148,7 +150,7 @@ This website will host a multitude of kitchen gadgets. Users can create a profil
 * Get total purchase price
 
 
-## reviews
+### reviews
 
 * Save a review
 
@@ -157,7 +159,7 @@ This website will host a multitude of kitchen gadgets. Users can create a profil
 * Find a reviews
 
 
-## Profile
+### Profile
 
 * Get all profiles
 

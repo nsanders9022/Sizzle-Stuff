@@ -167,4 +167,44 @@ namespace OnlineStore.Objects
         //     Product.SortBy()
         // }
     }
+
+    //Applies a category to a product
+    [Fact]
+    public void AddCategory_AddsCategoryToProduct_Category()
+    {
+        //Arrange
+        Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+        testProduct.Save();
+
+        Category testCategory = new Category ("utensils");
+        testCategory.Save();
+
+        //Act
+        testProduct.AddCategory(testCategory);
+        List<Category> actualResult = testProduct.GetCategories();
+        List<Category> expectedResult = new List<Category>{testCategory};
+
+        //Assert
+        Assert.Equal(actualResult, expectedResult);
+    }
+
+    //Gets all categories declared for a specific product
+    [Fact]
+    public void GetCategories_GetsProductCategory_CategoryList()
+    {
+        //Arrange
+        Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+        testProduct.Save();
+
+        Category testCategory = new Category ("utensils");
+        testCategory.Save();
+
+        //Act
+        testProduct.AddCategory(testCategory);
+        List<Category> actualResult = testProduct.GetCategories();
+        List<Category> expectedResult = new List<Category>{testCategory};
+
+        //Assert
+        Assert.Equal(actualResult, expectedResult);
+    }
 }

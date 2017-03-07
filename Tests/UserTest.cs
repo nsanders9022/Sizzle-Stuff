@@ -388,5 +388,18 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedCart, actualCart);
 
         }
+
+        //Checks that Find method finds correct user in database
+        [Fact]
+        public void FindUserByName_ForUser_FindsUserInDatabase()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+
+            //Act, Assert
+            User foundUser = User.FindUserByName("eylookturkeys", "password");
+            Assert.Equal(testUser, foundUser);
+        }
     }
 }

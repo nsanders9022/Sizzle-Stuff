@@ -236,6 +236,8 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
+
+        //checks that order by sorts by price ascending
         [Fact]
         public void OrderBy_Price_ListPriceAscending()
         {
@@ -249,9 +251,10 @@ namespace OnlineStore.Objects
             thirdProduct.Save();
 
             //Act
+            string sqlSearchString = "SELECT * FROM products";
 
 
-            List<Product> actualResult = Product.OrderBy("price", "ascending");
+            List<Product> actualResult = Product.OrderBy("price-asc", sqlSearchString);
             List<Product> expectedResult = new List<Product>{testProduct, thirdProduct, secondProduct};
 
             //Assert

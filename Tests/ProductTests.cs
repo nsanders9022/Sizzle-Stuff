@@ -236,32 +236,6 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
-
-        //checks that order by sorts by price ascending
-        [Fact]
-        public void OrderBy_Price_ListPriceAscending()
-        {
-            //Arrange
-
-            Product testProduct = new Product("Cheap", 13, 5, 10.99m, "Great item for shredding zukes");
-            testProduct.Save();
-            Product secondProduct = new Product("Pricey", 13, 5, 20.99m, "Great item for shredding zukes");
-            secondProduct.Save();
-            Product thirdProduct = new Product("Middling", 13, 5, 15.99m, "Great item for shredding zukes");
-            thirdProduct.Save();
-
-            //Act
-            string sqlSearchString = "SELECT * FROM products";
-
-
-            List<Product> actualResult = Product.OrderBy("price-asc", sqlSearchString);
-            List<Product> expectedResult = new List<Product>{testProduct, thirdProduct, secondProduct};
-
-            //Assert
-            Assert.Equal(expectedResult, actualResult);
-        }
-
-
     }
 
 }

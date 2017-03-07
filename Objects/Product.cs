@@ -276,7 +276,6 @@ namespace OnlineStore.Objects
             return foundProducts;
         }
 
-
         public void AddCategory (Category newCategory)
         {
             SqlConnection conn = DB.Connection();
@@ -341,40 +340,6 @@ namespace OnlineStore.Objects
             {
                 conn.Close();
             }
-        }
-
-        //Order by price
-        public static List<Product> OrderBy(string sortCondition, string sqlSearchString)
-        {
-            List<Product> foundProducts = new List<Product>{};
-            Dictionary<string, string> sortDictionary = new Dictionary<string, string>{
-                {"price-asc", " products.price ASC"},
-                {"price-desc", " products.price DESC"},
-                {"rating-asc", " products.rating ASC"},
-                {"rating-desc", " products.rating DESC"}
-            };
-            SqlConnection conn = DB.Connection();
-            conn.Open();
-
-            string sqlCommandString = sqlSearchString + " ORDER BY" + sortDictionary[sortCondition];
-
-            SqlCommand cmd = new SqlCommand(sqlCommandString, conn);
-            SqlDataReader rdr = cmd.ExecuteReader();
-
-            while(rdr.Read())
-            {
-                int productId = rdr.GetInt32(0);
-                string productName = rdr.GetString(1);
-                int productCount = rdr.GetInt32(2);
-                int productRating = rdr.GetInt32(3);
-                decimal productPrice = rdr.GetDecimal(4);
-                string productDescription = rdr.GetString(5);
-                Product newProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
-                foundProducts.Add(newProduct);
-            }
-
-            DB.CloseSqlConnection(conn,rdr);
-            return foundProducts;
         }
 
         public static void DeleteAll()

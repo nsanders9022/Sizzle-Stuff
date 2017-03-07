@@ -215,7 +215,6 @@ namespace OnlineStore.Objects
         public void RemoveCategory_RemovesCategoryFromProduct_void()
         {
             //Arrange
-
             Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
             testProduct.Save();
 
@@ -254,5 +253,4 @@ namespace OnlineStore.Objects
           Assert.Equal(expectedResult, actualResult);
         }
     }
-
 }

@@ -76,6 +76,45 @@ namespace OnlineStore.Objects
             Assert.Equal(expected, testCategory);
         }
 
+        [Fact]
+        public void Search_ByName_ListOfSimilarCategories()
+        {
+             //Arrange
+            Category testCategory = new Category("Serveware");
+            testCategory.Save();
+            Category secondCategory = new Category("Serverfare");
+            secondCategory.Save();
+            Category thirdCategory = new Category("Blue things");
+            thirdCategory.Save();
+            //Act
+            List<Category> expected = new List<Category>{testCategory, secondCategory};
+            List<Category> result = Category.SearchCategoryByName("erve");
+            //Assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void GetProductByCategory_ByCategory_ListOfProductInCategory()
+        {
+             //Arrange
+            Category testCategory = new Category("Serveware");
+            testCategory.Save();
+            Category secondCategory = new Category("Serverfare");
+            secondCategory.Save();
+
+            Product testProduct1 = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            testProduct1.Save();
+            Product testProduct2 = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            testProduct2.Save();
+            //Act
+            testProduct1.AddCategory(testCategory);
+            testProduct2.AddCategory(secondCategory);
+            List<Product> expected = new List<Product>{testProduct1};
+            List<Product> result = testCategory.GetProducts();
+            //Assert
+            Assert.Equal(expected, result);
+        }
+
         public void Dispose()
         {
             Category.DeleteAll();

@@ -51,6 +51,37 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
+        [Fact]
+        public void Test_DeleteItem_RemovesAProductFromCart()
+        {
+            //Arrange
+            CartProduct testCartProduct = new CartProduct(2,2,5);
+            testCartProduct.Save();
+            CartProduct secondCartProduct = new CartProduct(1,3,5);
+            secondCartProduct.Save();
+
+            //Act
+            testCartProduct.DeleteItem();
+            List<CartProduct> expected = new List<CartProduct> {secondCartProduct};
+            List<CartProduct> result = CartProduct.GetAll();
+
+            //Assert
+
+            foreach (CartProduct cartProduct in expected)
+            {
+                Console.WriteLine("user id expected: " + cartProduct.GetUserId());
+                Console.WriteLine("product id expected: " + cartProduct.GetProductId());
+            }
+
+            foreach (CartProduct cartProduct in result)
+            {
+                Console.WriteLine("user id result: " + cartProduct.GetUserId());
+                Console.WriteLine("product id result: " + cartProduct.GetProductId());
+            }
+            Assert.Equal(expected, result);
+        }
+
+
         //clears all rows in table
         public void Dispose()
         {

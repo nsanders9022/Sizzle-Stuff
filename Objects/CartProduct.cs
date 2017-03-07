@@ -97,7 +97,7 @@ namespace OnlineStore.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd  = new SqlCommand ("INSERT into cart_products (product_id, user_id, quantity) OUTPUT INSERTED.id VALUES(@ProductId,@UserId, @Quantity);",conn);
+            SqlCommand cmd  = new SqlCommand ("INSERT into cart_products (user_id, product_id, quantity) OUTPUT INSERTED.id VALUES(@ProductId,@UserId, @Quantity);",conn);
 
             cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetProductId()));
             cmd.Parameters.Add(new SqlParameter("@UserId", this.GetUserId()));
@@ -110,6 +110,18 @@ namespace OnlineStore.Objects
                 this.SetId(rdr.GetInt32(0));
             }
             DB.CloseSqlConnection(conn,rdr);
+        }
+
+        public void DeleteItem()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM cart_products WHERE user_id = @UserId AND product_id = @ProductId;",conn);
+            cmd.Parameters.Add(new SqlParameter ("@ProductId",this.GetProductId()));
+            cmd.Parameters.Add(new SqlParameter ("@UserId",this.GetUserId()));
+            cmd.ExecuteNonQuery();
+            DB.CloseSqlConnection(conn);
         }
     }
 }

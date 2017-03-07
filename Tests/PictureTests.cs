@@ -84,5 +84,24 @@ namespace OnlineStore.Objects
             //Assert
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void Update_AlterPictureKeyOrAltText_ChangeDatabaseEntry()
+        {
+            //Arrange
+            Picture firstPicture = new Picture("location of picture", "picture of a dog");
+            firstPicture.Save();
+            Picture secondPicture = new Picture("new location", "picture of a cat");
+            secondPicture.Save();
+
+            //Act
+            firstPicture.Update("new location", "picture of a cat");
+            Picture expected = secondPicture;
+            Picture result = Picture.Find(firstPicture.GetId());
+            result.SetId(secondPicture.GetId());
+
+            //Assert
+            Assert.Equal(expected, result);
+        }
     }
 }

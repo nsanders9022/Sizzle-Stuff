@@ -100,6 +100,24 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn,rdr);
         }
 
+        public void Update(string newKey, string newAltText)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd  = new SqlCommand ("UPDATE pictures SET picture_key = @NewKey, alt_text = @NewAltText WHERE id = @TargetId;",conn);
+            cmd.Parameters.Add(new SqlParameter("@TargetId", this.GetId()));
+            cmd.Parameters.Add(new SqlParameter("@NewKey", newKey));
+            cmd.Parameters.Add(new SqlParameter("@NewAltText", newAltText));
+
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
+
+            this.SetPictureKey(newKey);
+            this.SetAltText(newAltText);
+        }
+
         public void Delete()
         {
             DB.Delete(this.GetId(), "pictures", "picture", "pictures_products", "reviews_pictures");
@@ -118,13 +136,23 @@ namespace OnlineStore.Objects
         {
             _id = newId;
         }
+
         public string GetPictureKey()
         {
             return _pictureKey;
         }
+        public void SetPictureKey(string newPictureKey)
+        {
+            _pictureKey = newPictureKey;
+        }
+
         public string GetAltText()
         {
             return _altText;
+        }
+        public void SetAltText(string newAltText)
+        {
+            _altText = newAltText;
         }
     }
 }

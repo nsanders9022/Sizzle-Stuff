@@ -18,6 +18,7 @@ namespace OnlineStore.Objects
             Product.DeleteAll();
             Category.DeleteAll();
             Review.DeleteAll();
+            Picture.DeleteAll();
         }
 
         [Fact]
@@ -252,5 +253,39 @@ namespace OnlineStore.Objects
 
           Assert.Equal(expectedResult, actualResult);
         }
+
+        // Add an image to a product
+        [Fact]
+        public void AddImage_CreateJoinTableEntry_LinkPhoto()
+        {
+            Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            testProduct.Save();
+
+            Picture firstPicture = new Picture("location of picture", "picture of a dog");
+            firstPicture.Save();
+
+            Picture secondPicture = new Picture("new location", "picture of a cat");
+            secondPicture.Save();
+
+            testProduct.AddPicture(firstPicture);
+
+            List<Picture> result = testProduct.GetPictures();
+            List<Picture> expected = new List<Picture> {firstPicture};
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

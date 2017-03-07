@@ -26,7 +26,8 @@ namespace OnlineStore.Objects
 
         public void Dispose()
         {
-            DB.DeleteAll("reviews");
+            Review.DeleteAll();
+            Picture.DeleteAll();
         }
 
         //Checks that reviews table is empty at first
@@ -115,6 +116,23 @@ namespace OnlineStore.Objects
 
             //Assert
             Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact]
+        public void AddImage_CreateJoinTableEntry_LinkPhoto()
+        {
+            Review firstReview = new Review(1, 500, 5, "The toaster successfully imprinted a picture of my brother but the toast was extremely burnt");
+
+            Picture firstPicture = new Picture("location of picture", "picture of a dog");
+            firstPicture.Save();
+
+            Picture secondPicture = new Picture("new location", "picture of a cat");
+            secondPicture.Save();
+
+            firstReview.AddPicture(firstPicture);
+
+            List<Picture> result = firstReview.GetPictures();
+            List<Picture> expected = new List<Picture> {firstPicture};
         }
 
     }

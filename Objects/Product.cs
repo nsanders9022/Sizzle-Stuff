@@ -372,6 +372,44 @@ namespace OnlineStore.Objects
           return reviews;
         }
 
+        public void AddPicture(Picture newPicture)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO pictures_products (picture_id, product_id) VALUES (@NewPictureId, @NewProductId);", conn);
+            cmd.Parameters.Add(new SqlParameter("@NewPictureId", newPicture.GetId()));
+            cmd.Parameters.Add(new SqlParameter("@NewProductId", this.GetId()));
+
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
+        }
+
+        public List<Picture> GetPictures()
+        {
+            List<Picture> foundPictures = new List<Picture> {};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT pictures.* FROM products JOIN pictures_products ON (products.id = pictures_products.product_id) JOIN pictures ON (pictures.id = pictures_products.picture_id) WHERE products.id = @TargetId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@TargetId", this.GetId()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                int pictureId = rdr.GetInt32(0);
+                string pictureKey = rdr.GetString(1);
+                string pictureAltText = rdr.GetString(2);
+                Picture newPicture = new Picture(pictureKey, pictureAltText, pictureId);
+                foundPictures.Add(newPicture);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return foundPictures;
+        }
+
         // public void AddReview(int userId, int rating, string reviewText)
         // {
         //   SqlConnection conn = DB.Connection();

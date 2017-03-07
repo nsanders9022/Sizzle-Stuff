@@ -371,10 +371,26 @@ namespace OnlineStore.Objects
           DB.CloseSqlConnection(conn, rdr);
 
           return reviews;
-
         }
 
-
+        // public void AddReview(int userId, int rating, string reviewText)
+        // {
+        //   SqlConnection conn = DB.Connection();
+        //   conn.Open();
+        //
+        //   SqlCommand cmd = new SqlCommand("INSERT INTO reviews (user_id, product_id, rating, review_text) OUTPUT INSERTED.id VALUES(@userId, @productId, @rating, @reviewText);", conn);
+        //   cmd.Parameters.Add(new SqlParameter("@userId", userId.ToString());
+        //   cmd.Parameters.Add(new SqlParameter("@productId", this.GetId().ToString());
+        //   cmd.Parameters.Add(new SqlParameter("@rating", rating.ToString());
+        //   cmd.Parameters.Add(new SqlParameter("@reviewText", reviewText);
+        //
+        //   SqlDataReader rdr = cmd.ExecuteReader();
+        //
+        //   while(rdr.Read())
+        //   {
+        //     this.SetId(rdr.GetInt32(0));
+        //   }
+        // }
 
         public static void DeleteAll()
         {

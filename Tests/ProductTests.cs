@@ -17,6 +17,7 @@ namespace OnlineStore.Objects
         {
             Product.DeleteAll();
             Category.DeleteAll();
+            Review.DeleteAll();
         }
 
         [Fact]
@@ -244,13 +245,8 @@ namespace OnlineStore.Objects
           Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
           testProduct.Save();
 
-          Review testReview = new Review(1,2,2,"It died after three uses");
+          Review testReview = new Review(1,testProduct.GetId(),2,"it sucked");
           testReview.Save();
-
-          User firstUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
-          firstUser.Save();
-
-          firstUser.AddReview(testReview);
 
           List<Review> actualResult = testProduct.GetProductReview();
           List<Review> expectedResult = new List<Review>{testReview};

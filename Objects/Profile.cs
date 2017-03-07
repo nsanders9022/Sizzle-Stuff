@@ -62,6 +62,11 @@ namespace OnlineStore.Objects
             return _phoneNumber;
         }
 
+        public void SetId(int newId)
+        {
+            _id = newId;
+        }
+
         public void SetStreet(string newStreet)
         {
             _street = newStreet;

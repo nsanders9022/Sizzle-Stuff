@@ -26,7 +26,10 @@ namespace OnlineStore.Objects
 
         public void Dispose()
         {
-            DB.DeleteAll("users");
+            User.DeleteAll();
+            Product.DeleteAll();
+            Review.DeleteAll();
+            Profile.DeleteAll();
         }
 
         //Checks that user table is empty at first
@@ -170,7 +173,7 @@ namespace OnlineStore.Objects
 
         //Deletes an individual user from the table
         [Fact]
-        public void DeleteUser_DeletsUserFromDB_removeRow()
+        public void DeleteUser_DeletesUserFromDB_removeRow()
         {
             //Arrange
             User firstUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
@@ -185,6 +188,73 @@ namespace OnlineStore.Objects
             List<User> expectedResult = new List<User>{secondUser};
 
             //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        //Checks that all reviews associated with a user are returned by GetReviews
+        [Fact]
+        public void GetReviews_ForUser_ListOfReviews()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+
+            Product firstProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            Product secondProduct = new Product("Banana Corer", 13, 3, 30.99m, "Kind of weird");
+            firstProduct.Save();
+            secondProduct.Save();
+
+            Review firstReview = new Review(testUser.GetId(), 1, 5, "I loved this!");
+            Review secondReview = new Review(testUser.GetId(), 2, 4, "It was fun");
+            firstReview.Save();
+            secondReview.Save();
+
+            //Act
+            testUser.GetReviews();
+            List<Review> actualResult = testUser.GetReviews();
+            List<Review> expectedResult = new List<Review> {firstReview, secondReview};
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        // //Checks that profile is returned for user
+        // [Fact]
+        // public void AddProfile_ForUser_ChangeUserIdInProfile()
+        // {
+        //     //Arrange
+        //     User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+        //     testUser.Save();
+        //
+        //     Profile newProfile = new Profile(testUser.GetId(), "422 Doggo St.", "Seattle", "WA", 98119, "2069543205");
+        //     newProfile.Save();
+        //
+        //     //Act
+        //     testUser.AddProfile(newProfile);
+        //
+        //     //Assert
+        //     List<Profile> actualResult = testUser.GetProfiles();
+        //     List<Profile> expectedResult = new List<Profile> {newProfile};
+        //
+        //     Assert.Equal(expectedResult, actualResult);
+        // }
+
+        //Checks that all profiles are returned for users
+        public void GetProfiles_ForUser_ReturnsListofProfiles()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+
+            Profile firstProfile = new Profile(testUser.GetId(), "422 Doggo St.", "Seattle", "WA", 98119, "2069543205");
+            Profile secondProfile = new Profile(testUser.GetId(), "32416 SE 43rd PL", "Fall City", "WA", 98024, "2069543205");
+            firstProfile.Save();
+            secondProfile.Save();
+
+            //Assert
+            List<Profile> actualResult = testUser.GetProfiles();
+            List<Profile> expectedResult = new List<Profile> {firstProfile, secondProfile};
+
             Assert.Equal(expectedResult, actualResult);
         }
     }

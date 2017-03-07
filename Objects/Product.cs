@@ -276,7 +276,10 @@ namespace OnlineStore.Objects
             return foundProducts;
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8efdf095c1615ad20b6b4e327fd98d073f4d00ca
         public static void DeleteAll()
         {
             DB.DeleteAll("products");

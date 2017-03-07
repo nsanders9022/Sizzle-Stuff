@@ -34,6 +34,23 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
+        //Checks if instances are saved to database
+        [Fact]
+        public void Save_ForCartProduct_SavesToDatabase()
+        {
+            //Arrange
+            CartProduct newCartProduct = new CartProduct(2,2,5);
+
+            //Act
+            newCartProduct.Save();
+
+            //Assert
+            List<CartProduct> actualResult = CartProduct.GetAll();
+            List<CartProduct> expectedResult = new List<CartProduct>{newCartProduct};
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
         //clears all rows in table
         public void Dispose()
         {

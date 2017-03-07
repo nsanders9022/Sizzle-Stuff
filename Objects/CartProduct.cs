@@ -24,6 +24,11 @@ namespace OnlineStore.Objects
         {
             return _id;
         }
+
+        public void SetId(int newId)
+        {
+            _id = newId;
+        }
         public int GetProductId()
         {
             return _productId;
@@ -84,6 +89,27 @@ namespace OnlineStore.Objects
 
             DB.CloseSqlConnection(conn,rdr);
             return allCartProducts;
+        }
+
+        //saves a row in the cart_product table
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd  = new SqlCommand ("INSERT into cart_products (product_id, user_id, quantity) OUTPUT INSERTED.id VALUES(@ProductId,@UserId, @Quantity);",conn);
+
+            cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetProductId()));
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetUserId()));
+            cmd.Parameters.Add(new SqlParameter("@Quantity", this.GetQuantity()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.SetId(rdr.GetInt32(0));
+            }
+            DB.CloseSqlConnection(conn,rdr);
         }
     }
 }

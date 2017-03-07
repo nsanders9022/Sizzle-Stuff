@@ -51,6 +51,7 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
+        //Deletes a single item from a cart based on user id and product id
         [Fact]
         public void Test_DeleteItem_RemovesAProductFromCart()
         {
@@ -66,21 +67,8 @@ namespace OnlineStore.Objects
             List<CartProduct> result = CartProduct.GetAll();
 
             //Assert
-
-            foreach (CartProduct cartProduct in expected)
-            {
-                Console.WriteLine("user id expected: " + cartProduct.GetUserId());
-                Console.WriteLine("product id expected: " + cartProduct.GetProductId());
-            }
-
-            foreach (CartProduct cartProduct in result)
-            {
-                Console.WriteLine("user id result: " + cartProduct.GetUserId());
-                Console.WriteLine("product id result: " + cartProduct.GetProductId());
-            }
             Assert.Equal(expected, result);
         }
-
 
         //clears all rows in table
         public void Dispose()

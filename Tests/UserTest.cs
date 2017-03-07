@@ -30,6 +30,7 @@ namespace OnlineStore.Objects
             Product.DeleteAll();
             Review.DeleteAll();
             Profile.DeleteAll();
+            CartProduct.DeleteAll();
         }
 
         //Checks that user table is empty at first
@@ -256,6 +257,29 @@ namespace OnlineStore.Objects
             List<Profile> expectedResult = new List<Profile> {firstProfile, secondProfile};
 
             Assert.Equal(expectedResult, actualResult);
+        }
+
+        //Deletes all the items in a specific user's cart
+        [Fact]
+        public void EmptyCart_RemovesAllProductsFromUsersCart_void()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+            CartProduct testCartProduct = new CartProduct(testUser.GetId(),2,5);
+            testCartProduct.Save();
+            CartProduct secondCartProduct = new CartProduct(testUser.GetId(),3,5);
+            secondCartProduct.Save();
+            CartProduct thirdCartProduct = new CartProduct(1,3,1);
+            thirdCartProduct.Save();
+
+            //Act
+            testUser.EmptyCart();
+            List<CartProduct> expected = new List<CartProduct> {thirdCartProduct};
+            List<CartProduct> result = CartProduct.GetAll();
+
+            //Assert
+            Assert.Equal(expected, result);
         }
     }
 }

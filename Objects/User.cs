@@ -313,5 +313,19 @@ namespace OnlineStore.Objects
             return allProfiles;
         }
 
+        //Clears all the items in the cart_products table for this user
+        public void EmptyCart()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM cart_products WHERE user_id = @UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId()));
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
+
     }
 }

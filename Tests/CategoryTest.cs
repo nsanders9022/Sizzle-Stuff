@@ -76,6 +76,23 @@ namespace OnlineStore.Objects
             Assert.Equal(expected, testCategory);
         }
 
+        [Fact]
+        public void Search_ByName_ListOfSimilarCategories()
+        {
+             //Arrange
+            Category testCategory = new Category("Serveware");
+            testCategory.Save();
+            Category secondCategory = new Category("Serverfare");
+            secondCategory.Save();
+            Category thirdCategory = new Category("Blue things");
+            thirdCategory.Save();
+            //Act
+            List<Category> expected = new List<Category>{testCategory, secondCategory};
+            List<Category> result = Category.SearchCategoryByName("erve");
+            //Assert
+            Assert.Equal(expected, result);
+        }
+
         public void Dispose()
         {
             Category.DeleteAll();

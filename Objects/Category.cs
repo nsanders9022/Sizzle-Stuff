@@ -140,6 +140,29 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn, rdr);
         }
 
+        //Search products by name
+        public static List<Category> SearchCategoryByName(string categoryName)
+        {
+            List<Category> foundCategories = new List<Category>{};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand ("SELECT * FROM categories WHERE name LIKE @CategoryName;", conn);
+            cmd.Parameters.Add(new SqlParameter("@CategoryName", "%" + categoryName + "%"));
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                int searchedCategoryId = rdr.GetInt32(0);
+                string searchedCategoryName =rdr.GetString(1);
+                Category foundCategory = new Category(searchedCategoryName, searchedCategoryId);
+                foundCategories.Add(foundCategory);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return foundCategories;
+        }
+
         public static void DeleteAll()
         {
             DB.DeleteAll("categories");

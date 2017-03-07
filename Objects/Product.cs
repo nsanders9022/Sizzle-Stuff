@@ -343,6 +343,39 @@ namespace OnlineStore.Objects
             }
         }
 
+        public List<Review> GetProductReview()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("SELECT * FROM reviews where product_id = @ProductId;", conn);
+
+          cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetId().ToString()));
+
+          List<Review> reviews = new List<Review>{};
+
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          while(rdr.Read())
+          {
+            int reviewId = rdr.GetInt32(0);
+            int userId = rdr.GetInt32(1);
+            int productId = rdr.GetInt32(2);
+            int rating = rdr.GetInt32(3);
+            string reviewText = rdr.GetString(4);
+
+            Review newReview = new Review(userId, productId, rating, reviewText, reviewId);
+            reviews.Add(newReview);
+          }
+
+          DB.CloseSqlConnection(conn, rdr);
+
+          return reviews;
+
+        }
+
+
+
         public static void DeleteAll()
         {
             DB.DeleteAll("products");

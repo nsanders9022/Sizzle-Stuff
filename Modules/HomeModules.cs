@@ -20,7 +20,7 @@ namespace OnlineStore
             };
 
             //NEED TO ADD MODEL HERE FOR WHAT SHOWS UP ON THE MAIN PAGE
-            //SET ADMIN PRIVILEGES TO 0, NEED TO CHANGE
+            //SET ADMIN PRIVILEGES TO FALSE, NEED TO CHANGE
             Post["/user_created"] = _ => {
                 User newUser = new User(Request.Form["first-name"], Request.Form["last-name"], Request.Form["user-name"], Request.Form["password"], false);
                 newUser.Save();
@@ -28,10 +28,16 @@ namespace OnlineStore
             };
 
             //NEED TO ADD MODEL HERE FOR WHAT SHOWS UP ON THE MAIN PAGE
+            //
             Post["/signed_in"] = _ => {
                 User findUser = User.FindUserByName(Request.Form["user-name"], Request.Form["password"]);
-                return View["main.cshtml"];
+                return View["main.cshtml", findUser];
             };
+
+            // Get["/main"] = _ => {
+            //     User findUser = User.FindUserByName(Request.Form["user-name"], Request.Form["password"]);
+            //     return View["main.cshtml", findUser];
+            // };
         }
     }
 }

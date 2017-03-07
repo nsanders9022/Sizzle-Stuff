@@ -454,7 +454,7 @@ namespace OnlineStore.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand ("SELECT * FROM users WHERE username = @UserName AND password = @Password",conn);
+            SqlCommand cmd = new SqlCommand ("SELECT * FROM users WHERE username = @UserName AND password = @Password;",conn);
 
             cmd.Parameters.Add(new SqlParameter ("@UserName", userName));
             cmd.Parameters.Add(new SqlParameter ("@Password", password));
@@ -478,14 +478,18 @@ namespace OnlineStore.Objects
                 foundadminPrivileges = rdr.GetBoolean(5);
             }
 
-            User newUser = new User(foundfirstName, foundlastName, foundusername, foundpassword, foundadminPrivileges, foundid);
+            User foundUser = new User(foundfirstName, foundlastName, foundusername, foundpassword, foundadminPrivileges, foundid);
 
             DB.CloseSqlConnection(conn, rdr);
 
-            return newUser;
-
+            if (foundUser.GetId() != 0)
+            {
+                return foundUser;
+            }
+            else
+            {
+                return null;
+            }
         }
-
-
     }
 }

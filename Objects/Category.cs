@@ -163,6 +163,37 @@ namespace OnlineStore.Objects
             return foundCategories;
         }
 
+        public List<Product> GetProducts()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand ("SELECT products.* FROM categories JOIN products_categories ON (categories.id = products_categories.category_id) JOIN products ON (products_categories.product_id = products.id) WHERE categories.id = @CategoryId;",conn);
+
+
+            cmd.Parameters.Add(new SqlParameter ("@CategoryId",this.GetId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Product> allProducts = new List<Product>{};
+
+            while(rdr.Read())
+            {
+                int productId = rdr.GetInt32(0);
+                string productName = rdr.GetString(1);
+                int productCount = rdr.GetInt32(2);
+                int productRating = rdr.GetInt32(3);
+                decimal productPrice = rdr.GetDecimal(4);
+                string productDescription = rdr.GetString(5);
+                Product newProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
+                allProducts.Add(newProduct);
+            }
+
+            DB.CloseSqlConnection(conn,rdr);
+            return allProducts;
+
+        }
+
         public static void DeleteAll()
         {
             DB.DeleteAll("categories");

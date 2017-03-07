@@ -276,6 +276,7 @@ namespace OnlineStore.Objects
             return foundProducts;
         }
 
+
         public void AddCategory (Category newCategory)
         {
             SqlConnection conn = DB.Connection();
@@ -320,7 +321,7 @@ namespace OnlineStore.Objects
             {
                 conn.Close();
             }
-            
+
             return categories;
         }
 

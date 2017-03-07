@@ -332,5 +332,61 @@ namespace OnlineStore.Objects
 
             Assert.Equal(expectedResult, actualResult);
         }
+
+        //Gets all of the rows in the cart_products table that belong to the user
+        [Fact]
+        public void GetCartProducts_GetsRowsFromCartProductsTable_List()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+            Product firstProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            firstProduct.Save();
+            Product secondProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            secondProduct.Save();
+            CartProduct testCartProduct = new CartProduct(testUser.GetId(),firstProduct.GetId(),5);
+            testCartProduct.Save();
+            CartProduct secondCartProduct = new CartProduct(testUser.GetId(),secondProduct.GetId(),5);
+            secondCartProduct.Save();
+
+            //Act
+            List<CartProduct> expected = new List<CartProduct> {testCartProduct, secondCartProduct};
+            List<CartProduct> result = testUser.GetCartProducts();
+
+            //Assert
+            Assert.Equal(expected, result);
+        }
+
+        //Checks out a user's cart: count decreases and cart_products rows are DeleteProduct
+        [Fact]
+        public void Checkout_ChecksoutProductsFromUser_updatesTables()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+            Product firstProduct = new Product("Vegetti", 13, 5, 2.00m, "Great item for shredding zukes");
+            firstProduct.Save();
+            Product secondProduct = new Product("Banana Corer", 13, 5, 20.99m, "Kind of weird");
+            secondProduct.Save();
+            CartProduct testCartProduct = new CartProduct(testUser.GetId(),firstProduct.GetId(),5);
+            testCartProduct.Save();
+            CartProduct secondCartProduct = new CartProduct(testUser.GetId(),secondProduct.GetId(),2);
+            secondCartProduct.Save();
+
+            //Act
+            testUser.Checkout();
+
+            //Checks that count was Updated
+            int expectedCount = 8;
+            // int actualCount = firstProduct.GetCount();
+            int actualCount = Product.Find(firstProduct.GetId()).GetCount();
+            Assert.Equal(expectedCount, actualCount);
+
+            //Checks that cart is empty
+            List<Product> expectedCart = new List<Product>{};
+            List<Product> actualCart = testUser.GetCart();
+            Assert.Equal(expectedCart, actualCart);
+
+        }
     }
 }

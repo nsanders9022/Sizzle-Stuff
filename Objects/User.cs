@@ -358,6 +358,33 @@ namespace OnlineStore.Objects
             return allProducts;
         }
 
+        //Gets the cart_products rows associated with the user
+        public List<CartProduct> GetCartProducts()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM cart_products WHERE user_id = @UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+            List<CartProduct> allCartProducts = new List<CartProduct>{};
+
+            while(rdr.Read())
+            {
+                int id = rdr.GetInt32(0);
+                int userId = rdr.GetInt32(1);
+                int productId = rdr.GetInt32(2);
+                int quantity = rdr.GetInt32(3);
+
+                CartProduct newCartProduct = new CartProduct(userId, productId, quantity, id);
+                allCartProducts.Add(newCartProduct);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return allCartProducts;
+        }
+
         //Gets total price of all the items in the user's cart_products
         public decimal GetTotal()
         {
@@ -386,16 +413,40 @@ namespace OnlineStore.Objects
             {
                 total += userProducts[item].GetPrice() * allQuantities[item];
             }
-
-
-            // decimal total = 00.00m;
-            //
-            // foreach(Product product in userProducts)
-            // {
-            //     total += product.GetPrice();
-            // }
-
             return total;
+        }
+
+        public void Checkout()
+        {
+            //UPDATE COUNT
+
+            //Get list of products
+            List<Product> userProducts = this.GetCart();
+            //Get list of current count for each product
+            List<int> productCount = new List<int>{};
+            foreach(Product product in userProducts)
+            {
+                productCount.Add(product.GetCount());
+                Console.WriteLine("Product Stock: " + product.GetName() + ", " + product.GetCount());
+            }
+
+            //Get list of quanities
+            List<CartProduct> cartProducts = this.GetCartProducts();
+            List<int> quantityCount = new List<int>{};
+            foreach(CartProduct product in cartProducts)
+            {
+                quantityCount.Add(product.GetQuantity());
+                Console.WriteLine("Cart Quantity: " + product.GetQuantity());
+            }
+            //Updates count for each product based on quantity just purchased by a user
+            for (int i = 0; i < userProducts.Count; i++)
+            {
+                userProducts[i].UpdateCount(productCount[i] - quantityCount[i]);
+                Console.WriteLine("Final Count: " + userProducts[i].GetCount());
+            }
+
+            //EMPTY USER CART
+            this.EmptyCart();
         }
 
 

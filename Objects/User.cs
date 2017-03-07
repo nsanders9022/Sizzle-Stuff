@@ -327,7 +327,7 @@ namespace OnlineStore.Objects
             conn.Close();
         }
 
-
+        //Gets all products in a user's cart
         public List<Product> GetCart()
         {
             SqlConnection conn = DB.Connection();
@@ -356,6 +356,21 @@ namespace OnlineStore.Objects
 
             DB.CloseSqlConnection(conn, rdr);
             return allProducts;
+        }
+
+        //Gets total price of all the items in the user's cart_products
+        public decimal GetTotal()
+        {
+            List<Product> userProducts = this.GetCart();
+
+            decimal total = 00.00m;
+
+            foreach(Product product in userProducts)
+            {
+                total += product.GetPrice();
+            }
+
+            return total;
         }
 
 

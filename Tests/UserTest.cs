@@ -306,5 +306,32 @@ namespace OnlineStore.Objects
             //Assert
             Assert.Equal(expected, result);
         }
+
+        //Get the total price of all the items in the user's cart_products
+        [Fact]
+        public void GetTotal_ReturnsTotalPriceOfAllItems_decimal()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+            Product firstProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            firstProduct.Save();
+            Product secondProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            secondProduct.Save();
+            CartProduct testCartProduct = new CartProduct(testUser.GetId(),firstProduct.GetId(),5);
+            testCartProduct.Save();
+            CartProduct secondCartProduct = new CartProduct(testUser.GetId(),secondProduct.GetId(),5);
+            secondCartProduct.Save();
+
+            //Act
+            List<Product> expected = new List<Product> {firstProduct, secondProduct};
+            List<Product> result = testUser.GetCart();
+
+            decimal actualResult = testUser.GetTotal();
+            decimal expectedResult = 41.98m;
+
+            Assert.Equal(expectedResult, actualResult);
+
+        }
     }
 }

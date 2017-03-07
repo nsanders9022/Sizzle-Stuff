@@ -281,28 +281,6 @@ namespace OnlineStore.Objects
             return allReviews;
         }
 
-        // //Adds user profile to user
-        // public void AddProfile(Profile profile)
-        // {
-        //     SqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //
-        //     SqlCommand cmd = new SqlCommand(";", conn);
-        //     cmd.Parameters.Add(new SqlParameter("@UserId", profile.GetUserId()));
-        //     cmd.Parameters.Add(new SqlParameter("@Street", profile.GetStreet()));
-        //     cmd.Parameters.Add(new SqlParameter("@City", profile.GetCity()));
-        //     cmd.Parameters.Add(new SqlParameter("@State", profile.GetState()));
-        //     cmd.Parameters.Add(new SqlParameter("@Zipcode", profile.GetZipCode()));
-        //     cmd.Parameters.Add(new SqlParameter("@PhoneNumber", profile.GetPhoneNumber()));
-        //
-        //     SqlDataReader rdr = cmd.ExecuteReader();
-        //     while(rdr.Read())
-        //     {
-        //         profile.SetId(rdr.GetInt32(0));
-        //     }
-        //     DB.CloseSqlConnection(conn, rdr);
-        // }
-
         //Gets all profiles with matching user id
         public List<Profile> GetProfiles()
         {

@@ -16,6 +16,7 @@ namespace OnlineStore.Objects
         public void Dispose()
         {
             Product.DeleteAll();
+            Category.DeleteAll();
         }
 
         [Fact]

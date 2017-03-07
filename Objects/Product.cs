@@ -300,7 +300,7 @@ namespace OnlineStore.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT categories.* FROM products JOIN products_categories ON (products.id = products_categories.products_id) JOIN categories ON (products_categories.categories_id = categories.id) WHERE products.id = @ProductId;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT categories.* FROM products JOIN products_categories ON (products.id = products_categories.product_id) JOIN categories ON (products_categories.category_id = categories.id) WHERE products.id = @ProductId;", conn);
 
             cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetId().ToString()));
 
@@ -337,8 +337,10 @@ namespace OnlineStore.Objects
 
             cmd.ExecuteNonQuery();
 
-            DB.CloseSqlConnection(conn, rdr);
-
+            if (conn != null)
+            {
+                conn.Close();
+            }
         }
 
         public static void DeleteAll()

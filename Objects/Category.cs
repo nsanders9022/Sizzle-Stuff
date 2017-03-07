@@ -140,16 +140,10 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn, rdr);
         }
 
-
-
-
-
-
-
-
         public static void DeleteAll()
         {
             DB.DeleteAll("categories");
+
         }
 
     }

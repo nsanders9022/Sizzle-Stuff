@@ -9,17 +9,17 @@ namespace OnlineStore.Objects
     public class Profile
     {
         private int _id;
-        private int _customerId;
+        private int _userId;
         private string _street;
         private string _city;
         private string _state;
         private int _zipCode;
         private string _phoneNumber;
 
-        public Profile(int newCustomerId, string newStreet, string newCity, string newState, int newZipCode, string newPhoneNumber, int newId = 0)
+        public Profile(int newUserId, string newStreet, string newCity, string newState, int newZipCode, string newPhoneNumber, int newId = 0)
         {
             _id = newId;
-            _customerId = newCustomerId;
+            _userId = newUserId;
             _street = newStreet;
             _city = newCity;
             _state = newState;
@@ -32,9 +32,9 @@ namespace OnlineStore.Objects
             return _id;
         }
 
-        public int GetCustomerId()
+        public int GetUserId()
         {
-            return _customerId;
+            return _userId;
         }
 
         public string GetStreet()
@@ -100,14 +100,14 @@ namespace OnlineStore.Objects
             while(rdr.Read())
             {
                 int id = rdr.GetInt32(0);
-                int customerId = rdr.GetInt32(1);
+                int userId = rdr.GetInt32(1);
                 string street = rdr.GetString(2);
                 string city = rdr.GetString(3);
                 string state = rdr.GetString(4);
                 int zipCode = rdr.GetInt32(5);
                 string phoneNumber = rdr.GetString(6);
 
-                Profile newProfile = new Profile(customerId, street, city, state, zipCode, phoneNumber, id);
+                Profile newProfile = new Profile(userId, street, city, state, zipCode, phoneNumber, id);
                 allProfiles.Add(newProfile);
             }
 
@@ -125,13 +125,13 @@ namespace OnlineStore.Objects
             {
                 Profile newProfile = (Profile) otherProfile;
                 bool idEquality = (this.GetId() == newProfile.GetId());
-                bool customerIdEqulity = (this.GetCustomerId() == newProfile.GetCustomerId());
+                bool userIdEqulity = (this.GetUserId() == newProfile.GetUserId());
                 bool streetEquality = (this.GetStreet() == newProfile.GetStreet());
                 bool cityEquality = (this.GetCity() == newProfile.GetCity());
                 bool stateEquality = (this.GetState() == newProfile.GetState());
                 bool zipCodeEquality = (this.GetZipCode() == newProfile.GetZipCode());
                 bool phoneNumberEquality = (this.GetPhoneNumber() == newProfile.GetPhoneNumber());
-                return (idEquality && customerIdEqulity && streetEquality && cityEquality && stateEquality && zipCodeEquality && phoneNumberEquality);
+                return (idEquality && userIdEqulity && streetEquality && cityEquality && stateEquality && zipCodeEquality && phoneNumberEquality);
             }
         }
 
@@ -141,8 +141,8 @@ namespace OnlineStore.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO profiles (customer_id, street, city, state, zip_code, phone_number) OUTPUT INSERTED.id VALUES (@CustomerId, @Street, @City, @State, @ZipCode, @PhoneNumber);", conn);
-            cmd.Parameters.Add(new SqlParameter("@CustomerId", this.GetCustomerId()));
+            SqlCommand cmd = new SqlCommand("INSERT INTO profiles (user_id, street, city, state, zip_code, phone_number) OUTPUT INSERTED.id VALUES (@UserId, @Street, @City, @State, @ZipCode, @PhoneNumber);", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetUserId()));
             cmd.Parameters.Add(new SqlParameter("@Street", this.GetStreet()));
             cmd.Parameters.Add(new SqlParameter("@City", this.GetCity()));
             cmd.Parameters.Add(new SqlParameter("@State", this.GetState()));
@@ -188,7 +188,7 @@ namespace OnlineStore.Objects
             SqlDataReader rdr = cmd.ExecuteReader();
 
             int foundId = 0;
-            int foundCustomerId = 0;
+            int foundUserId = 0;
             string foundStreet = null;
             string foundCity = null;
             string foundState = null;
@@ -198,14 +198,14 @@ namespace OnlineStore.Objects
             while(rdr.Read())
             {
                 foundId = rdr.GetInt32(0);
-                foundCustomerId = rdr.GetInt32(1);
+                foundUserId = rdr.GetInt32(1);
                 foundStreet = rdr.GetString(2);
                 foundCity = rdr.GetString(3);
                 foundState = rdr.GetString(4);
                 foundZipCode = rdr.GetInt32(5);
                 foundPhoneNumber = rdr.GetString(6);
             }
-            Profile newProfile = new Profile(foundCustomerId, foundStreet, foundCity, foundState, foundZipCode, foundPhoneNumber, foundId);
+            Profile newProfile = new Profile(foundUserId, foundStreet, foundCity, foundState, foundZipCode, foundPhoneNumber, foundId);
 
             DB.CloseSqlConnection(conn, rdr);
             return newProfile;

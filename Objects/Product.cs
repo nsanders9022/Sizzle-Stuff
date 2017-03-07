@@ -119,25 +119,52 @@ namespace OnlineStore.Objects
 
         public void Save()
         {
+            int potentialId = this.IsNewEntry();
+            if (potentialId == -1)
+            {
+                SqlConnection conn = DB.Connection();
+                conn.Open();
+
+                SqlCommand cmd  = new SqlCommand ("INSERT into products (name, count,rating, price,description) OUTPUT INSERTED.id VALUES(@ProductName,@ProductCount, @ProductRating, @ProductPrice, @ProductDescription);",conn);
+
+
+                cmd.Parameters.Add(new SqlParameter("@ProductName", this.GetName()));
+                cmd.Parameters.Add(new SqlParameter("@ProductCount", this.GetCount()));
+                cmd.Parameters.Add(new SqlParameter("@ProductRating", this.GetRating()));
+                cmd.Parameters.Add(new SqlParameter("@ProductPrice", this.GetPrice()));
+                cmd.Parameters.Add(new SqlParameter("@ProductDescription", this.GetDescription()));
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while(rdr.Read())
+                {
+                    potentialId = rdr.GetInt32(0);
+                }
+                DB.CloseSqlConnection(conn,rdr);
+            }
+            this.SetId(potentialId);
+        }
+
+        public int IsNewEntry()
+        {
+            // This function checks to see if the object instance already exists in the database, returning the DB id if it already exists and -1 if it does not
+            int potentialId = -1;
+
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd  = new SqlCommand ("INSERT into products (name, count,rating, price,description) OUTPUT INSERTED.id VALUES(@ProductName,@ProductCount, @ProductRating, @ProductPrice, @ProductDescription);",conn);
-
-
-            cmd.Parameters.Add(new SqlParameter("@ProductName", this.GetName()));
-            cmd.Parameters.Add(new SqlParameter("@ProductCount", this.GetCount()));
-            cmd.Parameters.Add(new SqlParameter("@ProductRating", this.GetRating()));
-            cmd.Parameters.Add(new SqlParameter("@ProductPrice", this.GetPrice()));
-            cmd.Parameters.Add(new SqlParameter("@ProductDescription", this.GetDescription()));
+            SqlCommand cmd = new SqlCommand("SELECT id FROM products WHERE name = @TargetName", conn);
+            cmd.Parameters.Add(new SqlParameter("@TargetName", this.GetName()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
             while(rdr.Read())
             {
-                this.SetId(rdr.GetInt32(0));
+                potentialId = rdr.GetInt32(0);
             }
-            DB.CloseSqlConnection(conn,rdr);
+            DB.CloseSqlConnection(conn, rdr);
+
+            return potentialId;
         }
 
         public static Product Find(int id)

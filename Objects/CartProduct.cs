@@ -37,6 +37,23 @@ namespace OnlineStore.Objects
             return _quantity;
         }
 
+        public override bool Equals(System.Object otherCartProduct)
+        {
+            if (!(otherCartProduct is CartProduct))
+            {
+                return false;
+            }
+            else
+            {
+                CartProduct newCartProduct = (CartProduct) otherCartProduct;
+                bool idEquality = this.GetId() == newCartProduct.GetId();
+                bool userIdEquality = this.GetUserId() == newCartProduct.GetUserId();
+                bool productIdEquality = this.GetProductId() == newCartProduct.GetProductId();
+                bool quantityEquality = this.GetQuantity() == newCartProduct.GetQuantity();
+                return(idEquality && userIdEquality && productIdEquality && quantityEquality);
+            }
+        }
+
         //deletes all rows from cart_product table
         public static void DeleteAll()
         {

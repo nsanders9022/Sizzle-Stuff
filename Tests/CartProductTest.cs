@@ -13,6 +13,16 @@ namespace OnlineStore.Objects
             DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog= online_store_test;Integrated Security=SSPI;";
         }
 
+        [Fact]
+        public void EqualOverride_CartProductsAreSame_true()
+        {
+            //Arrange, Act
+            CartProduct firstCartProduct = new CartProduct(2,2,5);
+            CartProduct secondCartProduct= new CartProduct(2,2,5);
+
+            Assert.Equal(firstCartProduct, secondCartProduct);
+        }
+
         //GetAll returns empty list if no cartproducts
         [Fact]
         public void GetAll_ForNoCartProducts_EmptyList()

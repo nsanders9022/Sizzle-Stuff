@@ -47,6 +47,22 @@ namespace OnlineStore.Objects
             Assert.Equal(testCategoryList, result);
         }
 
+        [Fact]
+        public void Delete_DeleteCategory_RemoveCategoryFromDatabase()
+        {
+            //Arrange
+            Category testCategory1 = new Category("Dinnerware");
+            testCategory1.Save();
+            Category testCategory2 = new Category("Cookware");
+            testCategory2.Save();
+            //Act
+            testCategory1.DeleteCategory();
+            List<Category> expected = new List<Category>{testCategory2};
+            List<Category> result = Category.GetAll();
+            //Assert
+            Assert.Equal(expected, result);
+        }
+
 
 
 

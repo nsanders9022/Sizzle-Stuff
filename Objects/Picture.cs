@@ -124,8 +124,8 @@ namespace OnlineStore.Objects
         public void Delete()
         {
             DB.Delete(this.GetId(), "pictures", "picture", "pictures_products", "reviews_pictures");
-            string filePath = "Content\\img\\products\\" + this.GetPictureKey();
-            File.Delete(filePath);
+            // string filePath = "Content\\img\\products\\" + this.GetPictureKey();
+            File.Delete(this.GetPictureKey());
         }
 
         public static void DeleteAll()
@@ -171,7 +171,7 @@ namespace OnlineStore.Objects
             {
                 newWebClient.Dispose();
             }
-            Picture newPicture = new Picture(fullFileName, newAltText);
+            Picture newPicture = new Picture(picturePath, newAltText);
             return newPicture;
         }
 

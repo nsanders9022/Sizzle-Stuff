@@ -279,7 +279,7 @@ namespace OnlineStore.Objects
         public void AddCategory (Category newCategory)
         {
             SqlConnection conn = DB.Connection();
-            conn.Open;
+            conn.Open();
 
             SqlCommand cmd = new SqlCommand("INSERT INTO products_categories (product_id, category_id) VALUES (@ProductId, @CategoryId);", conn);
 
@@ -316,9 +316,28 @@ namespace OnlineStore.Objects
                 categories.Add(newCategory);
             }
 
+            if (conn != null)
+            {
+                conn.Close();
+            }
+            
+            return categories;
+        }
+
+        public void RemoveCategory(Category newCategory)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM products_categories WHERE product_id = @ProductID AND category_id = @CategoryId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetId().ToString()));
+            cmd.Parameters.Add(new SqlParameter("@CategoryId", newCategory.GetId().ToString()));
+
+            cmd.ExecuteNonQuery();
+
             DB.CloseSqlConnection(conn, rdr);
 
-            return categories;
         }
 
         public static void DeleteAll()

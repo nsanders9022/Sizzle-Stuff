@@ -252,5 +252,33 @@ namespace OnlineStore.Objects
 
             conn.Close();
         }
+
+        //get all reviews associated with this UserId
+        public List<Review> GetReviews()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM reviews WHERE user_id = @UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId().ToString()));
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Review> allReviews = new List<Review>{};
+
+            while(rdr.Read())
+            {
+                int reviewId = rdr.GetInt32(0);
+                int userId = rdr.GetInt32(1);
+                int productId = rdr.GetInt32(2);
+                int rating = rdr.GetInt32(3);
+                string reviewText = rdr.GetString(4);
+
+                Review newReview = new Review(userId, productId, rating, reviewText, reviewId);
+                allReviews.Add(newReview);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return allReviews;
+        }
     }
 }

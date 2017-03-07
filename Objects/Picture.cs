@@ -100,6 +100,11 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn,rdr);
         }
 
+        public void Delete()
+        {
+            DB.Delete(this.GetId(), "pictures", "picture", "pictures_products", "reviews_pictures");
+        }
+
         public static void DeleteAll()
         {
             DB.DeleteAll("pictures");

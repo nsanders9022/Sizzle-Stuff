@@ -66,5 +66,23 @@ namespace OnlineStore.Objects
             //Assert
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void Delete_RemovesAPictureFromDatabase_DecrementDatabase()
+        {
+            //Arrange
+            Picture firstPicture = new Picture("location of picture", "picture of a dog");
+            firstPicture.Save();
+            Picture secondPicture = new Picture("location of picture", "picture of a cat");
+            secondPicture.Save();
+
+            //Act
+            firstPicture.Delete();
+            List<Picture> expected = new List<Picture> {secondPicture};
+            List<Picture> result = Picture.GetAll();
+
+            //Assert
+            Assert.Equal(expected, result);
+        }
     }
 }

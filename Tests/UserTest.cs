@@ -29,6 +29,7 @@ namespace OnlineStore.Objects
             User.DeleteAll();
             Product.DeleteAll();
             Review.DeleteAll();
+            Profile.DeleteAll();
         }
 
         //Checks that user table is empty at first
@@ -215,7 +216,46 @@ namespace OnlineStore.Objects
 
             //Assert
             Assert.Equal(expectedResult, actualResult);
+        }
 
+        // //Checks that profile is returned for user
+        // [Fact]
+        // public void AddProfile_ForUser_ChangeUserIdInProfile()
+        // {
+        //     //Arrange
+        //     User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+        //     testUser.Save();
+        //
+        //     Profile newProfile = new Profile(testUser.GetId(), "422 Doggo St.", "Seattle", "WA", 98119, "2069543205");
+        //     newProfile.Save();
+        //
+        //     //Act
+        //     testUser.AddProfile(newProfile);
+        //
+        //     //Assert
+        //     List<Profile> actualResult = testUser.GetProfiles();
+        //     List<Profile> expectedResult = new List<Profile> {newProfile};
+        //
+        //     Assert.Equal(expectedResult, actualResult);
+        // }
+
+        //Checks that all profiles are returned for users
+        public void GetProfiles_ForUser_ReturnsListofProfiles()
+        {
+            //Arrange
+            User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            testUser.Save();
+
+            Profile firstProfile = new Profile(testUser.GetId(), "422 Doggo St.", "Seattle", "WA", 98119, "2069543205");
+            Profile secondProfile = new Profile(testUser.GetId(), "32416 SE 43rd PL", "Fall City", "WA", 98024, "2069543205");
+            firstProfile.Save();
+            secondProfile.Save();
+
+            //Assert
+            List<Profile> actualResult = testUser.GetProfiles();
+            List<Profile> expectedResult = new List<Profile> {firstProfile, secondProfile};
+
+            Assert.Equal(expectedResult, actualResult);
         }
     }
 }

@@ -280,5 +280,60 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn, rdr);
             return allReviews;
         }
+
+        // //Adds user profile to user
+        // public void AddProfile(Profile profile)
+        // {
+        //     SqlConnection conn = DB.Connection();
+        //     conn.Open();
+        //
+        //     SqlCommand cmd = new SqlCommand(";", conn);
+        //     cmd.Parameters.Add(new SqlParameter("@UserId", profile.GetUserId()));
+        //     cmd.Parameters.Add(new SqlParameter("@Street", profile.GetStreet()));
+        //     cmd.Parameters.Add(new SqlParameter("@City", profile.GetCity()));
+        //     cmd.Parameters.Add(new SqlParameter("@State", profile.GetState()));
+        //     cmd.Parameters.Add(new SqlParameter("@Zipcode", profile.GetZipCode()));
+        //     cmd.Parameters.Add(new SqlParameter("@PhoneNumber", profile.GetPhoneNumber()));
+        //
+        //     SqlDataReader rdr = cmd.ExecuteReader();
+        //     while(rdr.Read())
+        //     {
+        //         profile.SetId(rdr.GetInt32(0));
+        //     }
+        //     DB.CloseSqlConnection(conn, rdr);
+        // }
+
+        //Gets all profiles with matching user id
+        public List<Profile> GetProfiles()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM profiles WHERE user_id = @UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Profile> allProfiles = new List<Profile>{};
+
+            while(rdr.Read())
+            {
+                int id = rdr.GetInt32(0);
+                int userId = rdr.GetInt32(1);
+                string street = rdr.GetString(2);
+                string city = rdr.GetString(3);
+                string state = rdr.GetString(4);
+                int zipCode = rdr.GetInt32(5);
+                string phoneNumber = rdr.GetString(6);
+
+                Profile newProfile = new Profile(userId, street, city, state, zipCode, phoneNumber, id);
+
+                allProfiles.Add(newProfile);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return allProfiles;
+        }
+
     }
 }

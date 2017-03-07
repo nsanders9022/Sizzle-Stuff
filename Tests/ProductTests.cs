@@ -235,6 +235,30 @@ namespace OnlineStore.Objects
             //Assert
             Assert.Equal(expectedResult, actualResult);
         }
+
+        [Fact]
+        public void OrderBy_Price_ListPriceAscending()
+        {
+            //Arrange
+
+            Product testProduct = new Product("Cheap", 13, 5, 10.99m, "Great item for shredding zukes");
+            testProduct.Save();
+            Product secondProduct = new Product("Pricey", 13, 5, 20.99m, "Great item for shredding zukes");
+            secondProduct.Save();
+            Product thirdProduct = new Product("Middling", 13, 5, 15.99m, "Great item for shredding zukes");
+            thirdProduct.Save();
+
+            //Act
+
+
+            List<Product> actualResult = Product.OrderBy("price", "ascending");
+            List<Product> expectedResult = new List<Product>{testProduct, thirdProduct, secondProduct};
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+
     }
 
 }

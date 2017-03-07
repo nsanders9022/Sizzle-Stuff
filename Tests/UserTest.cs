@@ -60,6 +60,7 @@ namespace OnlineStore.Objects
         {
             //Arrange
             User newUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+            User twoUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
 
             //Act
             newUser.Save();

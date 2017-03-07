@@ -104,9 +104,9 @@ namespace OnlineStore.Objects
                 categoryId = rdr.GetInt32(0);
                 categoryName = rdr.GetString(1);
             }
-             Category foundCategory = new Category (categoryName,categoryId);
-             DB.CloseSqlConnection(conn,rdr);
-             return foundCategory;
+            Category foundCategory = new Category (categoryName,categoryId);
+            DB.CloseSqlConnection(conn,rdr);
+            return foundCategory;
         }
 
         public void DeleteCategory()
@@ -121,7 +121,26 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn);
         }
 
-        
+        public void Update(string newName)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE categories Set name = @NewName OUTPUT INSERTED.name WHERE id = @CategoryId;",conn);
+
+            cmd.Parameters.Add(new SqlParameter("@NewName",newName));
+            cmd.Parameters.Add(new SqlParameter("@CategoryId", this.GetId()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._name = rdr.GetString(0);
+            }
+            DB.CloseSqlConnection(conn, rdr);
+        }
+
+
 
 
 

@@ -63,8 +63,18 @@ namespace OnlineStore.Objects
             Assert.Equal(expected, result);
         }
 
-
-
+        [Fact]
+        public void Test_UpdateCategory_UpdateCategoryInDatabase()
+        {
+             //Arrange
+            Category testCategory = new Category("Serveware");
+            testCategory.Save();
+            //Act
+            testCategory.Update("Cookware");
+            Category expected = new Category("Cookware",testCategory.GetId());
+            //Assert
+            Assert.Equal(expected, testCategory);
+        }
 
         public void Dispose()
         {

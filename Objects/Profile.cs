@@ -143,10 +143,41 @@ namespace OnlineStore.Objects
         //Saves instances to database
         public void Save()
         {
+            int potentialId = this.IsNewEntry();
+            if (potentialId == -1)
+            {
+                SqlConnection conn = DB.Connection();
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO profiles (user_id, street, city, state, zip_code, phone_number) OUTPUT INSERTED.id VALUES (@UserId, @Street, @City, @State, @ZipCode, @PhoneNumber);", conn);
+                cmd.Parameters.Add(new SqlParameter("@UserId", this.GetUserId()));
+                cmd.Parameters.Add(new SqlParameter("@Street", this.GetStreet()));
+                cmd.Parameters.Add(new SqlParameter("@City", this.GetCity()));
+                cmd.Parameters.Add(new SqlParameter("@State", this.GetState()));
+                cmd.Parameters.Add(new SqlParameter("@ZipCode", this.GetZipCode()));
+                cmd.Parameters.Add(new SqlParameter("@PhoneNumber", this.GetPhoneNumber()));
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while(rdr.Read())
+                {
+                    potentialId = rdr.GetInt32(0);
+                }
+
+                DB.CloseSqlConnection(conn, rdr);
+            }
+            this.SetId(potentialId);
+        }
+
+        public int IsNewEntry()
+        {
+            // This function checks to see if the object instance already exists in the database, returning the DB id if it already exists and -1 if it does not
+            int potentialId = -1;
+
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO profiles (user_id, street, city, state, zip_code, phone_number) OUTPUT INSERTED.id VALUES (@UserId, @Street, @City, @State, @ZipCode, @PhoneNumber);", conn);
+            SqlCommand cmd = new SqlCommand("SELECT id FROM profiles WHERE user_id = @UserId AND street = @Street AND city = @City AND state = @State AND zip_code = @ZipCode AND phone_number = @PhoneNumber;", conn);
             cmd.Parameters.Add(new SqlParameter("@UserId", this.GetUserId()));
             cmd.Parameters.Add(new SqlParameter("@Street", this.GetStreet()));
             cmd.Parameters.Add(new SqlParameter("@City", this.GetCity()));
@@ -158,10 +189,11 @@ namespace OnlineStore.Objects
 
             while(rdr.Read())
             {
-                this._id = rdr.GetInt32(0);
+                potentialId = rdr.GetInt32(0);
             }
-
             DB.CloseSqlConnection(conn, rdr);
+
+            return potentialId;
         }
 
         public static void DeleteAll()

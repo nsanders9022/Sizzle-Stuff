@@ -361,14 +361,39 @@ namespace OnlineStore.Objects
         //Gets total price of all the items in the user's cart_products
         public decimal GetTotal()
         {
-            List<Product> userProducts = this.GetCart();
+            SqlConnection conn = DB.Connection();
+            conn.Open();
 
+            SqlCommand cmd = new SqlCommand ("SELECT quantity FROM cart_products WHERE user_id = @UserId;",conn);
+
+            cmd.Parameters.Add(new SqlParameter ("@UserId", this.GetId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<int> allQuantities = new List<int>{};
+
+            while(rdr.Read())
+            {
+                int quantity = rdr.GetInt32(0);
+                allQuantities.Add(quantity);
+            }
+
+
+            List<Product> userProducts = this.GetCart();
             decimal total = 00.00m;
 
-            foreach(Product product in userProducts)
+            for(var item = 0; item < userProducts.Count; item ++)
             {
-                total += product.GetPrice();
+                total += userProducts[item].GetPrice() * allQuantities[item];
             }
+
+
+            // decimal total = 00.00m;
+            //
+            // foreach(Product product in userProducts)
+            // {
+            //     total += product.GetPrice();
+            // }
 
             return total;
         }

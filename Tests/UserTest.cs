@@ -314,13 +314,13 @@ namespace OnlineStore.Objects
             //Arrange
             User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
             testUser.Save();
-            Product firstProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            Product firstProduct = new Product("Vegetti", 13, 5, 2.00m, "Great item for shredding zukes");
             firstProduct.Save();
-            Product secondProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            Product secondProduct = new Product("Vegetti", 13, 5, 20.00m, "Great item for shredding zukes");
             secondProduct.Save();
-            CartProduct testCartProduct = new CartProduct(testUser.GetId(),firstProduct.GetId(),5);
+            CartProduct testCartProduct = new CartProduct(testUser.GetId(),firstProduct.GetId(),1);
             testCartProduct.Save();
-            CartProduct secondCartProduct = new CartProduct(testUser.GetId(),secondProduct.GetId(),5);
+            CartProduct secondCartProduct = new CartProduct(testUser.GetId(),secondProduct.GetId(),2);
             secondCartProduct.Save();
 
             //Act
@@ -328,10 +328,9 @@ namespace OnlineStore.Objects
             List<Product> result = testUser.GetCart();
 
             decimal actualResult = testUser.GetTotal();
-            decimal expectedResult = 41.98m;
+            decimal expectedResult = 42.00m;
 
             Assert.Equal(expectedResult, actualResult);
-
         }
     }
 }

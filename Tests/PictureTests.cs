@@ -52,19 +52,19 @@ namespace OnlineStore.Objects
             Assert.Equal(expected, result);
         }
 
-        // [Fact]
-        // public void Find_GetPictureById_ReturnTargetPicture()
-        // {
-        //     //Arrange
-        //     Picture testPicture = new Picture("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
-        //     testPicture.Save();
-        //
-        //     //Act
-        //     Picture expected = testPicture;
-        //     Picture result = Picture.Find(testPicture.GetId());
-        //
-        //     //Assert
-        //     Assert.Equal(expected, result);
-        // }
+        [Fact]
+        public void Find_GetPictureById_ReturnTargetPicture()
+        {
+            //Arrange
+            Picture firstPicture = new Picture("location of picture", "picture of a dog");
+            firstPicture.Save();
+
+            //Act
+            Picture expected = firstPicture;
+            Picture result = Picture.Find(firstPicture.GetId());
+
+            //Assert
+            Assert.Equal(expected, result);
+        }
     }
 }

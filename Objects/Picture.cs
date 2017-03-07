@@ -56,6 +56,31 @@ namespace OnlineStore.Objects
             return allPictures;
         }
 
+        public static Picture Find(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM pictures WHERE id = @PictureId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@PictureId", id.ToString()));
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int foundPictureId = 0;
+            string foundPictureKey = null;
+            string foundPictureAltText = null;
+
+            while(rdr.Read())
+            {
+                foundPictureId = rdr.GetInt32(0);
+                foundPictureKey = rdr.GetString(1);
+                foundPictureAltText = rdr.GetString(2);
+            }
+
+            Picture foundPicture = new Picture(foundPictureKey, foundPictureAltText, foundPictureId);
+            DB.CloseSqlConnection(conn, rdr);
+            return foundPicture;
+        }
+
         public void Save()
         {
             SqlConnection conn = DB.Connection();

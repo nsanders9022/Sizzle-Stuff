@@ -17,6 +17,7 @@ namespace OnlineStore.Objects
         {
             Product.DeleteAll();
             Category.DeleteAll();
+            Review.DeleteAll();
         }
 
         [Fact]
@@ -208,12 +209,12 @@ namespace OnlineStore.Objects
             //Assert
             Assert.Equal(expectedResult, actualResult);
         }
-        //
+
+        //Deletes a category from a product
         [Fact]
         public void RemoveCategory_RemovesCategoryFromProduct_void()
         {
             //Arrange
-
             Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
             testProduct.Save();
 
@@ -236,6 +237,20 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
-    }
+        //Get a list of reviews for a product
+        [Fact]
+        public void GetProductReview_GetsReviewsForProduct_ListOfReviews()
+        {
+          Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+          testProduct.Save();
 
+          Review testReview = new Review(1,testProduct.GetId(),2,"it sucked");
+          testReview.Save();
+
+          List<Review> actualResult = testProduct.GetProductReview();
+          List<Review> expectedResult = new List<Review>{testReview};
+
+          Assert.Equal(expectedResult, actualResult);
+        }
+    }
 }

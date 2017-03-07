@@ -281,28 +281,6 @@ namespace OnlineStore.Objects
             return allReviews;
         }
 
-        // //Adds user profile to user
-        // public void AddProfile(Profile profile)
-        // {
-        //     SqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //
-        //     SqlCommand cmd = new SqlCommand(";", conn);
-        //     cmd.Parameters.Add(new SqlParameter("@UserId", profile.GetUserId()));
-        //     cmd.Parameters.Add(new SqlParameter("@Street", profile.GetStreet()));
-        //     cmd.Parameters.Add(new SqlParameter("@City", profile.GetCity()));
-        //     cmd.Parameters.Add(new SqlParameter("@State", profile.GetState()));
-        //     cmd.Parameters.Add(new SqlParameter("@Zipcode", profile.GetZipCode()));
-        //     cmd.Parameters.Add(new SqlParameter("@PhoneNumber", profile.GetPhoneNumber()));
-        //
-        //     SqlDataReader rdr = cmd.ExecuteReader();
-        //     while(rdr.Read())
-        //     {
-        //         profile.SetId(rdr.GetInt32(0));
-        //     }
-        //     DB.CloseSqlConnection(conn, rdr);
-        // }
-
         //Gets all profiles with matching user id
         public List<Profile> GetProfiles()
         {
@@ -334,6 +312,52 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn, rdr);
             return allProfiles;
         }
+
+        //Clears all the items in the cart_products table for this user
+        public void EmptyCart()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM cart_products WHERE user_id = @UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId()));
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
+
+
+        public List<Product> GetCart()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand ("SELECT products.* FROM users JOIN cart_products ON (users.id = cart_products.user_id) JOIN products ON (products.id = cart_products.product_id) WHERE users.id = @UserId;",conn);
+
+            cmd.Parameters.Add(new SqlParameter ("@UserId", this.GetId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Product> allProducts = new List<Product>{};
+
+            while(rdr.Read())
+            {
+                int productId = rdr.GetInt32(0);
+                string productName = rdr.GetString(1);
+                int productCount = rdr.GetInt32(2);
+                int productRating = rdr.GetInt32(3);
+                decimal productPrice = rdr.GetDecimal(4);
+                string productDescription = rdr.GetString(5);
+                Product newProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
+
+                allProducts.Add(newProduct);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return allProducts;
+        }
+
 
     }
 }

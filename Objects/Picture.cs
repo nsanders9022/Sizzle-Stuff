@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
+using System.IO;
+
 
 namespace OnlineStore.Objects
 {
@@ -121,6 +124,8 @@ namespace OnlineStore.Objects
         public void Delete()
         {
             DB.Delete(this.GetId(), "pictures", "picture", "pictures_products", "reviews_pictures");
+            string filePath = "Content\\img\\products\\" + this.GetPictureKey();
+            File.Delete(filePath);
         }
 
         public static void DeleteAll()
@@ -153,6 +158,45 @@ namespace OnlineStore.Objects
         public void SetAltText(string newAltText)
         {
             _altText = newAltText;
+        }
+
+        public static Picture UploadPicture(string pictureURL, int productId, string fileName, string newAltText)
+        {
+            string fileExtension = Picture.ParseFileType(pictureURL);
+            string fullFileName = productId.ToString() + "_" + fileName + fileExtension;
+            string picturePath = "Content\\img\\products\\" + fullFileName;
+            WebClient newWebClient = new WebClient();
+            newWebClient.DownloadFile(pictureURL, picturePath);
+            if(newWebClient != null)
+            {
+                newWebClient.Dispose();
+            }
+            Picture newPicture = new Picture(fullFileName, newAltText);
+            return newPicture;
+        }
+
+        public static string ParseFileType(string fileURL)
+        {
+            char[] charArray = fileURL.ToCharArray();
+            Array.Reverse(charArray);
+            string revUrl = string.Join("", charArray);
+            string fileExtension = "";
+            for(int index = 0; index < revUrl.Length; index++)
+            {
+                if (revUrl[index] == '.')
+                {
+                    fileExtension += revUrl[index];
+                    break;
+                }
+                else
+                {
+                    fileExtension += revUrl[index];
+                }
+            }
+            char[] newCharArray = fileExtension.ToCharArray();
+            Array.Reverse(newCharArray);
+            fileExtension = string.Join("", newCharArray);
+            return fileExtension;
         }
     }
 }

@@ -16,10 +16,11 @@ namespace OnlineStore.Objects
         public void Dispose()
         {
             Product.DeleteAll();
+            Category.DeleteAll();
         }
 
         [Fact]
-        public void Test_EmptyDatabseAtFirst()
+        public void Test_EmptyDatabaseAtFirst()
         {
             //Arrange,Act
             int result = Product.GetAll().Count;
@@ -166,5 +167,74 @@ namespace OnlineStore.Objects
         //     //Act
         //     Product.SortBy()
         // }
+
+
+        //Applies a category to a product
+        [Fact]
+        public void AddCategory_AddsCategoryToProduct_Category()
+        {
+            //Arrange
+            Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            testProduct.Save();
+
+            Category testCategory = new Category ("utensils");
+            testCategory.Save();
+
+            //Act
+            testProduct.AddCategory(testCategory);
+            List<Category> actualResult = testProduct.GetCategories();
+            List<Category> expectedResult = new List<Category>{testCategory};
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        //Gets all categories declared for a specific product
+        [Fact]
+        public void GetCategories_GetsProductCategory_CategoryList()
+        {
+            //Arrange
+            Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            testProduct.Save();
+
+            Category testCategory = new Category ("utensils");
+            testCategory.Save();
+
+            //Act
+            testProduct.AddCategory(testCategory);
+            List<Category> actualResult = testProduct.GetCategories();
+            List<Category> expectedResult = new List<Category>{testCategory};
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+        //
+        [Fact]
+        public void RemoveCategory_RemovesCategoryFromProduct_void()
+        {
+            //Arrange
+
+            Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+            testProduct.Save();
+
+            Category testCategory = new Category ("utensils");
+            testCategory.Save();
+
+            Category testCategory2 = new Category ("dinnerware");
+            testCategory2.Save();
+
+            //Act
+            testProduct.AddCategory(testCategory);
+            testProduct.AddCategory(testCategory2);
+
+            testProduct.RemoveCategory(testCategory2);
+
+            List<Category> actualResult = testProduct.GetCategories();
+            List<Category> expectedResult = new List<Category>{testCategory};
+
+            //Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
     }
+
 }

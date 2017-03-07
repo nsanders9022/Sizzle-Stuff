@@ -1,6 +1,52 @@
-## User
+# Library Manager
 
-* Delete All users
+#### By _**Alexandra Holcombe, Sam Kirsch, Shruti Priya, & Nicole Sanders**_
+
+## Description
+This website will host a multitude of kitchen gadgets. Users can create a profile and log into their account. Users can see products, search by name or ratings, sort by price or ratings, review products, and purchase one or more items. Administrative users can add new products and restock current products.
+
+## Setup/Installation Requirements
+
+#### Create Databases
+* In `SQLCMD`:  
+`> CREATE DATABASE online_store;`
+`> GO`
+`> USE DATABASE online_store;`
+`> GO`
+`> CREATE TABLE pictures_products (id INT IDENTITY(1,1), product_id INT, picture_id INT);`
+`> GO`
+`> CREATE TABLE pictures (id INT IDENTITY(1,1), picture_key VARCHAR(255));`
+`> GO`
+`> CREATE TABLE categories (id INT IDENTITY(1,1), name VARCHAR(255));`
+`> GO`
+`> CREATE TABLE products_categories (id INT IDENTITY(1,1), product_id INT, category_id INT);`
+`> GO`
+`> CREATE TABLE products (id INT IDENTITY(1,1), name VARCHAR(255), count INT, rating INT, price INT, description VARCHAR(255));`
+`> GO`
+`> CREATE TABLE activity_history (id INT IDENTITY(1,1), user_id INT, product_id INT, time_stamp DATETIME, activity VARCHAR(255), notes VARCHAR(1000));`
+`> GO`
+`> CREATE TABLE users (id INT IDENTITY(1,1), first_name VARCHAR(255), last_name VARCHAR(255), user_name VARCHAR(255), password VARCHAR(255), admin_privileges` BIT);
+`> GO`
+`> CREATE TABLE profiles (id INT IDENTITY(1,1), user_id INT, street VARCHAR(255), city VARCHAR(255), state VARCHAR(255), zip_code INT, phone_number VARCHAR(255));`
+`> GO`
+`> CREATE TABLE cart_products (id INT IDENTITY(1,1), user_id INT, product_id INT, quantity INT);`
+`> GO`
+`> CREATE TABLE reviews (id INT IDENTITY(1,1), user_id INT, product_id INT, rating INT, review_text VARCHAR(5000));`
+`> GO`
+`> CREATE TABLE reviews_pictures (id INT IDENTITY(1,1), picture_id INT, review_id INT);`
+`> GO`
+
+* Requires DNU, DNX, MSSQL, and Mono
+* Clone to local machine
+* Use command "dnu restore" in command prompt/shell
+* Use command "dnx kestrel" to start server
+* Navigate to http://localhost:5004 in web browser of choice
+
+## Specifications
+
+### User Class
+
+* Delete All
 
 * Get All users
 
@@ -29,7 +75,7 @@
 * Add profile to user
 
 
-## Product
+### Product
 
 * Delete All products
 
@@ -72,7 +118,7 @@
 * Get all reviews for a product
 
 
-## category
+### category
 
 * Delete All categories
 
@@ -91,7 +137,7 @@
 * Search by category name
 
 
-## Cart
+### Cart
 
 * Checkout cart
 
@@ -104,7 +150,7 @@
 * Get total purchase price
 
 
-## reviews
+### reviews
 
 * Save a review
 
@@ -113,7 +159,7 @@
 * Find a reviews
 
 
-## Profile
+### Profile
 
 * Get all profiles
 

@@ -276,6 +276,73 @@ namespace OnlineStore.Objects
             return foundProducts;
         }
 
+
+        public void AddCategory (Category newCategory)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO products_categories (product_id, category_id) VALUES (@ProductId, @CategoryId);", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetId()));
+            cmd.Parameters.Add(new SqlParameter("@CategoryId", newCategory.GetId()));
+
+            cmd.ExecuteNonQuery();
+
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+        public List<Category> GetCategories()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT categories.* FROM products JOIN products_categories ON (products.id = products_categories.product_id) JOIN categories ON (products_categories.category_id = categories.id) WHERE products.id = @ProductId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Category> categories = new List<Category>{};
+
+            while(rdr.Read())
+            {
+                int categoryId = rdr.GetInt32(0);
+                string categoryName = rdr.GetString(1);
+
+                Category newCategory = new Category(categoryName, categoryId);
+                categories.Add(newCategory);
+            }
+
+            if (conn != null)
+            {
+                conn.Close();
+            }
+
+            return categories;
+        }
+
+        public void RemoveCategory(Category newCategory)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM products_categories WHERE product_id = @ProductID AND category_id = @CategoryId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetId().ToString()));
+            cmd.Parameters.Add(new SqlParameter("@CategoryId", newCategory.GetId().ToString()));
+
+            cmd.ExecuteNonQuery();
+
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
         public static void DeleteAll()
         {
             DB.DeleteAll("products");

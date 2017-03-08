@@ -439,7 +439,6 @@ namespace OnlineStore.Objects
                 allQuantities.Add(quantity);
             }
 
-
             List<Product> userProducts = this.GetCart();
             decimal total = 00.00m;
 

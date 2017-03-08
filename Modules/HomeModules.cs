@@ -48,29 +48,50 @@ namespace OnlineStore
                 User findUser = User.FindUserByName(Request.Form["user-name"], Request.Form["password"]);
                 return View["login_status.cshtml", findUser];
             };
-
+            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Get["/product/{id}"] = parameters=> {
                 Dictionary<string,object> model = new Dictionary<string, object>();
                 List<Category> allCategories = Category.GetAll();
                 List<Product> allProducts = Product.GetAll();
+                User newUser = User.Find(1);
                 Product newProduct = Product.Find(parameters.id);
                 model.Add("categories", allCategories);
                 model.Add("products", allProducts);
                 model.Add("product", newProduct);
+                model.Add("user", newUser);
                 return View["product.cshtml", model];
             };
 
+            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Post["/confirmation"] = _ => {
                 Dictionary<string,object> model = new Dictionary<string, object>();
                 List<Category> allCategories = Category.GetAll();
                 List<Product> allProducts = Product.GetAll();
+                User newUser = User.Find(1);
                 Product addedProduct = Product.Find(Request.Form["product-id"]);
                 CartProduct currentCartProduct = new CartProduct(addedProduct.GetId(), 1, Request.Form["quantity"]);
                 currentCartProduct.Save();
                 model.Add("categories", allCategories);
                 model.Add("products", allProducts);
                 model.Add("product", addedProduct);
+                model.Add("user", newUser);
                 return View["confirmation.cshtml", model];
+            };
+
+            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
+            Post["/product_added"] = _ => {
+                Dictionary<string,object> model = new Dictionary<string, object>();
+                List<Category> allCategories = Category.GetAll();
+                List<Product> allProducts = Product.GetAll();
+                User newUser = User.Find(1);
+                Product addedProduct = Product.Find(Request.Form["product-id"]);
+                CartProduct currentCartProduct = new CartProduct(addedProduct.GetId(), newUser.GetId(), Request.Form["quantity"]);
+                currentCartProduct.Save();
+                model.Add("categories", allCategories);
+                model.Add("products", allProducts);
+                model.Add("product", addedProduct);
+                model.Add("user", newUser);
+                return View["index.cshtml", model];
             };
 
             //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
@@ -83,6 +104,7 @@ namespace OnlineStore
                 model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
+                model.Add("user", newUser);
                 return View["checkout.cshtml", model];
             };
 

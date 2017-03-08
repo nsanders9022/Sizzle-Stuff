@@ -1,11 +1,27 @@
 /*TOP BANNER*/
 #logo {
-    width: 250px;
+    /*width: 250px;*/
+    position: absolute;
+    top: -25px;
 }
 
 #top-banner {
     width: 90%;
     margin: 0 auto;
+    position: relative;
+    height: 228px;
+}
+
+#top-banner h1 {
+    font-family: 'Audiowide', sans-serif;
+    display: inline-block;
+    text-transform: lowercase;
+    font-size: 85px;
+    position: absolute;
+    bottom: 30px;
+    left: 260px;
+    color: black;
+    text-shadow: 3px 3px #b6c43c;
 }
 
 /*NAVBAR*/
@@ -20,6 +36,10 @@
     z-index: 10;
 }
 
+.navbar-fixed-top {
+    margin-top: 0px;
+}
+
 .navbar a {
     font-size: 20px;
 }
@@ -32,66 +52,68 @@
     height: 55px;
 }
 .navbar-default {
-  background-color: rgba(255, 255, 255, .75);
-  border-color: rgb(222, 221, 221);
+    background-color: rgba(255, 255, 255, .75);
+    border-color: rgb(222, 221, 221);
 }
 .navbar-default .navbar-brand {
-  color: #777;
+    color: #777;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #5e5e5e;
-  background-color: transparent;
+    color: #5e5e5e;
+    background-color: transparent;
 }
 .navbar-default .navbar-text {
-  color: #777;
+    color: #777;
 }
 .navbar-default .navbar-nav > li > a {
-  color: #777;
+    color: #777;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #333;
-  background-color: transparent;
+    color: #333;
+    background-color: transparent;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
-  color: #555;
-  background-color: #e7e7e7;
+    color: #555;
+    background-color: #e7e7e7;
 }
 .navbar-default .navbar-nav > .disabled > a,
 .navbar-default .navbar-nav > .disabled > a:hover,
 .navbar-default .navbar-nav > .disabled > a:focus {
-  color: #ccc;
-  background-color: transparent;
+    color: #ccc;
+    background-color: transparent;
 }
 .navbar-default .navbar-toggle {
-  border-color: rgb(222, 221, 221);
+    border-color: rgb(222, 221, 221);
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background-color: #ddd;
+    background-color: #ddd;
 }
 .navbar-default .navbar-toggle .icon-bar {
-  background-color: #888;
+    background-color: #888;
 }
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
-  border-color: rgb(222, 221, 221);
+    border-color: rgb(222, 221, 221);
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
-  color: #555;
-  background-color: #e7e7e7;
+    color: #555;
+    background-color: #e7e7e7;
 }
 
 
 /* JUMBOTRON && CAROUSEL*/
 .jumbotron {
     padding: 0px;
-    border: 2px solid green;
+    /*border: 2px solid green;*/
+    margin-bottom: 0px;
+    background-color: none;
 }
 
 .carousel-control.right, .carousel-control.left {
@@ -99,7 +121,20 @@
 }
 
 #photo-carousel {
-    z-index: 4;
+    /*z-index: 4;*/
+}
+
+.item {
+    margin-top: -30px;
+}
+
+.carousel-inner {
+    margin-top: -30px;
+    /*position: relative;*/
+}
+.carousel-inner div {
+    /*position: relative;*/
+    margin-top: -30px;
 }
 
 /* CONTAINER*/

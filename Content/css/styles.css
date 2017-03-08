@@ -1,3 +1,7 @@
 .jumbotron {
     padding: 0px;
 }
+
+.carousel-control.right, .carousel-control.left {
+    background-image: none;
+}

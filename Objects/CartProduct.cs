@@ -97,7 +97,7 @@ namespace OnlineStore.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd  = new SqlCommand ("INSERT into cart_products (user_id, product_id, quantity) OUTPUT INSERTED.id VALUES(@ProductId,@UserId, @Quantity);",conn);
+            SqlCommand cmd  = new SqlCommand ("INSERT into cart_products (user_id, product_id, quantity) OUTPUT INSERTED.id VALUES(@UserId, @ProductId, @Quantity);",conn);
 
             cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetProductId()));
             cmd.Parameters.Add(new SqlParameter("@UserId", this.GetUserId()));

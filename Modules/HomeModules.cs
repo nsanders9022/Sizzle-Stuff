@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Nancy;
+using System;
 using Nancy.ViewEngines.Razor;
 using OnlineStore.Objects;
 
@@ -77,29 +78,20 @@ namespace OnlineStore
                 List<Product> allProducts = Product.GetAll();
                 User newUser = User.Find(1);
                 Product addedProduct = Product.Find(Request.Form["product-id"]);
-                CartProduct currentCartProduct = new CartProduct(addedProduct.GetId(), 1, Request.Form["quantity"]);
-                currentCartProduct.Save();
-                model.Add("categories", allCategories);
-                model.Add("products", allProducts);
-                model.Add("product", addedProduct);
-                model.Add("user", newUser);
-                return View["confirmation.cshtml", model];
-            };
-
-            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
-            Post["/product_added"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                List<Product> allProducts = Product.GetAll();
-                User newUser = User.Find(1);
-                Product addedProduct = Product.Find(Request.Form["product-id"]);
                 CartProduct currentCartProduct = new CartProduct(addedProduct.GetId(), newUser.GetId(), Request.Form["quantity"]);
                 currentCartProduct.Save();
                 model.Add("categories", allCategories);
                 model.Add("products", allProducts);
                 model.Add("product", addedProduct);
                 model.Add("user", newUser);
-                return View["index.cshtml", model];
+                model.Add("currentCartProduct", currentCartProduct);
+                return View["confirmation.cshtml", model];
+            };
+
+            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
+            Post["/product_added"] = _ => {
+
+                return View["index.cshtml", ModelMaker()];
             };
 
             // This view adds products to the database
@@ -110,11 +102,12 @@ namespace OnlineStore
             };
 
             //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
-            Post["/checkout"] = _ => {
+            Get["/checkout"] = _ => {
                 Dictionary<string,object> model = new Dictionary<string, object>();
                 List<Category> allCategories = Category.GetAll();
                 User newUser = User.Find(1);
                 List<Product> userProducts = newUser.GetCart();
+                Console.WriteLine(userProducts.Count);
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
                 model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
@@ -136,6 +129,20 @@ namespace OnlineStore
                 return View["search.cshtml", ModelMaker()];
             };
 
+            Post["/clear_cart"] = _ => {
+                Dictionary<string,object> model = new Dictionary<string, object>();
+                List<Category> allCategories = Category.GetAll();
+                User newUser = User.Find(1);
+                List<Product> userProducts = newUser.GetCart();
+                Console.WriteLine(userProducts.Count);
+                List<CartProduct> userCartProducts = newUser.GetCartProducts();
+                model.Add("categories", allCategories);
+                model.Add("userProducts", userProducts);
+                model.Add("userCartProducts", userCartProducts);
+                model.Add("user", newUser);
+                newUser.EmptyCart();
+                return View["checkout.cshtml", ModelMaker()];
+            };
             // =====================BEGIN ADMIN VIEWS=========================================
 
             Get["/admin"] = _ => {

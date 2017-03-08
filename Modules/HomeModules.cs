@@ -32,6 +32,11 @@ namespace OnlineStore
                 User findUser = User.FindUserByName(Request.Form["user-name"], Request.Form["password"]);
                 return View["login_status.cshtml", findUser];
             };
+
+            Get["/product/{id}"] = parameters=> {
+                Product newProduct = Product.Find(parameters.id);
+                return View["product.cshtml",newProduct];
+            };
         }
     }
 }

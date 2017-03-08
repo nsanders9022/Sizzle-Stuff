@@ -1,4 +1,11 @@
 <h2>@Model["product"].GetName() has been added to your cart.</h2>
 
-<p><a href="/">Keep shopping</a></p>
-<p><a href="/checkout">Checkout</a></p>
+<form action="/product_added" method="post">
+    <button type="submit" name="button">Keep shopping</button>
+</form>
+
+<form action="/checkout">
+    <button type="submit" name="button">Check out</button>
+</form>
+
+<p><a href="/">Return home</a></p>

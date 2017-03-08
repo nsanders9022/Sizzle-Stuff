@@ -65,6 +65,8 @@ namespace OnlineStore.Objects
             testCartProduct.DeleteItem();
             List<CartProduct> expected = new List<CartProduct> {secondCartProduct};
             List<CartProduct> result = CartProduct.GetAll();
+            Console.WriteLine(string.Format("EXPECTED Id: {0}   user_id: {1}   product_id: {2}   quantity: {3}", expected[0].GetId(), expected[0].GetUserId(), expected[0].GetProductId(), expected[0].GetQuantity()));
+            Console.WriteLine(string.Format("RESULT Id: {0}   user_id: {1}   product_id: {2}   quantity: {3}", result[0].GetId(), result[0].GetUserId(), result[0].GetProductId(), result[0].GetQuantity()));
 
             //Assert
             Assert.Equal(expected, result);

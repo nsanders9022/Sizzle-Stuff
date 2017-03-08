@@ -1,11 +1,24 @@
 <form action="/user_created" method="post">
     <label for="first-name">First Name: </label>
-    <input type="text" name="first-name">
+    <input type="text" name="first-name" required>
     <label for="last-name">Last Name: </label>
-    <input type="text" name="last-name">
+    <input type="text" name="last-name" required>
     <label for="user-name">User Name: </label>
-    <input type="text" name="user-name">
+    <input type="text" name="user-name" required>
     <label for="password">Password: </label>
-    <input type="text" name="password">
+    <input type="text" name="password" required>
+
+    <label for="street">Street: </label>
+    <input type="text" name="street" required>
+    <label for="city">City: </label>
+    <input type="text" name="city" required>
+    <label for="State">State: </label>
+    <input type="text" name="State" required>
+    <label for="zip-code">Zip code: </label>
+    <input type="number" name="zip-code" required>
+    <label for="phone-number">Phone number: </label>
+    <input type="text" name="phone-number" required>
+
     <button type="submit" name="">Submit</button>
+
 </form>

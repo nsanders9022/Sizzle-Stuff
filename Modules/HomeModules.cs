@@ -136,12 +136,13 @@ namespace OnlineStore
                 List<Product> userProducts = newUser.GetCart();
                 Console.WriteLine(userProducts.Count);
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
+                newUser.EmptyCart();
+                userProducts.Clear();
                 model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
                 model.Add("user", newUser);
-                newUser.EmptyCart();
-                return View["checkout.cshtml", ModelMaker()];
+                return View["checkout.cshtml", model];
             };
             // =====================BEGIN ADMIN VIEWS=========================================
 

@@ -144,6 +144,44 @@ namespace OnlineStore.Objects
             return newReview;
         }
 
+        public void AddPicture(Picture newPicture)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO reviews_pictures (picture_id, review_id) VALUES (@NewPictureId, @NewReviewId);", conn);
+            cmd.Parameters.Add(new SqlParameter("@NewPictureId", newPicture.GetId()));
+            cmd.Parameters.Add(new SqlParameter("@NewReviewId", this.GetId()));
+
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
+        }
+
+        public List<Picture> GetPictures()
+        {
+            List<Picture> foundPictures = new List<Picture> {};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT pictures.* FROM reviews JOIN reviews_pictures ON (reviews.id = reviews_pictures.review_id) JOIN pictures ON (pictures.id = reviews_pictures.picture_id) WHERE reviews.id = @TargetId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@TargetId", this.GetId()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                int pictureId = rdr.GetInt32(0);
+                string pictureKey = rdr.GetString(1);
+                string pictureAltText = rdr.GetString(2);
+                Picture newPicture = new Picture(pictureKey, pictureAltText, pictureId);
+                foundPictures.Add(newPicture);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return foundPictures;
+        }
+
         public static void DeleteAll()
         {
             DB.DeleteAll("reviews");

@@ -37,9 +37,11 @@ namespace OnlineStore.Objects
         {
             //Arrange
             Category testCategory = new Category("Dinnerware");
+            Category secondCategory = new Category("Dinnerware");
 
             //Act
             testCategory.Save();
+            secondCategory.Save();
             List<Category> testCategoryList = Category.GetAll();
             List<Category> result = new List<Category> {testCategory};
 

@@ -119,25 +119,52 @@ namespace OnlineStore.Objects
 
         public void Save()
         {
+            int potentialId = this.IsNewEntry();
+            if (potentialId == -1)
+            {
+                SqlConnection conn = DB.Connection();
+                conn.Open();
+
+                SqlCommand cmd  = new SqlCommand ("INSERT into products (name, count,rating, price,description) OUTPUT INSERTED.id VALUES(@ProductName,@ProductCount, @ProductRating, @ProductPrice, @ProductDescription);",conn);
+
+
+                cmd.Parameters.Add(new SqlParameter("@ProductName", this.GetName()));
+                cmd.Parameters.Add(new SqlParameter("@ProductCount", this.GetCount()));
+                cmd.Parameters.Add(new SqlParameter("@ProductRating", this.GetRating()));
+                cmd.Parameters.Add(new SqlParameter("@ProductPrice", this.GetPrice()));
+                cmd.Parameters.Add(new SqlParameter("@ProductDescription", this.GetDescription()));
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while(rdr.Read())
+                {
+                    potentialId = rdr.GetInt32(0);
+                }
+                DB.CloseSqlConnection(conn,rdr);
+            }
+            this.SetId(potentialId);
+        }
+
+        public int IsNewEntry()
+        {
+            // This function checks to see if the object instance already exists in the database, returning the DB id if it already exists and -1 if it does not
+            int potentialId = -1;
+
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd  = new SqlCommand ("INSERT into products (name, count,rating, price,description) OUTPUT INSERTED.id VALUES(@ProductName,@ProductCount, @ProductRating, @ProductPrice, @ProductDescription);",conn);
-
-
-            cmd.Parameters.Add(new SqlParameter("@ProductName", this.GetName()));
-            cmd.Parameters.Add(new SqlParameter("@ProductCount", this.GetCount()));
-            cmd.Parameters.Add(new SqlParameter("@ProductRating", this.GetRating()));
-            cmd.Parameters.Add(new SqlParameter("@ProductPrice", this.GetPrice()));
-            cmd.Parameters.Add(new SqlParameter("@ProductDescription", this.GetDescription()));
+            SqlCommand cmd = new SqlCommand("SELECT id FROM products WHERE name = @TargetName", conn);
+            cmd.Parameters.Add(new SqlParameter("@TargetName", this.GetName()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
             while(rdr.Read())
             {
-                this.SetId(rdr.GetInt32(0));
+                potentialId = rdr.GetInt32(0);
             }
-            DB.CloseSqlConnection(conn,rdr);
+            DB.CloseSqlConnection(conn, rdr);
+
+            return potentialId;
         }
 
         public static Product Find(int id)
@@ -276,7 +303,6 @@ namespace OnlineStore.Objects
             return foundProducts;
         }
 
-
         public void AddCategory (Category newCategory)
         {
             SqlConnection conn = DB.Connection();
@@ -343,39 +369,92 @@ namespace OnlineStore.Objects
             }
         }
 
-        //Order by price
-        public static List<Product> OrderBy(string sortCondition, string sqlSearchString)
+        public List<Review> GetProductReview()
         {
-            List<Product> foundProducts = new List<Product>{};
-            Dictionary<string, string> sortDictionary = new Dictionary<string, string>{
-                {"price-asc", " products.price ASC"},
-                {"price-desc", " products.price DESC"},
-                {"rating-asc", " products.rating ASC"},
-                {"rating-desc", " products.rating DESC"}
-            };
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("SELECT * FROM reviews where product_id = @ProductId;", conn);
+
+          cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetId().ToString()));
+
+          List<Review> reviews = new List<Review>{};
+
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          while(rdr.Read())
+          {
+            int reviewId = rdr.GetInt32(0);
+            int userId = rdr.GetInt32(1);
+            int productId = rdr.GetInt32(2);
+            int rating = rdr.GetInt32(3);
+            string reviewText = rdr.GetString(4);
+
+            Review newReview = new Review(userId, productId, rating, reviewText, reviewId);
+            reviews.Add(newReview);
+          }
+
+          DB.CloseSqlConnection(conn, rdr);
+
+          return reviews;
+        }
+
+        public void AddPicture(Picture newPicture)
+        {
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            string sqlCommandString = sqlSearchString + " ORDER BY" + sortDictionary[sortCondition];
+            SqlCommand cmd = new SqlCommand("INSERT INTO pictures_products (picture_id, product_id) VALUES (@NewPictureId, @NewProductId);", conn);
+            cmd.Parameters.Add(new SqlParameter("@NewPictureId", newPicture.GetId()));
+            cmd.Parameters.Add(new SqlParameter("@NewProductId", this.GetId()));
 
-            SqlCommand cmd = new SqlCommand(sqlCommandString, conn);
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
+        }
+
+        public List<Picture> GetPictures()
+        {
+            List<Picture> foundPictures = new List<Picture> {};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT pictures.* FROM products JOIN pictures_products ON (products.id = pictures_products.product_id) JOIN pictures ON (pictures.id = pictures_products.picture_id) WHERE products.id = @TargetId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@TargetId", this.GetId()));
+
             SqlDataReader rdr = cmd.ExecuteReader();
 
             while(rdr.Read())
             {
-                int productId = rdr.GetInt32(0);
-                string productName = rdr.GetString(1);
-                int productCount = rdr.GetInt32(2);
-                int productRating = rdr.GetInt32(3);
-                decimal productPrice = rdr.GetDecimal(4);
-                string productDescription = rdr.GetString(5);
-                Product newProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
-                foundProducts.Add(newProduct);
+                int pictureId = rdr.GetInt32(0);
+                string pictureKey = rdr.GetString(1);
+                string pictureAltText = rdr.GetString(2);
+                Picture newPicture = new Picture(pictureKey, pictureAltText, pictureId);
+                foundPictures.Add(newPicture);
             }
 
-            DB.CloseSqlConnection(conn,rdr);
-            return foundProducts;
+            DB.CloseSqlConnection(conn, rdr);
+            return foundPictures;
         }
+
+        // public void AddReview(int userId, int rating, string reviewText)
+        // {
+        //   SqlConnection conn = DB.Connection();
+        //   conn.Open();
+        //
+        //   SqlCommand cmd = new SqlCommand("INSERT INTO reviews (user_id, product_id, rating, review_text) OUTPUT INSERTED.id VALUES(@userId, @productId, @rating, @reviewText);", conn);
+        //   cmd.Parameters.Add(new SqlParameter("@userId", userId.ToString());
+        //   cmd.Parameters.Add(new SqlParameter("@productId", this.GetId().ToString());
+        //   cmd.Parameters.Add(new SqlParameter("@rating", rating.ToString());
+        //   cmd.Parameters.Add(new SqlParameter("@reviewText", reviewText);
+        //
+        //   SqlDataReader rdr = cmd.ExecuteReader();
+        //
+        //   while(rdr.Read())
+        //   {
+        //     this.SetId(rdr.GetInt32(0));
+        //   }
+        // }
 
         public static void DeleteAll()
         {

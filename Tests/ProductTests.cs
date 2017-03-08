@@ -17,6 +17,8 @@ namespace OnlineStore.Objects
         {
             Product.DeleteAll();
             Category.DeleteAll();
+            Review.DeleteAll();
+            Picture.DeleteAll();
         }
 
         [Fact]
@@ -208,12 +210,12 @@ namespace OnlineStore.Objects
             //Assert
             Assert.Equal(expectedResult, actualResult);
         }
-        //
+
+        //Deletes a category from a product
         [Fact]
         public void RemoveCategory_RemovesCategoryFromProduct_void()
         {
             //Arrange
-
             Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
             testProduct.Save();
 
@@ -236,32 +238,54 @@ namespace OnlineStore.Objects
             Assert.Equal(expectedResult, actualResult);
         }
 
-
-        //checks that order by sorts by price ascending
+        //Get a list of reviews for a product
         [Fact]
-        public void OrderBy_Price_ListPriceAscending()
+        public void GetProductReview_GetsReviewsForProduct_ListOfReviews()
         {
-            //Arrange
+          Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
+          testProduct.Save();
 
-            Product testProduct = new Product("Cheap", 13, 5, 10.99m, "Great item for shredding zukes");
+          Review testReview = new Review(1,testProduct.GetId(),2,"it sucked");
+          testReview.Save();
+
+          List<Review> actualResult = testProduct.GetProductReview();
+          List<Review> expectedResult = new List<Review>{testReview};
+
+          Assert.Equal(expectedResult, actualResult);
+        }
+
+        // Add an image to a product
+        [Fact]
+        public void AddImage_CreateJoinTableEntry_LinkPhoto()
+        {
+            Product testProduct = new Product("Vegetti", 13, 5, 20.99m, "Great item for shredding zukes");
             testProduct.Save();
-            Product secondProduct = new Product("Pricey", 13, 5, 20.99m, "Great item for shredding zukes");
-            secondProduct.Save();
-            Product thirdProduct = new Product("Middling", 13, 5, 15.99m, "Great item for shredding zukes");
-            thirdProduct.Save();
 
-            //Act
-            string sqlSearchString = "SELECT * FROM products";
+            Picture firstPicture = new Picture("location of picture", "picture of a dog");
+            firstPicture.Save();
 
+            Picture secondPicture = new Picture("new location", "picture of a cat");
+            secondPicture.Save();
 
-            List<Product> actualResult = Product.OrderBy("price-asc", sqlSearchString);
-            List<Product> expectedResult = new List<Product>{testProduct, thirdProduct, secondProduct};
+            testProduct.AddPicture(firstPicture);
 
-            //Assert
-            Assert.Equal(expectedResult, actualResult);
+            List<Picture> result = testProduct.GetPictures();
+            List<Picture> expected = new List<Picture> {firstPicture};
         }
 
 
-    }
 
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 }

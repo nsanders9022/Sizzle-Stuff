@@ -29,6 +29,10 @@ namespace OnlineStore.Objects
         {
             return _id;
         }
+        public void SetId(int newId)
+        {
+            _id = newId;
+        }
 
         public string GetFirstName()
         {
@@ -114,24 +118,54 @@ namespace OnlineStore.Objects
         //Saves instances to database
         public void Save()
         {
+            int potentialId = this.IsNewEntry();
+            if (potentialId == -1)
+            {
+                SqlConnection conn = DB.Connection();
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO users (first_name, last_name, username, password, admin_privileges) OUTPUT INSERTED.id VALUES (@FirstName, @LastName, @Username, @Password, @AdminPrivileges);", conn);
+                cmd.Parameters.Add(new SqlParameter("@FirstName", this.GetFirstName()));
+                cmd.Parameters.Add(new SqlParameter("@LastName", this.GetLastName()));
+                cmd.Parameters.Add(new SqlParameter("@Username", this.GetUsername()));
+                cmd.Parameters.Add(new SqlParameter("@Password", this.GetPassword()));
+                cmd.Parameters.Add(new SqlParameter("@AdminPrivileges", this.GetAdminPrivileges()));
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while(rdr.Read())
+                {
+                    potentialId = rdr.GetInt32(0);
+                }
+
+                DB.CloseSqlConnection(conn, rdr);
+            }
+            this.SetId(potentialId);
+        }
+
+        public int IsNewEntry()
+        {
+            // This function checks to see if the object instance already exists in the database, returning the DB id if it already exists and -1 if it does not
+            int potentialId = -1;
+
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO users (first_name, last_name, username, password, admin_privileges) OUTPUT INSERTED.id VALUES (@FirstName, @LastName, @Username, @Password, @AdminPrivileges);", conn);
+            SqlCommand cmd = new SqlCommand("SELECT id FROM users WHERE first_name = @FirstName AND last_name = @LastName AND username = @Username AND password = @Password;", conn);
             cmd.Parameters.Add(new SqlParameter("@FirstName", this.GetFirstName()));
             cmd.Parameters.Add(new SqlParameter("@LastName", this.GetLastName()));
             cmd.Parameters.Add(new SqlParameter("@Username", this.GetUsername()));
             cmd.Parameters.Add(new SqlParameter("@Password", this.GetPassword()));
-            cmd.Parameters.Add(new SqlParameter("@AdminPrivileges", this.GetAdminPrivileges()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
             while(rdr.Read())
             {
-                this._id = rdr.GetInt32(0);
+                potentialId = rdr.GetInt32(0);
             }
-
             DB.CloseSqlConnection(conn, rdr);
+
+            return potentialId;
         }
 
         //Finds instance in database
@@ -281,28 +315,6 @@ namespace OnlineStore.Objects
             return allReviews;
         }
 
-        // //Adds user profile to user
-        // public void AddProfile(Profile profile)
-        // {
-        //     SqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //
-        //     SqlCommand cmd = new SqlCommand(";", conn);
-        //     cmd.Parameters.Add(new SqlParameter("@UserId", profile.GetUserId()));
-        //     cmd.Parameters.Add(new SqlParameter("@Street", profile.GetStreet()));
-        //     cmd.Parameters.Add(new SqlParameter("@City", profile.GetCity()));
-        //     cmd.Parameters.Add(new SqlParameter("@State", profile.GetState()));
-        //     cmd.Parameters.Add(new SqlParameter("@Zipcode", profile.GetZipCode()));
-        //     cmd.Parameters.Add(new SqlParameter("@PhoneNumber", profile.GetPhoneNumber()));
-        //
-        //     SqlDataReader rdr = cmd.ExecuteReader();
-        //     while(rdr.Read())
-        //     {
-        //         profile.SetId(rdr.GetInt32(0));
-        //     }
-        //     DB.CloseSqlConnection(conn, rdr);
-        // }
-
         //Gets all profiles with matching user id
         public List<Profile> GetProfiles()
         {
@@ -335,5 +347,183 @@ namespace OnlineStore.Objects
             return allProfiles;
         }
 
+        //Clears all the items in the cart_products table for this user
+        public void EmptyCart()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM cart_products WHERE user_id = @UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId()));
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
+
+        //Gets all products in a user's cart
+        public List<Product> GetCart()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand ("SELECT products.* FROM users JOIN cart_products ON (users.id = cart_products.user_id) JOIN products ON (products.id = cart_products.product_id) WHERE users.id = @UserId;",conn);
+
+            cmd.Parameters.Add(new SqlParameter ("@UserId", this.GetId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Product> allProducts = new List<Product>{};
+
+            while(rdr.Read())
+            {
+                int productId = rdr.GetInt32(0);
+                string productName = rdr.GetString(1);
+                int productCount = rdr.GetInt32(2);
+                int productRating = rdr.GetInt32(3);
+                decimal productPrice = rdr.GetDecimal(4);
+                string productDescription = rdr.GetString(5);
+                Product newProduct = new Product(productName, productCount, productRating, productPrice, productDescription, productId);
+
+                allProducts.Add(newProduct);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return allProducts;
+        }
+
+        //Gets the cart_products rows associated with the user
+        public List<CartProduct> GetCartProducts()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM cart_products WHERE user_id = @UserId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+            List<CartProduct> allCartProducts = new List<CartProduct>{};
+
+            while(rdr.Read())
+            {
+                int id = rdr.GetInt32(0);
+                int userId = rdr.GetInt32(1);
+                int productId = rdr.GetInt32(2);
+                int quantity = rdr.GetInt32(3);
+
+                CartProduct newCartProduct = new CartProduct(userId, productId, quantity, id);
+                allCartProducts.Add(newCartProduct);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return allCartProducts;
+        }
+
+        //Gets total price of all the items in the user's cart_products
+        public decimal GetTotal()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand ("SELECT quantity FROM cart_products WHERE user_id = @UserId;",conn);
+
+            cmd.Parameters.Add(new SqlParameter ("@UserId", this.GetId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<int> allQuantities = new List<int>{};
+
+            while(rdr.Read())
+            {
+                int quantity = rdr.GetInt32(0);
+                allQuantities.Add(quantity);
+            }
+
+
+            List<Product> userProducts = this.GetCart();
+            decimal total = 00.00m;
+
+            for(var item = 0; item < userProducts.Count; item ++)
+            {
+                total += userProducts[item].GetPrice() * allQuantities[item];
+            }
+            return total;
+        }
+
+        public void Checkout()
+        {
+            //UPDATE COUNT
+
+            //Get list of products
+            List<Product> userProducts = this.GetCart();
+            //Get list of current count for each product
+            List<int> productCount = new List<int>{};
+            foreach(Product product in userProducts)
+            {
+                productCount.Add(product.GetCount());
+                Console.WriteLine("Product Stock: " + product.GetName() + ", " + product.GetCount());
+            }
+
+            //Get list of quanities
+            List<CartProduct> cartProducts = this.GetCartProducts();
+            List<int> quantityCount = new List<int>{};
+            foreach(CartProduct product in cartProducts)
+            {
+                quantityCount.Add(product.GetQuantity());
+                Console.WriteLine("Cart Quantity: " + product.GetQuantity());
+            }
+            //Updates count for each product based on quantity just purchased by a user
+            for (int i = 0; i < userProducts.Count; i++)
+            {
+                userProducts[i].UpdateCount(productCount[i] - quantityCount[i]);
+                Console.WriteLine("Final Count: " + userProducts[i].GetCount());
+            }
+
+            //EMPTY USER CART
+            this.EmptyCart();
+        }
+
+        public static User FindUserByName(string userName, string password)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand ("SELECT * FROM users WHERE username = @UserName AND password = @Password;",conn);
+
+            cmd.Parameters.Add(new SqlParameter ("@UserName", userName));
+            cmd.Parameters.Add(new SqlParameter ("@Password", password));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int foundid = 0;
+            string foundfirstName = null;
+            string foundlastName = null;
+            string foundusername = null;
+            string foundpassword = null;
+            bool foundadminPrivileges = false;
+
+            while(rdr.Read())
+            {
+                foundid = rdr.GetInt32(0);
+                foundfirstName = rdr.GetString(1);
+                foundlastName = rdr.GetString(2);
+                foundusername = rdr.GetString(3);
+                foundpassword = rdr.GetString(4);
+                foundadminPrivileges = rdr.GetBoolean(5);
+            }
+
+            User foundUser = new User(foundfirstName, foundlastName, foundusername, foundpassword, foundadminPrivileges, foundid);
+
+            DB.CloseSqlConnection(conn, rdr);
+
+            if (foundUser.GetId() != 0)
+            {
+                return foundUser;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

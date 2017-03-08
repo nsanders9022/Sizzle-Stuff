@@ -1,0 +1,119 @@
+/*TOP BANNER*/
+#logo {
+    width: 250px;
+}
+
+#top-banner {
+    width: 90%;
+    margin: 0 auto;
+}
+
+/*NAVBAR*/
+.navbar {
+    border-radius: 0px;
+    min-height: 40px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -30px;
+    margin: -30px auto;
+    z-index: 10;
+}
+
+.navbar a {
+    font-size: 20px;
+}
+
+.navbar-right {
+    margin-right: 0px;
+}
+
+.navbar-nav li a {
+    height: 55px;
+}
+.navbar-default {
+  background-color: rgba(255, 255, 255, .75);
+  border-color: rgb(222, 221, 221);
+}
+.navbar-default .navbar-brand {
+  color: #777;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #5e5e5e;
+  background-color: transparent;
+}
+.navbar-default .navbar-text {
+  color: #777;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #777;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #333;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #555;
+  background-color: #e7e7e7;
+}
+.navbar-default .navbar-nav > .disabled > a,
+.navbar-default .navbar-nav > .disabled > a:hover,
+.navbar-default .navbar-nav > .disabled > a:focus {
+  color: #ccc;
+  background-color: transparent;
+}
+.navbar-default .navbar-toggle {
+  border-color: rgb(222, 221, 221);
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #ddd;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #888;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: rgb(222, 221, 221);
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #555;
+  background-color: #e7e7e7;
+}
+
+
+/* JUMBOTRON && CAROUSEL*/
+.jumbotron {
+    padding: 0px;
+    border: 2px solid green;
+}
+
+.carousel-control.right, .carousel-control.left {
+    background-image: none;
+}
+
+#photo-carousel {
+    z-index: 4;
+}
+
+/* CONTAINER*/
+
+.container {
+    width: 90%
+}
+
+/* SIDEBAR */
+.col-md-3 {
+    border: 1px solid blue;
+}
+
+/* MAIN */
+.col-md-9 {
+    border: 1px solid red;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../Content/js/jquery-3.1.1.js" charset="utf-8"></script>
+    <script src="../../Content/js/bootstrap.js" charset="utf-8"></script>
+    <script src="../../Content/js/_jquery.tablesorter/jquery.tablesorter.js" charset="utf-8"></script>
+    <script src="../../Content/js/scripts.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="../../Content/css/bootstrap.css">
+    <link rel="stylesheet" href="../../Content/css/styles.css">
+    <title></title>
+</head>
+<body>
+    logo
+    <nav class="navbar navbar-fixed">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Create an Account</a></li>
+            <li><a href="#">Login</a></li>
+        </ul>
+        <form class="navbar-form navbar-left" action="/search" method="post">
+            <div class="form-group">
+                <input class="form-control" type="text" name="search-bar">
+            </div>
+            <button class="btn btn-info" type="submit" name="button">Search</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Preferences</a></li>
+            <li><a href="#">Cart</a></li>
+        </ul>
+    </nav>
+    <div class="jumbotron">
+        <div id="photo-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner" role="listbox">
+                <div class="active item">
+                    <img src="../../Content/img/carousel/kale_tool.jpg" alt="Kale Tool">
+                </div>
+                <div class="item">
+                    <img src="../../Content/img/carousel/assorted.jpg" alt="Kitchen Background">
+                </div>
+                <div class="item">
+                    <img src="../../Content/img/carousel/vegetable.jpg" alt="Vegetables">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="list-group">
+
+                </ul>
+                sidebar PARTIAL???
+            </div>
+
+        </div>
+        sidebar
+        @RenderBody()
+    </div>
+    footer
+</body>
+</html>

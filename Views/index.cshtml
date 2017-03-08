@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @{
     Layout="Shared/_Layout.cshtml";
 }
@@ -7,3 +8,29 @@
 <h2><a href="/log_in">Log in to your account</a></h2>
 
 @* Main page here *@
+=======
+<!-- hide this if the user is logged in -->
+<h2><a href="/sign_up">Create an account</a></h2>
+<h2><a href="/log_in">Log in to your account</a></h2>
+
+
+
+<!-- Main page here -->
+<h1>All Categories</h1>
+@if(@Model["categories"].Count != 0)
+{
+    @foreach(var category in @Model["categories"])
+    {
+        <h2>@category.GetName()</h2>
+    }
+}
+
+<h1>All Products</h1>
+@if(@Model["products"].Count != 0)
+{
+    @foreach(var product in @Model["products"])
+    {
+        <h2><a href='/product/@product.GetId()'>@product.GetName()</a></h2>
+    }
+}
+>>>>>>> 55cef6342f9d8c4c9caaadec115fc271c3dbdeaf

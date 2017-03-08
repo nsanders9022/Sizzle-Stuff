@@ -10,7 +10,12 @@ namespace OnlineStore
         public HomeModule()
         {
             Get["/"] = _ => {
-                return View["index.cshtml"];
+                Dictionary<string,object> model = new Dictionary<string, object>();
+                List<Category> allCategories = Category.GetAll();
+                List<Product> allProducts = Product.GetAll();
+                model.Add("categories", allCategories);
+                model.Add("products", allProducts);
+                return View["index.cshtml", model];
             };
 
             Get["/sign_up"] = _ => {
@@ -34,13 +39,25 @@ namespace OnlineStore
             };
 
             Get["/product/{id}"] = parameters=> {
+                Dictionary<string,object> model = new Dictionary<string, object>();
+                List<Category> allCategories = Category.GetAll();
+                List<Product> allProducts = Product.GetAll();
                 Product newProduct = Product.Find(parameters.id);
-                return View["product.cshtml",newProduct];
+                model.Add("categories", allCategories);
+                model.Add("products", allProducts);
+                model.Add("product", newProduct);
+                return View["product.cshtml", model];
             };
 
             Post["/confirmation"] = _ => {
+                Dictionary<string,object> model = new Dictionary<string, object>();
+                List<Category> allCategories = Category.GetAll();
+                List<Product> allProducts = Product.GetAll();
                 Product addedProduct = Product.Find(Request.Form["product-id"]);
-                return View["confirmation.cshtml", addedProduct];
+                model.Add("categories", allCategories);
+                model.Add("products", allProducts);
+                model.Add("product", addedProduct);
+                return View["confirmation.cshtml", model];
             };
         }
     }

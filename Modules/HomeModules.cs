@@ -10,7 +10,8 @@ namespace OnlineStore
         public Dictionary<string, object> ModelMaker()
         {
             Dictionary<string, object> model = new Dictionary<string, object> {
-                {"products", Product.GetAll()}
+                {"products", Product.GetAll()},
+                {"categories", Category.GetAll()}
             };
             return model;
         }
@@ -105,13 +106,7 @@ namespace OnlineStore
             Post["/products"] = _ => {
                 Product newProduct = new Product(Request.Form["product-name"], Request.Form["product-count"], Request.Form["product-rating"], Request.Form["product-price"], Request.Form["product-description"]);
                 newProduct.Save();
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                List<Product> allProducts = Product.GetAll();
-                model.Add("categories", allCategories);
-                model.Add("products", allProducts);
-                model.Add("product", newProduct);
-                return View["index.cshtml", model];
+                return View["index.cshtml", ModelMaker()];
             };
 
             //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!

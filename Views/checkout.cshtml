@@ -16,7 +16,11 @@
             <tr>
                 <td>@product.GetName()</td>
                 <td>@product.GetPrice()</td>
-                <td>QUALITY GOES HERE</td>
+                <td>QUANTITY GOES HERE</td>
+                <td>
+                <form action = "/product/delete/@product.GetId()">
+                <button name="submit" class="btn btn-lg btn-primary" type="submit">Delete</button>
+                </td>
             </tr>
         }
     </tbody>
@@ -26,6 +30,4 @@
 <form action="/success" method="post">
     <button type="submit" name="button">Order products</button>
 </form>
-
-
 <p><a href="/">Return home</a></p>

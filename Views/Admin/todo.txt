@@ -1,0 +1,52 @@
+<div class="panel-heading">
+    Product Manager
+</div>
+<div class="panel-body">
+    Add a product
+    View All Products->LINK 1
+    Search for a product -> LINK 2, post to site
+    Delete All Products -> LINK 4
+
+    INDIVIDUAL PRODUCTS
+    Display Categories
+        -add a category, new or existing
+    Update Count
+    update price
+    view Reviews
+    Add a photo
+    delete a photo
+    Delete
+
+
+</div>
+</div>
+</div>
+<div class="row">
+<div class="panel panel-default">
+<div class="panel-heading">
+    User Manager
+</div>
+<div class="panel-body">
+    Add a user
+    View All users
+    Search for a user
+    Delete all non-admin users
+
+    INDIVIDUAL USERS
+    View Profiles
+    delete user
+    change user name/lastname
+    Alter user password - RESET A USERS PASSWORD
+    Change user privileges
+</div>
+</div>
+</div>
+<div class="row">
+<div class="panel panel-default">
+<div class="panel-heading">
+    Activity Log
+</div>
+<div class="panel-body">
+    View all activity log
+</div>
+</div>

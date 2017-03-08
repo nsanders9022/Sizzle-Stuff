@@ -140,7 +140,7 @@ namespace OnlineStore.Objects
                 SqlConnection conn = DB.Connection();
                 conn.Open();
 
-                SqlCommand cmd  = new SqlCommand ("INSERT into products (name, count,rating, price,description) OUTPUT INSERTED.id VALUES(@ProductName,@ProductCount, @ProductRating, @ProductPrice, @ProductDescription);",conn);
+                SqlCommand cmd  = new SqlCommand ("INSERT into products (name, count, rating, price,description) OUTPUT INSERTED.id VALUES(@ProductName, @ProductCount, @ProductRating, @ProductPrice, @ProductDescription);",conn);
 
 
                 cmd.Parameters.Add(new SqlParameter("@ProductName", this.GetName()));
@@ -168,8 +168,12 @@ namespace OnlineStore.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT id FROM products WHERE name = @TargetName", conn);
+            SqlCommand cmd = new SqlCommand("SELECT id FROM products WHERE name = @TargetName AND count = @ProductCount AND rating = @ProductRating AND price = @ProductPrice AND description = @ProductDescription;", conn);
             cmd.Parameters.Add(new SqlParameter("@TargetName", this.GetName()));
+            cmd.Parameters.Add(new SqlParameter("@ProductCount", this.GetCount()));
+            cmd.Parameters.Add(new SqlParameter("@ProductRating", this.GetRating()));
+            cmd.Parameters.Add(new SqlParameter("@ProductPrice", this.GetPrice()));
+            cmd.Parameters.Add(new SqlParameter("@ProductDescription", this.GetDescription()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
 

@@ -425,28 +425,18 @@ namespace OnlineStore.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand ("SELECT quantity FROM cart_products WHERE user_id = @UserId;",conn);
-
+            SqlCommand cmd = new SqlCommand ("SELECT products.price, cart_products.quantity FROM products JOIN cart_products ON (products.id = cart_products.product_id) JOIN users ON (users.id = cart_products.user_id) WHERE user_id = @UserId;", conn);
             cmd.Parameters.Add(new SqlParameter ("@UserId", this.GetId().ToString()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
-
-            List<int> allQuantities = new List<int>{};
+            decimal totalCost = 0;
 
             while(rdr.Read())
             {
-                int quantity = rdr.GetInt32(0);
-                allQuantities.Add(quantity);
+                totalCost += ((decimal)rdr.GetInt32(1)) * rdr.GetDecimal(0);
             }
-
-            List<Product> userProducts = this.GetCart();
-            decimal total = 00.00m;
-
-            for(var item = 0; item < userProducts.Count; item ++)
-            {
-                total += userProducts[item].GetPrice() * allQuantities[item];
-            }
-            return total;
+            DB.CloseSqlConnection(conn, rdr);
+            return totalCost;
         }
 
         public void Checkout()
@@ -460,7 +450,6 @@ namespace OnlineStore.Objects
             foreach(Product product in userProducts)
             {
                 productCount.Add(product.GetCount());
-                Console.WriteLine("Product Stock: " + product.GetName() + ", " + product.GetCount());
             }
 
             //Get list of quanities
@@ -469,13 +458,11 @@ namespace OnlineStore.Objects
             foreach(CartProduct product in cartProducts)
             {
                 quantityCount.Add(product.GetQuantity());
-                Console.WriteLine("Cart Quantity: " + product.GetQuantity());
             }
             //Updates count for each product based on quantity just purchased by a user
             for (int i = 0; i < userProducts.Count; i++)
             {
                 userProducts[i].UpdateCount(productCount[i] - quantityCount[i]);
-                Console.WriteLine("Final Count: " + userProducts[i].GetCount());
             }
 
             //EMPTY USER CART

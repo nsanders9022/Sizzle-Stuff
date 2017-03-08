@@ -175,3 +175,15 @@ body {
 .col-md-9 {
     border: 1px solid red;
 }
+
+/* PRODUCT TABLE */
+
+.image-column {
+    width: 25%;
+}
+
+div.background-cover-image {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}

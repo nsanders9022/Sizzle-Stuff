@@ -12,7 +12,7 @@ namespace OnlineStore.Objects
         private int _userId;
         private int _quantity;
 
-        public CartProduct (int newProductId, int newUserId, int newQuantity, int newId =0)
+        public CartProduct (int newUserId, int newProductId, int newQuantity, int newId =0)
         {
             _id = newId;
             _productId = newProductId;
@@ -110,6 +110,32 @@ namespace OnlineStore.Objects
                 this.SetId(rdr.GetInt32(0));
             }
             DB.CloseSqlConnection(conn,rdr);
+        }
+
+        public static CartProduct Find(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM cart_products WHERE id = @ProductId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@ProductId", id.ToString()));
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int cartProductId= 0;
+            int userId =0;
+            int productId =0;
+            int quantity = 0;
+
+            while(rdr.Read())
+            {
+               cartProductId = rdr.GetInt32(0);
+               userId = rdr.GetInt32(1);
+               productId = rdr.GetInt32(2);
+               quantity = rdr.GetInt32(3);
+            }
+            CartProduct foundCartProduct = new CartProduct(userId, productId, quantity, cartProductId);
+            DB.CloseSqlConnection(conn, rdr);
+            return foundCartProduct;
         }
 
         public void DeleteItem()

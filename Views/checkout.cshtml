@@ -13,16 +13,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                @foreach(var cartProduct in @Model["userCartProducts"])
+                @foreach(var product in @Model["userProducts"])
                 {
-                    @int productId = cartProduct.GetProductId();
-                    @Product product = Product.Find(productId);
+                    <tr>
+
                     <td>@product.GetName()</td>
                     <td>@product.GetPrice()</td>
-                    <td>@cartProduct.GetQuantity()</td>
+
+                    <td>
+                        <form action = "/product/delete/@product.GetId()">
+                            <button name="submit" class="btn btn-lg btn-primary" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
                 }
-            </tr>
 
         </tbody>
     </table>
@@ -38,7 +42,6 @@ else
 {
     <h2>You do not have any products in your cart</h2>
 }
-
 
 
 <p><a href="/">Return home</a></p>

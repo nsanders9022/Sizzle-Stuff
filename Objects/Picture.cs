@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
+using System.IO;
+
 
 namespace OnlineStore.Objects
 {
@@ -100,9 +103,29 @@ namespace OnlineStore.Objects
             DB.CloseSqlConnection(conn,rdr);
         }
 
+        public void Update(string newKey, string newAltText)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd  = new SqlCommand ("UPDATE pictures SET picture_key = @NewKey, alt_text = @NewAltText WHERE id = @TargetId;",conn);
+            cmd.Parameters.Add(new SqlParameter("@TargetId", this.GetId()));
+            cmd.Parameters.Add(new SqlParameter("@NewKey", newKey));
+            cmd.Parameters.Add(new SqlParameter("@NewAltText", newAltText));
+
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
+
+            this.SetPictureKey(newKey);
+            this.SetAltText(newAltText);
+        }
+
         public void Delete()
         {
             DB.Delete(this.GetId(), "pictures", "picture", "pictures_products", "reviews_pictures");
+            // string filePath = "Content\\img\\products\\" + this.GetPictureKey();
+            File.Delete(this.GetPictureKey());
         }
 
         public static void DeleteAll()
@@ -118,13 +141,62 @@ namespace OnlineStore.Objects
         {
             _id = newId;
         }
+
         public string GetPictureKey()
         {
             return _pictureKey;
         }
+        public void SetPictureKey(string newPictureKey)
+        {
+            _pictureKey = newPictureKey;
+        }
+
         public string GetAltText()
         {
             return _altText;
+        }
+        public void SetAltText(string newAltText)
+        {
+            _altText = newAltText;
+        }
+
+        public static Picture UploadPicture(string pictureURL, int productId, string fileName, string newAltText)
+        {
+            string fileExtension = Picture.ParseFileType(pictureURL);
+            string fullFileName = productId.ToString() + "_" + fileName + fileExtension;
+            string picturePath = "Content\\img\\products\\" + fullFileName;
+            WebClient newWebClient = new WebClient();
+            newWebClient.DownloadFile(pictureURL, picturePath);
+            if(newWebClient != null)
+            {
+                newWebClient.Dispose();
+            }
+            Picture newPicture = new Picture(picturePath, newAltText);
+            return newPicture;
+        }
+
+        public static string ParseFileType(string fileURL)
+        {
+            char[] charArray = fileURL.ToCharArray();
+            Array.Reverse(charArray);
+            string revUrl = string.Join("", charArray);
+            string fileExtension = "";
+            for(int index = 0; index < revUrl.Length; index++)
+            {
+                if (revUrl[index] == '.')
+                {
+                    fileExtension += revUrl[index];
+                    break;
+                }
+                else
+                {
+                    fileExtension += revUrl[index];
+                }
+            }
+            char[] newCharArray = fileExtension.ToCharArray();
+            Array.Reverse(newCharArray);
+            fileExtension = string.Join("", newCharArray);
+            return fileExtension;
         }
     }
 }

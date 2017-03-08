@@ -73,19 +73,46 @@ namespace OnlineStore.Objects
 
         public void Save()
         {
+            int potentialId = this.IsNewEntry();
+            if (potentialId == -1)
+            {
+                SqlConnection conn = DB.Connection();
+                conn.Open();
+
+                SqlCommand cmd  = new SqlCommand("INSERT INTO categories (name) OUTPUT inserted.id VALUES (@CategoryName);", conn);
+                cmd.Parameters.Add(new SqlParameter ("@CategoryName",this.GetName()));
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while(rdr.Read())
+                {
+                    potentialId = rdr.GetInt32(0);
+                }
+                DB.CloseSqlConnection(conn,rdr);
+            }
+            this.SetId(potentialId);
+        }
+
+        public int IsNewEntry()
+        {
+            // This function checks to see if the object instance already exists in the database, returning the DB id if it already exists and -1 if it does not
+            int potentialId = -1;
+
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd  = new SqlCommand("INSERT INTO categories (name) OUTPUT inserted.id VALUES (@CategoryName);", conn);
-            cmd.Parameters.Add(new SqlParameter ("@CategoryName",this.GetName()));
+            SqlCommand cmd = new SqlCommand("SELECT id FROM categories WHERE name = @TargetName", conn);
+            cmd.Parameters.Add(new SqlParameter("@TargetName", this.GetName()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
             while(rdr.Read())
             {
-                this.SetId(rdr.GetInt32(0));
+                potentialId = rdr.GetInt32(0);
             }
-            DB.CloseSqlConnection(conn,rdr);
+            DB.CloseSqlConnection(conn, rdr);
+
+            return potentialId;
         }
 
         public static Category Find(int id)

@@ -12,7 +12,7 @@ namespace OnlineStore.Objects
         private int _userId;
         private int _quantity;
 
-        public CartProduct (int newProductId, int newUserId, int newQuantity,int newId =0)
+        public CartProduct (int newProductId, int newUserId, int newQuantity, int newId =0)
         {
             _id = newId;
             _productId = newProductId;

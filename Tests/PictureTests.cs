@@ -84,5 +84,44 @@ namespace OnlineStore.Objects
             //Assert
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void Update_AlterPictureKeyOrAltText_ChangeDatabaseEntry()
+        {
+            //Arrange
+            Picture firstPicture = new Picture("location of picture", "picture of a dog");
+            firstPicture.Save();
+            Picture secondPicture = new Picture("new location", "picture of a cat");
+            secondPicture.Save();
+
+            //Act
+            firstPicture.Update("new location", "picture of a cat");
+            Picture expected = secondPicture;
+            Picture result = Picture.Find(firstPicture.GetId());
+            result.SetId(secondPicture.GetId());
+
+            //Assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ParseFileType_test_test()
+        {
+            //Arrange
+            string newString = "www.things.com";
+            string expectedResult = ".com";
+            string actualResult = Picture.ParseFileType(newString);
+
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact]
+        public void UploadPicture_SavePictureToFile_AchieveFile()
+        {
+            //Arrange
+            Picture firstPicture = Picture.UploadPicture("http://i.imgur.com/e0YQGow.jpg", 1, "Izzy", "Part wolf, part teenage girl");
+
+            firstPicture.Delete();
+        }
     }
 }

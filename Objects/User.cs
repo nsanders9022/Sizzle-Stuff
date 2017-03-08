@@ -29,6 +29,10 @@ namespace OnlineStore.Objects
         {
             return _id;
         }
+        public void SetId(int newId)
+        {
+            _id = newId;
+        }
 
         public string GetFirstName()
         {
@@ -114,24 +118,54 @@ namespace OnlineStore.Objects
         //Saves instances to database
         public void Save()
         {
+            int potentialId = this.IsNewEntry();
+            if (potentialId == -1)
+            {
+                SqlConnection conn = DB.Connection();
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO users (first_name, last_name, username, password, admin_privileges) OUTPUT INSERTED.id VALUES (@FirstName, @LastName, @Username, @Password, @AdminPrivileges);", conn);
+                cmd.Parameters.Add(new SqlParameter("@FirstName", this.GetFirstName()));
+                cmd.Parameters.Add(new SqlParameter("@LastName", this.GetLastName()));
+                cmd.Parameters.Add(new SqlParameter("@Username", this.GetUsername()));
+                cmd.Parameters.Add(new SqlParameter("@Password", this.GetPassword()));
+                cmd.Parameters.Add(new SqlParameter("@AdminPrivileges", this.GetAdminPrivileges()));
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while(rdr.Read())
+                {
+                    potentialId = rdr.GetInt32(0);
+                }
+
+                DB.CloseSqlConnection(conn, rdr);
+            }
+            this.SetId(potentialId);
+        }
+
+        public int IsNewEntry()
+        {
+            // This function checks to see if the object instance already exists in the database, returning the DB id if it already exists and -1 if it does not
+            int potentialId = -1;
+
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO users (first_name, last_name, username, password, admin_privileges) OUTPUT INSERTED.id VALUES (@FirstName, @LastName, @Username, @Password, @AdminPrivileges);", conn);
+            SqlCommand cmd = new SqlCommand("SELECT id FROM users WHERE first_name = @FirstName AND last_name = @LastName AND username = @Username AND password = @Password;", conn);
             cmd.Parameters.Add(new SqlParameter("@FirstName", this.GetFirstName()));
             cmd.Parameters.Add(new SqlParameter("@LastName", this.GetLastName()));
             cmd.Parameters.Add(new SqlParameter("@Username", this.GetUsername()));
             cmd.Parameters.Add(new SqlParameter("@Password", this.GetPassword()));
-            cmd.Parameters.Add(new SqlParameter("@AdminPrivileges", this.GetAdminPrivileges()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
             while(rdr.Read())
             {
-                this._id = rdr.GetInt32(0);
+                potentialId = rdr.GetInt32(0);
             }
-
             DB.CloseSqlConnection(conn, rdr);
+
+            return potentialId;
         }
 
         //Finds instance in database

@@ -152,6 +152,13 @@ namespace OnlineStore
                 return View["Admin/index.cshtml", ModelMaker()];
             };
 
+            Get["/admin/products/{id}"] = parameters => {
+                Product newProduct = Product.Find(parameters.id);
+                Dictionary<string, object> model = ModelMaker();
+                model.Add("product", newProduct);
+                return View["Admin/product.cshtml", model];
+            };
+
             Patch["/admin/products/{id}"] = parameters => {
                 Product newProduct = Product.Find(parameters.id);
                 newProduct.Update(Request.Form["update-product-name"], Request.Form["update-product-description"], Request.Form["update-product-count"], Request.Form["update-product-rating"], Request.Form["update-product-price"]);

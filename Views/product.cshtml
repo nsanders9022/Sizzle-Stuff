@@ -5,39 +5,48 @@
 <h2>Categories: </h2>
 @if(@Model["product"].GetCategories().Count == 0)
 {
-    <h3>There are no categories.</h3>
+  <h3>There are no categories.</h3>
 }
 else
 {
-    @foreach(var category in @Model["product"].GetCategories())
-    {
-        <h3>@category.GetName()</h3>
-    }
+  @foreach(var category in @Model["product"].GetCategories())
+  {
+    <h3>@category.GetName()</h3>
+  }
 }
 
 <h2>Reviews: </h2>
 @if (@Model["product"].GetProductReview().Count == 0)
 {
-    <h3>There are no reviews for this product</h3>
+  <h3>There are no reviews for this product</h3>
 }
 else
 {
-    @foreach(var review in @Model["product"].GetProductReview())
-    {
-        <h2>@review.GetReviewText()</h2>
-    }
+  @foreach(var review in @Model["product"].GetProductReview())
+  {
+    <h2>@review.GetReviewText()</h2>
+  }
 }
 
 <h2>Rating: @Model["product"].GetRating()</h2>
 
 <form action="/confirmation" method="post">
-    <input id='product-id' name='product-id' type='hidden' value='@Model["product"].GetId()'>
+  <input id='product-id' name='product-id' type='hidden' value='@Model["product"].GetId()'>
+  @if(@Model["product"].GetCount() == 0)
+  {
+    <h3>Not available in stock.</h3>
+  }
+  else
+  {
     <button type="submit" name="submit">Add To Cart</button>
     <label for="quantity">Quantity</label>
     <select class="product_quantity" name="quantity">
-        @for(int i = 1; i <= @Model["product"].GetCount(); i++ )
-        {
-            <option value="@i">@i</option>
-        }
+    @for(int i = 1; i <= @Model["product"].GetCount(); i++ )
+    {
+      <option value="@i">@i</option>
+    }
     </select>
+  }
 </form>
+
+<p><a href="/">Return home</a></p>

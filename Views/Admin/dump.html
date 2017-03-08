@@ -1,0 +1,47 @@
+iv class="panel-group" id="product-parent" role"tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading_@product.GetName()">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#product-parent" href= "#id_@product.GetName()" aria-expanded="true" aria-controls="@product.GetName()">
+                    @product.GetName()
+                </a>
+            </h4>
+        </div>
+        <div id="id_@product.GetName()" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_@product.GetName()">
+            <div class="row">
+                <div class="col-md-6">
+
+                </div>
+                <div class="col-md-6">
+                    <form class="" action="/admin/products/@product.GetId()" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="btn btn-warning" type="submit" name="button">Delete</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <ul>
+                    @if(product.GetCategories().Count == 0)
+                    {
+                        <li>There are no categories associated with this product</li>
+                    }
+                    else
+                    {
+                        @foreach(var category in product.GetCategories())
+                        {
+                            <li>@category.GetName()
+                                <!-- <form action="/admin/products/@product.GetId()/category/@category.GetId()" method="post">
+                                    <button type="button" name="button"></button>
+                                    <input type="hidden" name="_method" value="DELETE">
+                                </form> -->
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

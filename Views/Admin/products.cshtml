@@ -1,0 +1,84 @@
+@{
+    Layout = "Shared/_admin_Layout.cshtml";
+}
+
+<div class="container">
+    @if(Model["products"].Count == 0)
+    {
+        <p>
+            There are no products listed
+        </p>
+    }
+    else
+    {
+        <table id="admin-products" class="tablesorter">
+            <thead>
+                <th>Product Number</th>
+                <th>Product Name</th>
+                <th>Product Description</th>
+                <th>Price</th>
+                <th>Number in Stock</th>
+                <th>Average Rating</th>
+                <th>Options</th>
+                <th>Options</th>
+            </thead>
+            <tbody>
+                @foreach(var product in Model["products"])
+                {
+                    <tr class="show-values">
+                        <td>@product.GetId()</td>
+                        <td>@product.GetName()</td>
+                        <td>@product.GetDescription()</td>
+                        <td>@product.GetPrice()</td>
+                        <td>@product.GetCount()</td>
+                        <td>@product.GetRating()</td>
+                        <td>
+                            <form class="" action="/admin/products/@product.GetId()" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button class="btn btn-warning" type="submit" name="button">Delete</button>
+                            </form>
+                        </td>
+                        <td>
+                            <button class="btn btn-success" type="button">Edit</button>
+                        </td>
+                    </tr>
+                    <tr class="edit-values">
+                        <form id="alter-product-@product.GetId()" action="/admin/products/@product.GetId()" method="post">
+                            <input type="hidden" name="_method" value="PATCH">
+                            <td>@product.GetId()</td>
+                            <td>
+                                <input class="form-control" type="text" name="update-product-name" value="@product.GetName()">
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="update-product-rating" value="@product.GetDescription()">
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" name="update-product-description" value="@product.GetPrice()">
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" name="update-product-count" value="@product.GetCount()">
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" name="update-product-price" value="@product.GetRating()">
+                            </td>
+                        </form>
+                        <td>
+                            <form class="" action="/admin/products/@product.GetId()" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button class="btn btn-warning" type="submit" name="button">Delete</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="/admin/products/@product.GetId()"><button class="btn btn-success" type="button">Save Changes</button></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @foreach(var product in Model["products"])
+        {
+
+        }
+    }
+
+</div>

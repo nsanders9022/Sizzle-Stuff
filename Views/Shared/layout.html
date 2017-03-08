@@ -7,7 +7,7 @@
     <script src="../../Content/js/_jquery.tablesorter/jquery.tablesorter.js" charset="utf-8"></script>
     <script src="../../Content/js/scripts.js" charset="utf-8"></script>
     <link rel="stylesheet" href="../../Content/css/bootstrap.css">
-    <link href="https://fonts.googleapis.com/css?family=Audiowide|Changa+One|Hammersmith+One|Righteous|Shrikhand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Audiowide|Open+Sans:400,600" rel="stylesheet">
     <link rel="stylesheet" href="../../Content/css/styles.css">
     <title></title>
 </head>
@@ -16,23 +16,23 @@
         <img src="../../Content/img/logo/logo.png" id="logo" alt="">
         <h1>Sizzle Stuff</h1>
     </div>
-        <nav id="my-nav" class="navbar navbar-default">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Create an Account</a></li>
-                <li><a href="#">Login</a></li>
-            </ul>
-            <form class="navbar-form navbar-left" action="/search" method="post">
-                <div class="form-group">
-                    <input class="form-control" type="text" name="search-bar">
-                </div>
-                <button class="btn btn-info" type="submit" name="button">Search</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Preferences</a></li>
-                <li><a href="#">Cart</a></li>
-            </ul>
-        </nav>
+    <nav id="my-nav" class="navbar navbar-default">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Create an Account</a></li>
+            <li><a href="#">Login</a></li>
+        </ul>
+        <form class="navbar-form navbar-left" action="/search" method="post">
+            <div class="form-group">
+                <input class="form-control" type="text" name="search-bar">
+            </div>
+            <button class="btn btn-info" type="submit" name="button">Search</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Preferences</a></li>
+            <li><a href="#">Cart</a></li>
+        </ul>
+    </nav>
     <div class="jumbotron">
         <div id="photo-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner" role="listbox">
@@ -61,8 +61,30 @@
         <div class="row">
             <div class="col-md-3">
                 <ul class="list-group">
-                    sidebar PARTIAL???
-                </ul>
+                    <div id="category-header">
+                        <span>Categories</span>
+                    </div>
+                    <!-- <ul id="categories">
+                    <li>Dinnerware</li>
+                    <li>Glassware & Barware</li>
+                    <li>Serveware</li>
+                    <li>Bakeware</li>
+                    <li>Cookware</li>
+                    <li>Cutlery & Utensils</li>
+                    <li>Storage</li>
+                    <li>Appliances</li>
+                </ul> -->
+
+                <div class="list-group" id="categories">
+                    <a href="#" class="list-group-item">Dinnerware</a>
+                    <a href="#" class="list-group-item">Glassware & Barware</a>
+                    <a href="#" class="list-group-item">Serveware</a>
+                    <a href="#" class="list-group-item">Bakeware</a>
+                    <a href="#" class="list-group-item">Cookware</a>
+                    <a href="#" class="list-group-item">Cutlery & Utensils</a>
+                    <a href="#" class="list-group-item">Storage</a>
+                    <a href="#" class="list-group-item">Appliances</a>
+                </div>
             </div>
             <div class="col-md-9">
                 asdfk<br>

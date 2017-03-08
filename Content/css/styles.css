@@ -1,3 +1,8 @@
+/*BODY*/
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
 /*TOP BANNER*/
 #logo {
     /*width: 250px;*/
@@ -21,7 +26,7 @@
     bottom: 30px;
     left: 260px;
     color: black;
-    text-shadow: 3px 3px #b6c43c;
+    text-shadow: 3px 3px #b6c43c; /*GREEN*/
 }
 
 /*NAVBAR*/
@@ -112,7 +117,7 @@
 .jumbotron {
     padding: 0px;
     /*border: 2px solid green;*/
-    margin-bottom: 0px;
+    margin-bottom: 15px;
     background-color: none;
 }
 
@@ -145,7 +150,25 @@
 
 /* SIDEBAR */
 .col-md-3 {
-    border: 1px solid blue;
+    padding: 0;
+}
+
+#category-header {
+    background-color: rgb(51, 51, 51);
+    width: 100%;
+    padding: 10px;
+    border-bottom: 8px solid #b6c43c;
+}
+
+#category-header span{
+    color: white;
+    font-size: 22px;
+    /*padding: 0px;
+    margin: 0px;*/
+}
+
+#categories .list-group-item:first-child{
+    border-radius: 0;
 }
 
 /* MAIN */

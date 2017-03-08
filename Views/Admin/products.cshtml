@@ -39,7 +39,7 @@
                             </form>
                         </td>
                         <td>
-                            <button class="btn btn-success" type="button">Edit</button>
+                            <button class="btn btn-success admin-edit-button" type="button">Edit</button>
                         </td>
                     </tr>
                     <tr class="edit-values">
@@ -50,27 +50,24 @@
                                 <input class="form-control" type="text" name="update-product-name" value="@product.GetName()">
                             </td>
                             <td>
-                                <input class="form-control" type="text" name="update-product-rating" value="@product.GetDescription()">
+                                <input class="form-control" type="text" name="update-product-description" value="@product.GetDescription()">
                             </td>
                             <td>
-                                <input class="form-control" type="number" name="update-product-description" value="@product.GetPrice()">
+                                <input class="form-control" type="number" name="update-product-price" value="@product.GetPrice()">
                             </td>
                             <td>
                                 <input class="form-control" type="number" name="update-product-count" value="@product.GetCount()">
                             </td>
                             <td>
-                                <input class="form-control" type="number" name="update-product-price" value="@product.GetRating()">
+                                <input class="form-control" type="number" name="update-product-rating" value="@product.GetRating()">
+                            </td>
+                            <td>
+                                <a href="/admin/products/@product.GetId()"><button class="btn btn-success" type="submit">Save Changes</button></a>
+                            </td>
+                            <td>
+                                <button type="button" class="cancel-edits btn btn-danger">Clear Changes</button>
                             </td>
                         </form>
-                        <td>
-                            <form class="" action="/admin/products/@product.GetId()" method="post">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button class="btn btn-warning" type="submit" name="button">Delete</button>
-                            </form>
-                        </td>
-                        <td>
-                            <a href="/admin/products/@product.GetId()"><button class="btn btn-success" type="button">Save Changes</button></a>
-                        </td>
                     </tr>
                 }
             </tbody>

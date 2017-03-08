@@ -58,15 +58,29 @@ namespace OnlineStore.Objects
         {
             return _name;
         }
+        public void SetName(string newName)
+        {
+            _name = newName;
+        }
 
         public int GetCount()
         {
             return _count;
         }
 
+        public void SetCount(int newCount)
+        {
+            _count = newCount;
+        }
+
         public int GetRating()
         {
             return _rating;
+        }
+
+        public void SetRating(int newRating)
+        {
+            _rating = newRating;
         }
 
         public decimal GetPrice()
@@ -84,10 +98,11 @@ namespace OnlineStore.Objects
             return _description;
         }
 
-        public void SetCount(int newCount)
+        public void SetDescription(string newDescription)
         {
-            _count = newCount;
+            _description = newDescription;
         }
+
 
 
         public static List<Product> GetAll()
@@ -244,6 +259,30 @@ namespace OnlineStore.Objects
                 this.SetPrice(rdr.GetDecimal(0));
             }
             DB.CloseSqlConnection(conn, rdr);
+        }
+
+        public void Update(string newName, string newDescription, int newCount, int newRating, decimal newPrice)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd  = new SqlCommand("UPDATE products Set name = @NewName, price = @NewPrice, description = @NewDescription, rating = @NewRating, count = @NewCount WHERE id = @ProductId;", conn);
+            cmd.Parameters.Add(new SqlParameter ("@NewName", newName));
+            cmd.Parameters.Add(new SqlParameter ("@NewDescription", newDescription));
+            cmd.Parameters.Add(new SqlParameter ("@NewRating", newRating));
+            cmd.Parameters.Add(new SqlParameter ("@NewPrice", newPrice));
+            cmd.Parameters.Add(new SqlParameter ("@NewCount", newCount));
+            cmd.Parameters.Add(new SqlParameter ("@ProductId", this.GetId()));
+
+            cmd.ExecuteNonQuery();
+
+            this.SetName(newName);
+            this.SetPrice(newPrice);
+            this.SetDescription(newDescription);
+            this.SetCount(newCount);
+            this.SetRating(newRating);
+
+            DB.CloseSqlConnection(conn);
         }
 
         //Search products by name

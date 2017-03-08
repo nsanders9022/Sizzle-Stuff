@@ -179,11 +179,44 @@ body {
 /* PRODUCT TABLE */
 
 .image-column {
-    width: 25%;
+    width: 20%;
+}
+
+.product-column {
+    width: 41.66666667%;
+}
+
+.rating-column {
+    width: 16.66666667%;
+}
+
+.price-column {
+    width: 16.66666667%;
 }
 
 div.background-cover-image {
     width: 100%;
     background-size: cover;
     background-position: center;
+}
+
+/* FOR RATING STARS */
+[type="radio"]:not(:checked)+label:before, [type="radio"]:not(:checked)+label:after {
+    border: none;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+     background-color: none;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
+     border: none;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    background-color: none;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
+    border: none;
 }

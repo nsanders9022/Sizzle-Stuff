@@ -12,13 +12,15 @@
             <th>Number in Stock</th>
         </thead>
         <tbody>
-            @foreach(var product in Model)
+            @foreach(var product in Model["products"])
             {
-                <td>@product.GetId()</td>
-                <td>@product.GetName()</td>
-                <td>@product.GetPrice()</td>
-                <td>@product.GetRating</td>
-                <td>@product.GetCount()</td>
+                <tr>
+                    <td>@product.GetId()</td>
+                    <td>@product.GetName()</td>
+                    <td>@product.GetPrice()</td>
+                    <td>@product.GetRating()</td>
+                    <td>@product.GetCount()</td>
+                </tr>
             }
         </tbody>
     </table>

@@ -90,7 +90,6 @@ namespace OnlineStore
 
             //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Post["/product_added"] = _ => {
-
                 return View["index.cshtml", ModelMaker()];
             };
 

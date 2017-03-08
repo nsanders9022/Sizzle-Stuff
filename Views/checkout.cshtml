@@ -13,14 +13,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var product in @Model["userProducts"])
-            {
-                <tr>
+            <tr>
+                @foreach(var cartProduct in @Model["userCartProducts"])
+                {
+                    @int productId = cartProduct.GetProductId();
+                    @Product product = Product.Find(productId);
                     <td>@product.GetName()</td>
-                    <td>$@product.GetPrice()</td>
-                    <td>QUALITY GOES HERE</td>
-                </tr>
-            }
+                    <td>@product.GetPrice()</td>
+                    <td>@cartProduct.GetQuantity()</td>
+                }
+            </tr>
 
         </tbody>
     </table>

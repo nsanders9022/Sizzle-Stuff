@@ -1,0 +1,34 @@
+<table class="table table-bordered" id="product-table">
+    <thead>
+        <tr>
+            <td class="image-column"><!--Pictures--></td>
+            <td class="product-column"><span>Product</span></td>
+            <td class="rating-column"><span>Rating</span></td>
+            <td class="price-column"><span>Price</span></td>
+        </tr>
+    </thead>
+    <tbody>
+        @if(@Model["products"].Count != 0)
+        {
+            @foreach(var product in @Model["products"])
+            {
+                <tr>
+                    <td class="image-column">
+                        <div class="background-cover-image">
+                            <img src="@product.GetPictures()[0].GetPictureKey()" alt="@product.GetName()">
+                        </div>
+                    </td>
+                    <td class="product-column">
+                        <h4><a href="/product/@product.GetId()">@product.GetName()</a></h4>
+                        <p>@product.GetDescription()</p>
+                    </td>
+                    <td class="rating-column">
+                        @Html.Partial("/Shared/rating_stars.cshtml", Model)
+                        <p><a href="#">See Reviews</a></p>
+                    </td>
+                    <td class="price-column"><h3>$@product.GetPrice()</h3></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

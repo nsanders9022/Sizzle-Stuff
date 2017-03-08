@@ -1,0 +1,12 @@
+<div id="category-header">
+    <span>Categories</span>
+</div>
+<div class="list-group" id="categories">
+    @if(@Model["categories"].Count != 0)
+    {
+        @foreach(var category in @Model["categories"])
+        {
+            <a href="#" class="list-group-item">@category.GetName()</a>
+        }
+    }
+</div>

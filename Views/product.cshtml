@@ -1,0 +1,44 @@
+
+
+<h1>@Model.GetName()</h1>
+<h2>Price: $@Model.GetPrice()</h2>
+<h2>Description: @Model.GetDescription()</h2>
+
+<h2>Categories: </h2>
+@if(@Model.GetCategories().Count == 0)
+{
+    <h3>There are no categories.</h3>
+}else
+{
+    @foreach(var category in @Model.GetCategories())
+    {
+        <h3>@category.GetName()</h3>
+    }
+}
+
+<h2>Reviews: </h2>
+@if (@Model.GetProductReview().Count == 0)
+{
+    <h3>There are no reviews for this product</h3>
+}
+else
+{
+    @foreach(var review in @Model.GetProductReview())
+    {
+        <h2>@review.GetReviewText()</h2>
+    }
+}
+
+<h2>Rating: @Model.GetRating()</h2>
+
+<form action="/confirmation" method="post">
+    <input id='product-id' name='product-id' type='hidden' value='@Model.GetId()'>
+    <button type="submit" name="submit">Add To Cart</button>
+    <label for="quantity">Quantity</label>
+    <select class="product_quantity" name="quantity">
+        @for(int i = 1; i <= @Model.GetCount(); i++ )
+        {
+            <option value="@i">@i</option>
+        }
+    </select>
+</form>

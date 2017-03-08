@@ -7,6 +7,13 @@ namespace OnlineStore
 {
     public class HomeModule : NancyModule
     {
+        public Dictionary<string, object> ModelMaker()
+        {
+            Dictionary<string, object> model = new Dictionary<string, object> {
+                {"products", Product.GetAll()}
+            };
+            return model;
+        }
         public HomeModule()
         {
             Get["/"] = _ => {
@@ -94,6 +101,13 @@ namespace OnlineStore
                 return View["index.cshtml", model];
             };
 
+            // This view adds products to the database
+            Post["/products"] = _ => {
+                Product newProduct = new Product(Request.Form["product-name"], Request.Form["product-count"], Request.Form["product-rating"], Request.Form["product-price"], Request.Form["product-description"]);
+                newProduct.Save();
+                return View["index.cshtml"];
+            };
+
             //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Post["/checkout"] = _ => {
                 Dictionary<string,object> model = new Dictionary<string, object>();
@@ -114,6 +128,11 @@ namespace OnlineStore
                 User newUser = User.Find(1);
                 newUser.Checkout();
                 return View["success.cshtml", newUser];
+            };
+
+            // Dummy Search page for table sorting testing
+            Post["/search"] = _ => {
+                return View["search.cshtml", ModelMaker()];
             };
         }
     }

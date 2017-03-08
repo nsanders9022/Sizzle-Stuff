@@ -1,14 +1,6 @@
-<<<<<<< HEAD
 @{
     Layout="Shared/_Layout.cshtml";
 }
-
-@* hide this if the user is logged in *@
-<h2><a href="/sign_up">Create an account</a></h2>
-<h2><a href="/log_in">Log in to your account</a></h2>
-
-@* Main page here *@
-=======
 <!-- hide this if the user is logged in -->
 <h2><a href="/sign_up">Create an account</a></h2>
 <h2><a href="/log_in">Log in to your account</a></h2>
@@ -33,4 +25,16 @@
         <h2><a href='/product/@product.GetId()'>@product.GetName()</a></h2>
     }
 }
->>>>>>> 55cef6342f9d8c4c9caaadec115fc271c3dbdeaf
+
+@* ===================PRODUCT CREATE TEST SECTION START===================*@
+<div class="form-group">
+    <form action="/products" method="post">
+        <input class="form-control" type="text" name="product-name" placeholder="Product Name">
+        <input class="form-control" type="text" name="product-description" placeholder="Description">
+        <input class="form-control" type="number" name="product-price" placeholder="Product Price">
+        <input class="form-control" type="number" name="product-count" placeholder="Product Count">
+        <input class="form-control" type="number" name="product-rating" placeholder="Product Rating">
+        <button class="btn btn-success" type="submit" name="button">Add Product</button>
+    </form>
+</div>
+@* ===================PRODUCT CREATE TEST SECTION END=====================*@

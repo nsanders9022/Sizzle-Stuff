@@ -1,0 +1,26 @@
+@{
+    Layout = "Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <table id="product-table" class="tablesorter">
+        <thead>
+            <th>Product Number</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Average Rating</th>
+            <th>Number in Stock</th>
+        </thead>
+        <tbody>
+            @foreach(var product in Model)
+            {
+                <td>@product.GetId()</td>
+                <td>@product.GetName()</td>
+                <td>@product.GetPrice()</td>
+                <td>@product.GetRating</td>
+                <td>@product.GetCount()</td>
+            }
+        </tbody>
+    </table>
+
+</div>

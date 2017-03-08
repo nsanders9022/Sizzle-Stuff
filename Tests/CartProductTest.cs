@@ -10,8 +10,6 @@ namespace OnlineStore.Objects
   {
     public CartProductTest()
     {
-      public CartProductTest()
-      {
         DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog= online_store_test;Integrated Security=SSPI;";
       }
 
@@ -82,7 +80,7 @@ namespace OnlineStore.Objects
 
       //Finds a particular item in the cart
       [Fact]
-      public void Test_Find_FindsTaskInDatabase()
+      public void Test_Find_FindsCartProductInDatabase()
       {
         //Arrange
         CartProduct testCartProduct = new CartProduct(2,2,5);
@@ -96,12 +94,6 @@ namespace OnlineStore.Objects
         //Assert
         Assert.Equal(testCartProduct, foundCartProduct);
       }
-
-      //clears all rows in table
-      public void Dispose()
-      {
-        CartProduct.DeleteAll();
-      }
+    
     }
   }
-}

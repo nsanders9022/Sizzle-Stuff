@@ -173,31 +173,47 @@ body {
 
 /* MAIN */
 .col-md-9 {
-    border: 1px solid red;
 }
 
 /* PRODUCT TABLE */
 
-.image-column {
+#product-table {
+    border-collapse: collapse;
+}
+
+td.image-column {
     width: 20%;
 }
 
-.product-column {
+td.product-column {
     width: 41.66666667%;
 }
 
-.rating-column {
+td.rating-column {
+    min-width: 119px;
     width: 16.66666667%;
+    text-align: center;
+    vertical-align: middle;
 }
 
-.price-column {
+td.price-column {
     width: 16.66666667%;
+    text-align: center;
+    vertical-align: middle;
 }
 
 div.background-cover-image {
     width: 100%;
     background-size: cover;
     background-position: center;
+}
+
+.table > tbody > tr > td.price-column, .table > tbody > tr > td.rating-column {
+    vertical-align: middle;
+}
+
+td.price-column h3 {
+    margin: 0px;
 }
 
 /* FOR RATING STARS */
@@ -219,4 +235,8 @@ div.background-cover-image {
 
 [type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
     border: none;
+}
+
+.star-container {
+    margin: 0 auto;
 }

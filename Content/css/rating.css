@@ -9,11 +9,12 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating {
   border: none;
   float: left;
+  margin: 0 auto;
 }
 
 .rating > input { display: none; }
 .rating > label:before {
-  margin: 5px;
+  margin: 2px;
   font-size: 1.25em;
   font-family: FontAwesome;
   display: inline-block;

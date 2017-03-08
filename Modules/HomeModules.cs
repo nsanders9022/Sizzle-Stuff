@@ -141,6 +141,63 @@ namespace OnlineStore
       Post["/search"] = _ => {
         return View["search.cshtml", ModelMaker()];
       };
+
+
+      Post["/clear_cart"] = _ => {
+        Dictionary<string,object> model = new Dictionary<string, object>();
+        List<Category> allCategories = Category.GetAll();
+        User newUser = User.Find(1);
+        List<Product> userProducts = newUser.GetCart();
+        Console.WriteLine(userProducts.Count);
+        List<CartProduct> userCartProducts = newUser.GetCartProducts();
+        model.Add("categories", allCategories);
+        model.Add("userProducts", userProducts);
+        model.Add("userCartProducts", userCartProducts);
+        model.Add("user", newUser);
+        newUser.EmptyCart();
+        return View["checkout.cshtml", ModelMaker()];
+      };
+      // =====================BEGIN ADMIN VIEWS=========================================
+
+      Get["/admin"] = _ => {
+        return View["Admin/index.cshtml", ModelMaker()];
+      };
+
+      Get["/admin/products"] = _ => {
+        return View["Admin/products.cshtml", ModelMaker()];
+      };
+
+      Post["/admin/products"] = _ => {
+        Product newProduct = new Product(Request.Form["product-name"], Request.Form["product-count"], Request.Form["product-rating"], Request.Form["product-price"], Request.Form["product-description"]);
+        newProduct.Save();
+        return View["Admin/index.cshtml", ModelMaker()];
+      };
+
+      Get["/admin/products/{id}"] = parameters => {
+        Product newProduct = Product.Find(parameters.id);
+        Dictionary<string, object> model = ModelMaker();
+        model.Add("product", newProduct);
+        return View["Admin/product.cshtml", model];
+      };
+
+      Patch["/admin/products/{id}"] = parameters => {
+        Product newProduct = Product.Find(parameters.id);
+        newProduct.Update(Request.Form["update-product-name"], Request.Form["update-product-description"], Request.Form["update-product-count"], Request.Form["update-product-rating"], Request.Form["update-product-price"]);
+        return View["Admin/products.cshtml", ModelMaker()];
+      };
+
+      Delete["/admin/products/{id}"] = parameters => {
+        Product newProduct = Product.Find(parameters.id);
+        newProduct.DeleteProduct();
+        return View["Admin/products.cshtml", ModelMaker()];
+      };
+
+      Post["/admin/search"] = _ => {
+        Dictionary<string, object> model = ModelMaker();
+        model["products"] = Product.SearchProductByName(Request.Form["search-bar"]);
+        return View["Admin/products.cshtml"];
+      };
     }
   }
+}
 }

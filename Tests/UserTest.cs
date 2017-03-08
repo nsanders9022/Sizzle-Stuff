@@ -319,9 +319,9 @@ namespace OnlineStore.Objects
             firstProduct.Save();
             Product secondProduct = new Product("Vegetti", 13, 5, 20.00m, "Great item for shredding zukes");
             secondProduct.Save();
-            CartProduct testCartProduct = new CartProduct(testUser.GetId(),firstProduct.GetId(),1);
+            CartProduct testCartProduct = new CartProduct(testUser.GetId(), firstProduct.GetId(), 1);
             testCartProduct.Save();
-            CartProduct secondCartProduct = new CartProduct(testUser.GetId(),secondProduct.GetId(),2);
+            CartProduct secondCartProduct = new CartProduct(testUser.GetId(), secondProduct.GetId(), 2);
             secondCartProduct.Save();
 
             //Act

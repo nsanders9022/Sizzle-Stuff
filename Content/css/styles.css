@@ -1,0 +1,246 @@
+/*BODY*/
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+/*TOP BANNER*/
+#logo {
+    /*width: 250px;*/
+    position: absolute;
+    top: -25px;
+}
+
+#top-banner {
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    height: 228px;
+}
+
+#top-banner h1 {
+    font-family: 'Audiowide', sans-serif;
+    display: inline-block;
+    text-transform: lowercase;
+    font-size: 85px;
+    position: absolute;
+    bottom: 30px;
+    left: 260px;
+    color: black;
+    text-shadow: 3px 3px #b6c43c; /*GREEN*/
+}
+
+/*NAVBAR*/
+.navbar {
+    border-radius: 0px;
+    min-height: 40px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -30px;
+    margin: -30px auto;
+    z-index: 10;
+}
+
+.navbar-fixed-top {
+    margin-top: 0px;
+}
+
+.navbar a {
+    font-size: 20px;
+}
+
+.navbar-right {
+    margin-right: 0px;
+}
+
+.navbar-nav li a {
+    height: 55px;
+}
+.navbar-default {
+    background-color: rgba(255, 255, 255, .75);
+    border-color: rgb(222, 221, 221);
+}
+.navbar-default .navbar-brand {
+    color: #777;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #5e5e5e;
+    background-color: transparent;
+}
+.navbar-default .navbar-text {
+    color: #777;
+}
+.navbar-default .navbar-nav > li > a {
+    color: #777;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #333;
+    background-color: transparent;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #555;
+    background-color: #e7e7e7;
+}
+.navbar-default .navbar-nav > .disabled > a,
+.navbar-default .navbar-nav > .disabled > a:hover,
+.navbar-default .navbar-nav > .disabled > a:focus {
+    color: #ccc;
+    background-color: transparent;
+}
+.navbar-default .navbar-toggle {
+    border-color: rgb(222, 221, 221);
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #ddd;
+}
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #888;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+    border-color: rgb(222, 221, 221);
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #555;
+    background-color: #e7e7e7;
+}
+
+
+/* JUMBOTRON && CAROUSEL*/
+.jumbotron {
+    padding: 0px;
+    /*border: 2px solid green;*/
+    margin-bottom: 15px;
+    background-color: none;
+}
+
+.carousel-control.right, .carousel-control.left {
+    background-image: none;
+}
+
+#photo-carousel {
+    /*z-index: 4;*/
+}
+
+.item {
+    margin-top: -30px;
+}
+
+.carousel-inner {
+    margin-top: -30px;
+    /*position: relative;*/
+}
+.carousel-inner div {
+    /*position: relative;*/
+    margin-top: -30px;
+}
+
+/* CONTAINER*/
+
+.container {
+    width: 90%
+}
+
+/* SIDEBAR */
+.col-md-3 {
+    padding: 0;
+}
+
+#category-header {
+    background-color: rgb(51, 51, 51);
+    width: 100%;
+    padding: 10px;
+    border-bottom: 8px solid #b6c43c;
+}
+
+#category-header span{
+    color: white;
+    font-size: 22px;
+    /*padding: 0px;
+    margin: 0px;*/
+}
+
+#categories .list-group-item:first-child{
+    border-radius: 0;
+}
+
+/* MAIN */
+.col-md-9 {
+}
+
+/* PRODUCT TABLE */
+
+#product-table {
+    border-collapse: collapse;
+}
+
+td.image-column {
+    width: 20%;
+}
+
+td.product-column {
+    width: 41.66666667%;
+}
+
+td.rating-column {
+    min-width: 119px;
+    width: 16.66666667%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+td.price-column {
+    width: 16.66666667%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+div.background-cover-image {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.table > tbody > tr > td.price-column, .table > tbody > tr > td.rating-column {
+    vertical-align: middle;
+}
+
+td.price-column h3 {
+    margin: 0px;
+}
+
+/* FOR RATING STARS */
+[type="radio"]:not(:checked)+label:before, [type="radio"]:not(:checked)+label:after {
+    border: none;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+     background-color: none;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
+     border: none;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    background-color: none;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
+    border: none;
+}
+
+.star-container {
+    margin: 0 auto;
+}
+
+tr.edit-values {
+    display: none;
+}

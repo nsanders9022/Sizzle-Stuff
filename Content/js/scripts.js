@@ -1,28 +1,41 @@
+function replaceSlashes(string) {
+    var splitString = string.split('');
 
+    for (i = 0; i < string.length; i++) {
+        if (splitString[i] === "\\") {
+            splitString.splice(i, 1, "/");
+        }
+    }
 
-// function updateImageSize() {
-//     $(".background-cover-image").each(function(){
-//         var ratio_cont = jQuery(this).width()/jQuery(this).height();
-//         var $img = jQuery(this).find("img");
-//         var ratio_img = $img.width()/$img.height();
-//         if (ratio_cont > ratio_img)
-//         {
-//             $img.css({"width": "100%", "height": "auto"});
-//         }
-//         else if (ratio_cont < ratio_img)
-//         {
-//             $img.css({"width": "auto", "height": "100%"});
-//         }
-//     })
-//     $( ".background-cover-image" ).each(function() {
-//         var $img = $( this ).children("img");
-//         var $imgUrl = $img.attr("src");
-//         // console.log('img' + $img);
-//         //  console.log('imgUrl' + $imgUrl);
-//         $img.css("opacity", 0);
-//         $( this ).css({"background-image": "url(" + $imgUrl + ")", "background-size": "cover", "background-position": "center"});
-//     });
-// };
+    var outputString = splitString.join('');
+    return outputString;
+}
+
+function updateImageSize() {
+    $(".background-cover-image").each(function(){
+        var ratio_cont = jQuery(this).width()/jQuery(this).height();
+        var $img = jQuery(this).find("img");
+        var ratio_img = $img.width()/$img.height();
+        if (ratio_cont > ratio_img)
+        {
+            $img.css({"width": "100%", "height": "auto"});
+        }
+        else if (ratio_cont < ratio_img)
+        {
+            $img.css({"width": "auto", "height": "100%"});
+        }
+    })
+    $( ".background-cover-image" ).each(function() {
+        var $img = $( this ).children("img");
+        var $imgUrl = $img.attr("src");
+        // console.log('img' + $img);
+         console.log('imgUrl' + $imgUrl);
+         $imgUrl = replaceSlashes($imgUrl);
+         console.log($imgUrl);
+        $img.css("opacity", 0);
+        $( this ).css({"background-image": "url(" + $imgUrl + ")", "background-size": "cover", "background-position": "center"});
+    });
+};
 
 $(function(){
     $('.carousel').carousel();
@@ -48,10 +61,10 @@ $(function(){
         }
     });
 
-    // updateImageSize();
-    // $(window).resize(function() {
-    //     updateImageSize();
-    // });
+    updateImageSize();
+    $(window).resize(function() {
+        updateImageSize();
+    });
 
     $("#product-table").tablesorter();
     $('.collapse').collapse()

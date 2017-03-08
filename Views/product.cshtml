@@ -6,7 +6,8 @@
 @if(@Model["product"].GetCategories().Count == 0)
 {
     <h3>There are no categories.</h3>
-}else
+}
+else
 {
     @foreach(var category in @Model["product"].GetCategories())
     {

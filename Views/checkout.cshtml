@@ -2,29 +2,40 @@
 
 <h2>Products</h2>
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Product(s)</th>
-            <th>Price</th>
-            <th>Quantity</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var product in @Model["userProducts"])
-        {
+@if(@Model["userProducts"].Count != 0)
+{
+    <table class="table table-striped table-bordered">
+        <thead>
             <tr>
-                <td>@product.GetName()</td>
-                <td>@product.GetPrice()</td>
-                <td>QUALITY GOES HERE</td>
+                <th>Product(s)</th>
+                <th>Price</th>
+                <th>Quantity</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach(var product in @Model["userProducts"])
+            {
+                <tr>
+                    <td>@product.GetName()</td>
+                    <td>@product.GetPrice()</td>
+                    <td>QUALITY GOES HERE</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>You do not have any products in your cart</h2>
+}
 <h3>Total amount: @Model["user"].GetTotal()</h3>
 
 <form action="/success" method="post">
     <button type="submit" name="button">Order products</button>
+</form>
+
+<form action="/clear_cart" method="post">
+    <button type="submit" name="button">Remove all items in cart</button>
 </form>
 
 

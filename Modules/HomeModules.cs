@@ -128,6 +128,21 @@ namespace OnlineStore
             Post["/search"] = _ => {
                 return View["search.cshtml", ModelMaker()];
             };
+
+            Post["/clear_cart"] = _ => {
+                Dictionary<string,object> model = new Dictionary<string, object>();
+                List<Category> allCategories = Category.GetAll();
+                User newUser = User.Find(1);
+                List<Product> userProducts = newUser.GetCart();
+                Console.WriteLine(userProducts.Count);
+                List<CartProduct> userCartProducts = newUser.GetCartProducts();
+                model.Add("categories", allCategories);
+                model.Add("userProducts", userProducts);
+                model.Add("userCartProducts", userCartProducts);
+                model.Add("user", newUser);
+                newUser.EmptyCart();
+                return View["checkout.cshtml", ModelMaker()];
+            };
         }
     }
 }

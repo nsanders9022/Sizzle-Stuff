@@ -31,12 +31,14 @@ else
 
 <h2>Rating: @Model.GetRating()</h2>
 
-<p><button type="submit" name="submit">Add To Cart</button><p>
-
+<form action="/confirmation" method="post">
+    <input id='product-id' name='product-id' type='hidden' value='@Model.GetId()'>
+    <button type="submit" name="submit">Add To Cart</button>
     <label for="quantity">Quantity</label>
-<select class="product_quantity" name="quantity">
-    @for(int i = 1; i <= @Model.GetCount(); i++ )
-    {
-        <option value="@i">@i</option>
-    }
-</select>
+    <select class="product_quantity" name="quantity">
+        @for(int i = 1; i <= @Model.GetCount(); i++ )
+        {
+            <option value="@i">@i</option>
+        }
+    </select>
+</form>

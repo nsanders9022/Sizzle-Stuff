@@ -37,6 +37,11 @@ namespace OnlineStore
                 Product newProduct = Product.Find(parameters.id);
                 return View["product.cshtml",newProduct];
             };
+
+            Post["/confirmation"] = _ => {
+                Product addedProduct = Product.Find(Request.Form["product-id"]);
+                return View["confirmation.cshtml", addedProduct];
+            };
         }
     }
 }

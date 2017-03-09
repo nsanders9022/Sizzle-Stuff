@@ -402,5 +402,29 @@ namespace OnlineStore.Objects
             User foundUser = User.FindUserByName("eylookturkeys", "password");
             Assert.Equal(testUser, foundUser);
         }
+
+        //Deletes a single item from a cart based on user id and product id
+        [Fact]
+        public void Test_DeleteItem_RemovesAProductFromCart()
+        {
+          //Arrange
+          User testUser = new User("Allie", "Holcombe", "eylookturkeys", "password", false);
+          testUser.Save();
+          CartProduct testCartProduct = new CartProduct(testUser.GetId(),2,5);
+          testCartProduct.Save();
+          CartProduct secondCartProduct = new CartProduct(testUser.GetId(),3,5);
+          secondCartProduct.Save();
+
+
+          //Act
+          testUser.DeleteItem(2);
+          List<CartProduct> expected = new List<CartProduct> {secondCartProduct};
+          List<CartProduct> result = testUser.GetCartProducts();
+          Console.WriteLine(string.Format("EXPECTED Id: {0}   user_id: {1}   product_id: {2}   quantity: {3}", expected[0].GetId(), expected[0].GetUserId(), expected[0].GetProductId(), expected[0].GetQuantity()));
+          Console.WriteLine(string.Format("RESULT Id: {0}   user_id: {1}   product_id: {2}   quantity: {3}", result[0].GetId(), result[0].GetUserId(), result[0].GetProductId(), result[0].GetQuantity()));
+
+          //Assert
+          Assert.Equal(expected, result);
+        }
     }
 }

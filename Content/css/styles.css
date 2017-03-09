@@ -261,7 +261,6 @@ td.price-column h3 {
 div.review-count {
     display: table-cell;
     height: 28px;
-    border: 1px solid red;
 }
 
 div.review-count a {

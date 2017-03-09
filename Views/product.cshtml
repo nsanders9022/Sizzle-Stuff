@@ -36,6 +36,18 @@
                     <a href="#">@Model["product"].GetProductReview().Count Reviews</a>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <span class="price">$@Model["product"].GetPrice()</span>
+                </div>
+                <form class="" action="index.html" method="post">
+
+                </form>
+                <div class="col-xs-4">
+
+                </div>
+            </div>
             <p>@Model["product"].GetDescription()</p>
         </div>
     </div>
@@ -71,25 +83,6 @@
     }
 
     <h2>Rating: @Model["product"].GetRating()</h2>
-
-    <form action="/confirmation" method="post">
-    <input id='product-id' name='product-id' type='hidden' value='@Model["product"].GetId()'>
-    @if(@Model["product"].GetCount() == 0)
-    {
-        <h3>Not available in stock.</h3>
-    }
-    else
-    {
-        <button type="submit" name="submit">Add To Cart</button>
-        <label for="quantity">Quantity</label>
-        <select class="product_quantity" name="quantity">
-        @for(int i = 1; i <= @Model["product"].GetCount(); i++ )
-        {
-            <option value="@i">@i</option>
-        }
-        </select>
-    }
-    </form>
 
     <p><a href="/">Return home</a></p>
     </div>

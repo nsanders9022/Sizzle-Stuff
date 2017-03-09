@@ -1,0 +1,18 @@
+<form action="/confirmation" method="post">
+<input id='product-id' name='product-id' type='hidden' value='@Model["product"].GetId()'>
+@if(@Model["product"].GetCount() == 0)
+{
+    <h3>Not available in stock.</h3>
+}
+else
+{
+    <button type="submit" name="submit">Add To Cart</button>
+    <label for="quantity">Quantity</label>
+    <select class="product_quantity" name="quantity">
+    @for(int i = 1; i <= @Model["product"].GetCount(); i++ )
+    {
+        <option value="@i">@i</option>
+    }
+    </select>
+}
+</form>

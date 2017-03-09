@@ -181,7 +181,13 @@ namespace OnlineStore
             Post["/admin/search"] = _ => {
                 Dictionary<string, object> model = ModelMaker();
                 model["products"] = Product.SearchProductByName(Request.Form["search-bar"]);
-                return View["Admin/products.cshtml"];
+                return View["Admin/products.cshtml", model];
+            };
+
+            Get["/admin/users"] = _ => {
+                Dictionary<string, object> model = ModelMaker();
+                model.Add("users", User.GetAll());
+                return View["Admin/users.cshtml", model];
             };
         }
     }

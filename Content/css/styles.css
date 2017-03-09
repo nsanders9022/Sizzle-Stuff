@@ -328,4 +328,9 @@ div.topper {
     height: auto;
 }
 
+.checkoutimage {
+    height: 100px;
+    width: auto;
+}
+
 /*=============================================ADMIN VIEWS STYLING END=============================================*/

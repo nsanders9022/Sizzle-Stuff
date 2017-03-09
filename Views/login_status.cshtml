@@ -8,6 +8,9 @@
 }
 else
 {
-    <h1>Welcome @Model["user"].GetFirstName()!!!</h1>
-    <h2><a href="/">Start shopping</a></h2>
+    <h1 class="signin_header">Welcome @Model["user"].GetFirstName()!!!</h1>
+
+    <form action="/">
+        <button type="submit" name="button" class="btn btn-success">Start shopping</button>
+    </form>
 }

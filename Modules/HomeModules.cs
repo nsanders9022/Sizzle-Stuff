@@ -109,7 +109,11 @@ namespace OnlineStore
                 Dictionary<string,object> model = ModelMaker();
                 User newUser = (User)model["user"];
                 newUser.Checkout();
-                return View["success.cshtml", newUser];
+                Profile mainProfile = newUser.GetProfiles()[0];
+                model.Add("user", newUser);
+                model.Add("mainProfile", mainProfile);
+
+                return View["success.cshtml", model];
             };
 
             Get["/product/delete/{id}"] = parameters => {
@@ -134,7 +138,6 @@ namespace OnlineStore
                 User newUser = (User)model["user"];
                 Product updateProduct = Product.Find(Request.Form["product-id"]);
                 CartProduct newCartProduct = new CartProduct(newUser.GetId(), updateProduct.GetId(), 0);
-                newCartProduct.Save();
                 newCartProduct.UpdateQuantity(Request.Form["new-quantity"]);
                 List<Product> userProducts = newUser.GetCart();
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();

@@ -47,45 +47,35 @@
                 <form class="" action="index.html" method="post">
 
                 </form>
-                <div class="col-xs-4">
-
-                </div>
+                @Html.Partial("/Shared/addtocart.cshtml", Model)
             </div>
             <p>@Model["product"].GetDescription()</p>
+            <p>Categories: </p>
+            @if(@Model["product"].GetCategories().Count == 0)
+            {
+                <p class="indent">There are no categories.</p>
+            }
+            else
+            {
+                @foreach(var category in @Model["product"].GetCategories())
+                {
+                    <p class="indent">@category.GetName()</p>
+                }
+            }
+            <p>Reviews: </p>
+            @if (@Model["product"].GetProductReview().Count == 0)
+            {
+                <p class="indent">There are no reviews for this product</p>
+            }
+            else
+            {
+                @foreach(var review in @Model["product"].GetProductReview())
+                {
+                    <p class="indent">@review.GetReviewText()</p>
+                }
+            }
+            <p><a href="/">Return home</a></p>
         </div>
     </div>
 
-    <h1>@Model["product"].GetName()</h1>
-    <h2>Price: $@Model["product"].GetPrice()</h2>
-    <h2>Description: @Model["product"].GetDescription()</h2>
-
-    <h2>Categories: </h2>
-    @if(@Model["product"].GetCategories().Count == 0)
-    {
-        <h3>There are no categories.</h3>
-    }
-    else
-    {
-        @foreach(var category in @Model["product"].GetCategories())
-        {
-            <h3>@category.GetName()</h3>
-        }
-    }
-
-    <h2>Reviews: </h2>
-    @if (@Model["product"].GetProductReview().Count == 0)
-    {
-        <h3>There are no reviews for this product</h3>
-    }
-    else
-    {
-        @foreach(var review in @Model["product"].GetProductReview())
-        {
-            <h2>@review.GetReviewText()</h2>
-        }
-    }
-
-    <h2>Rating: @Model["product"].GetRating()</h2>
-
-    <p><a href="/">Return home</a></p>
-    </div>
+</div>

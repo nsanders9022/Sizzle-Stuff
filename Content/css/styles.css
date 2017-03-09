@@ -308,4 +308,34 @@ ul.individual-product {
 div.topper {
     height: 60px;
 }
+
+.indent {
+    padding-left: 5px;
+}
+
+.signin_header {
+    text-align: center;
+    font-size: 36px;
+    /*font-weight: bold;*/
+}
+
+.signin-button {
+    margin-top: 10px;
+}
+
+.icon {
+    width: 30px;
+    height: auto;
+}
+
+.checkoutimage {
+    height: 100px;
+    width: auto;
+}
+
+/*#trash {
+    padding-top: 10px;
+}*/
+
+
 /*=============================================ADMIN VIEWS STYLING END=============================================*/

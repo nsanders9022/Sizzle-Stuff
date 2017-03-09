@@ -3,3 +3,119 @@
 }
 
 @*  InDIVIDUAL PRODUCT VIEW*@
+<div class="container">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h3>@Model["product"].GetName()</h3>
+                    </div>
+                    <div class="col-md-3">
+                        <form class="" action="/admin/products/@Model["product"].GetId()" method="post">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button class="btn btn-warning" type="submit" name="button">Delete Product</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <ul class="individual-product">
+                    <div class="well">
+                        <div class="col-md-4">
+                            <li>Product Number: @Model["product"].GetId()</li>
+                        </div>
+                        <div class="col-md-8">
+                            <li>Description: @Model["product"].GetDescription()</li>
+                        </div>
+                        <hr />
+                    </div>
+                    <li>Price: @Model["product"].GetPrice()</li>
+                    <li>Amount in Inventory: @Model["product"].GetCount()</li>
+                    <li>Current Rating: @Model["product"].GetRating()</li>
+                    <hr />
+                    <li>
+                        <button class="btn btn-success single-edit-button" type="button">Edit</button>
+                        <button class="btn btn-danger single-cancel-button" type="button" name="button">Cancel Edits</button>
+                    </li>
+                </ul>
+                <div class="edit-values-product">
+                    <form id="alter-product-@Model["product"].GetId()" action="/admin/products/@Model["product"].GetId()" method="post">
+                        <input type="hidden" name="_method" value="PATCH">
+                        <div>
+                            <label for="update-product-name">Name:</label>
+                            <input class="form-control" type="text" name="update-product-name" value="@Model["product"].GetName()">
+                        </div>
+                        <div>
+                            <label for="update-product-description">Description:</label>
+                            <input class="form-control" type="text" name="update-product-description" value="@Model["product"].GetDescription()">
+                        </div>
+                        <div>
+                            <label for="update-product-price">Price:</label>
+                            <input class="form-control" type="number" name="update-product-price" value="@Model["product"].GetPrice()">
+                        </div>
+                        <div>
+                            <label for="update-product-count">Inventory Count:</label>
+                            <input class="form-control" type="number" name="update-product-count" value="@Model["product"].GetCount()">
+                        </div>
+                        <div>
+                            <label for="update-product-rating">Rating:</label>
+                            <input class="form-control" type="number" name="update-product-rating" value="@Model["product"].GetRating()">
+                        </div>
+                        <div>
+                            <hr />
+                            <a href="/admin/products/@Model["product"].GetId()"><button class="btn btn-success" type="submit">Save Changes</button></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading manager-heading">
+                Photo Manager
+            </div>
+            <div class="panel-body manager-body">
+                @if(Model["product"].GetPictures().Count != 0)
+                {
+                    @foreach(var photo in @Model["product"].GetPictures())
+                    {
+                        <img src="@photo.GetPictureKey()" alt="@photo.GetAltText()">
+                        <form action="/admin/product/photos/@photo.GetId()" method="post">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" name="button">Delete Photo</button>
+                        </form>
+                    }
+                }
+                <hr />
+                <div class="photo-uploader">
+                    <form class="" action="/admin/product/@Model["product"].GetId()/photos" method="post">
+                        <label for="new-photo-url">Add a new photo from URL</label>
+                        <input type="text" name="new-photo-url">
+                        <label for="new-photo-alt-text">Name for the new photo</label>
+                        <input type="text" name="new-photo-name">
+                        <label for="new-photo-alt-text">Description for the new Photo</label>
+                        <input type="text" name="new-photo-alt-text">
+                        <button type="submit" name="button">Add Photo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading manager-heading">
+                Review Manager
+            </div>
+            <div class="panel-body manager-body">
+                @if(Model["product"].GetProductReview().Count != 0)
+                {
+                    @foreach(var review in @Model["product"].GetProductReview())
+                    {
+                        <p>@review.GetReviewText()</p>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

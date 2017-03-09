@@ -22,7 +22,10 @@
         <div class="col-md-7 picture-box">
             <div class="row">
                 <div class="background-cover-image picture-box">
-                    <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+                    @if(Model["product"].GetPictures().Count != 0)
+                    {
+                        <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+                    }
                 </div>
             </div>
         </div>

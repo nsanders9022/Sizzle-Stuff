@@ -11,6 +11,25 @@
         <title>Admin Pages</title>
     </head>
     <body>
+        <div class="topper">
+
+        </div>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    <li><a href="/admin">Admin Home</a></li>
+                    <li><a href="/admin/products">Product View</a></li>
+                    <li><a href="/admin/users">User View</a></li>
+                    <li><a href="/admin/activity-log">Activity Log</a></li>
+                </ul>
+                <form class="navbar-form navbar-left" action="/admin/search" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="search-bar" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+        </nav>
         @RenderBody()
     </body>
 </html>

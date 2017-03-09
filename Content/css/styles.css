@@ -241,6 +241,32 @@ td.price-column h3 {
     margin: 0 auto;
 }
 
+/*=============================================ADMIN VIEWS STYLING BEGIN=============================================*/
 tr.edit-values {
     display: none;
 }
+
+.edit-values-product label {
+    padding-top: 5px;
+}
+
+div.edit-values-product, .single-cancel-button {
+    display: none;
+}
+
+div.manager-heading {
+    cursor: pointer;
+}
+
+div.manager-body {
+    display: none;
+}
+
+ul.individual-product {
+    list-style: none;
+}
+
+div.topper {
+    height: 60px;
+}
+/*=============================================ADMIN VIEWS STYLING END=============================================*/

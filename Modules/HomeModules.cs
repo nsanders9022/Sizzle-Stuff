@@ -152,12 +152,11 @@ namespace OnlineStore
             Post["/clear_cart"] = _ => {
                 Dictionary<string,object> model = ModelMaker();
                 User newUser = (User)model["user"];
+                newUser.EmptyCart();
                 List<Product> userProducts = newUser.GetCart();
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
-                newUser.EmptyCart();
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
-                model.Add("user", newUser);
                 return View["checkout.cshtml", model];
             };
             // =====================BEGIN ADMIN VIEWS=========================================

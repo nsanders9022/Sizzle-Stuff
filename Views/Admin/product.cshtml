@@ -81,8 +81,11 @@
                 {
                     @foreach(var photo in @Model["product"].GetPictures())
                     {
-                        <img src="@photo.GetPictureKey()" alt="@photo.GetAltText()">
-                        <form action="/admin/product/photos/@photo.GetId()" method="post">
+                        <img src="/@photo.GetPictureKey()" alt="@photo.GetAltText()">
+                        <p>
+                            The key is @photo.GetPictureKey()
+                        </p>
+                        <form action="/admin/product/@Model["product"].GetId()/photos/@photo.GetId()" method="post">
                             <input type="hidden" name="_method" value="DELETE">
                             <button type="submit" name="button">Delete Photo</button>
                         </form>

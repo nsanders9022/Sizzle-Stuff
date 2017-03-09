@@ -23,6 +23,7 @@ namespace OnlineStore
                 Dictionary<string,object> model = new Dictionary<string, object>();
                 List<Category> allCategories = Category.GetAll();
                 List<Product> allProducts = Product.GetAll();
+                // User newUser = User.FindUserByName(Request.Form["user-name"], Request.Form["password"]);
                 model.Add("categories", allCategories);
                 model.Add("products", allProducts);
                 return View["index.cshtml", model];

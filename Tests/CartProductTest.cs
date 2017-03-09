@@ -51,7 +51,7 @@ namespace OnlineStore.Objects
         Assert.Equal(expectedResult, actualResult);
       }
 
-      
+
 
       //clears all rows in table
       public void Dispose()
@@ -74,6 +74,20 @@ namespace OnlineStore.Objects
 
         //Assert
         Assert.Equal(testCartProduct, foundCartProduct);
+      }
+
+      [Fact]
+      public void UpdateQuantity_ChangesCartProductQuantity_void()
+      {
+          CartProduct testCartProduct = new CartProduct(2,2,2);
+          testCartProduct.Save();
+
+          testCartProduct.UpdateQuantity(5);
+
+          int expectedResult = 5;
+          int actualResult = testCartProduct.GetQuantity();
+
+          Assert.Equal(expectedResult, actualResult);
       }
 
     }

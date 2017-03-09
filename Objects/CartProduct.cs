@@ -42,6 +42,11 @@ namespace OnlineStore.Objects
             return _quantity;
         }
 
+        public void SetQuantity(int newQuantity)
+        {
+            _quantity = newQuantity;
+        }
+
         public override bool Equals(System.Object otherCartProduct)
         {
             if (!(otherCartProduct is CartProduct))
@@ -136,6 +141,27 @@ namespace OnlineStore.Objects
             CartProduct foundCartProduct = new CartProduct(userId, productId, quantity, cartProductId);
             DB.CloseSqlConnection(conn, rdr);
             return foundCartProduct;
+        }
+
+        public void UpdateQuantity(int newNumber)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE cart_products SET quantity = @NewNumber OUTPUT INSERTED.quantity WHERE user_id = @UserId and product_id = @ProductId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@NewNumber", newNumber.ToString()));
+            cmd.Parameters.Add(new SqlParameter("@UserId", this.GetUserId().ToString()));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", this.GetProductId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                this.SetQuantity(rdr.GetInt32(0));
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
         }
 
 

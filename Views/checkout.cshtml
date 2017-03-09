@@ -26,7 +26,18 @@
                     <td>@Model["userCartProducts"][i].GetQuantity()</td>
                     <td>
                         <form action = '/product/delete/@Model["userProducts"][@i].GetId()'>
-                            <button name="submit" class="btn btn-lg btn-primary" type="submit">Delete</button>
+                            <button name="submit" class="btn btn-primary" type="submit">Remove from cart</button>
+                        </form>
+                        <form action = '/product/update_quantity/@Model["userProducts"][@i].GetId()'>
+                            <input type="hidden" name="_method" value="PATCH">
+                            <input  name='product-id' type='hidden' value='@Model["userProducts"][@i].GetId()'>
+                            <button name="submit" class="btn btn-primary" type="submit">Update quantity</button>
+                            <select name="new-quantity">
+                            @for(int j = 1; j <= @Model["userProducts"].Count; j++ )
+                            {
+                                <option value="@j">@j</option>
+                            }
+                            </select>
                         </form>
                     </td>
                 </tr>

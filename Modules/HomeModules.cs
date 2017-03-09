@@ -125,16 +125,16 @@ namespace OnlineStore
             };
 
             Get["/product/delete/{id}"] = parameters => {
-                CartProduct SelectedProduct = CartProduct.Find(parameters.id);
+                Product SelectedProduct = Product.Find(parameters.id);
                 return View["product_delete.cshtml", SelectedProduct];
             };
 
             Delete["product/deleted/{id}"] = parameters => {
-                CartProduct SelectedProduct = CartProduct.Find(parameters.id);
-
                 Dictionary<string,object> model = new Dictionary<string, object>();
                 List<Category> allCategories = Category.GetAll();
                 User newUser = User.Find(1);
+                Product deletedProduct = Product.Find(parameters.id);
+                newUser.DeleteItem(deletedProduct.GetId());
                 List<Product> userProducts = newUser.GetCart();
                 Console.WriteLine(userProducts.Count);
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();

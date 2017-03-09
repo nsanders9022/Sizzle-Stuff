@@ -22,7 +22,7 @@
         <div class="col-md-7 picture-box">
             <div class="row">
                 <div class="background-cover-image picture-box">
-                    <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+                    <img class="picture-box" src="/@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
             <h2>@Model["product"].GetName()</h2>
             <div class="row rating-container">
                 <div class="col-xs-6 review-count">
-                    @Html.Partial("/Shared/rating_stars.cshtml", Model)
+                    @Html.Partial("/Shared/rating_stars_ind.cshtml", Model)
                 </div>
                 <div class="col-xs-6 review-count">
                     <a href="#">@Model["product"].GetProductReview().Count Reviews</a>
@@ -39,7 +39,7 @@
 
             <div class="row">
                 <div class="col-xs-4">
-                    <span class="price">$@Model["product"].GetPrice()</span>
+                    <h4>$@Model["product"].GetPrice()</h4>
                 </div>
                 <form class="" action="index.html" method="post">
 
@@ -47,7 +47,7 @@
                 @Html.Partial("/Shared/addtocart.cshtml", Model)
             </div>
             <p>@Model["product"].GetDescription()</p>
-            <p>Categories: </p>
+            <h4>Categories: </h4>
             @if(@Model["product"].GetCategories().Count == 0)
             {
                 <p class="indent">There are no categories.</p>
@@ -59,7 +59,7 @@
                     <p class="indent">@category.GetName()</p>
                 }
             }
-            <p>Reviews: </p>
+            <h4>Reviews: </h4>
             @if (@Model["product"].GetProductReview().Count == 0)
             {
                 <p class="indent">There are no reviews for this product</p>

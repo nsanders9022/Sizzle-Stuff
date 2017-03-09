@@ -2,16 +2,15 @@
     Layout="Shared/_Layout.cshtml";
 }
 
-@if (@Model == null)
+@if (@Model["user"] == null)
 {
     <h3>Log in failed. Please <a href="/log_in">try again </a> or <a href="/sign_up">create a new account</a>.</h3>
 }
 else
 {
-    <h1 class="signin_header">Welcome</h1>
+    <h1 class="signin_header">Welcome @Model["user"].GetFirstName()!!!</h1>
 
     <form action="/">
         <button type="submit" name="button" class="btn btn-success">Start shopping</button>
     </form>
-
 }

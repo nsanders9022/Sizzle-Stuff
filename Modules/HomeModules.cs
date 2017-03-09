@@ -12,7 +12,8 @@ namespace OnlineStore
         {
             Dictionary<string, object> model = new Dictionary<string, object> {
                 {"products", Product.GetAll()},
-                {"categories", Category.GetAll()}
+                {"categories", Category.GetAll()},
+                {"user", User.currentUser}
             };
             return model;
         }
@@ -20,20 +21,12 @@ namespace OnlineStore
         public HomeModule()
         {
             Get["/"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                List<Product> allProducts = Product.GetAll();
-                model.Add("categories", allCategories);
-                model.Add("products", allProducts);
+                Dictionary<string, object> model = ModelMaker();
                 return View["index.cshtml", model];
             };
 
             Post["/"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                List<Product> allProducts = Product.GetAll();
-                model.Add("categories", allCategories);
-                model.Add("products", allProducts);
+                Dictionary<string, object> model = ModelMaker();
                 return View["index.cshtml", model];
             };
 
@@ -51,85 +44,73 @@ namespace OnlineStore
                 newUser.Save();
                 Profile newProfile = new Profile(newUser.GetId(), Request.Form["street"], Request.Form["city"], Request.Form["state"], Request.Form["zip-code"], Request.Form["phone-number"]);
                 newProfile.Save();
-                return View["login_status.cshtml", newUser];
+                User.SetCurrentUser(newUser);
+                Dictionary<string, object> model = ModelMaker();
+                return View["login_status.cshtml", model];
             };
 
             Post["/signed_in"] = _ => {
                 User findUser = User.FindUserByName(Request.Form["user-name"], Request.Form["password"]);
-                return View["login_status.cshtml", findUser];
+                Dictionary<string, object> model = ModelMaker();
+                if(findUser == null)
+                {
+                    model["user"] = null;
+                }
+                else
+                {
+                    User.SetCurrentUser(findUser);
+                    model["user"] = findUser;
+                }
+                return View["login_status.cshtml", model];
             };
-            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
-            Get["/product/{id}"] = parameters=> {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                List<Product> allProducts = Product.GetAll();
-                User newUser = User.Find(1);
+
+            Get["/product/{id}"] = parameters => {
+                Dictionary<string,object> model = ModelMaker();
                 Product newProduct = Product.Find(parameters.id);
-                model.Add("categories", allCategories);
-                model.Add("products", allProducts);
                 model.Add("product", newProduct);
-                model.Add("user", newUser);
                 return View["product.cshtml", model];
             };
 
-            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Post["/confirmation"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                List<Product> allProducts = Product.GetAll();
-                User newUser = User.Find(1);
+                Dictionary<string,object> model = ModelMaker();
                 Product addedProduct = Product.Find(Request.Form["product-id"]);
-                CartProduct currentCartProduct = new CartProduct(addedProduct.GetId(), newUser.GetId(), Request.Form["quantity"]);
+                CartProduct currentCartProduct = new CartProduct(((User)model["user"]).GetId(), addedProduct.GetId(), Request.Form["quantity"]);
                 currentCartProduct.Save();
-                model.Add("categories", allCategories);
-                model.Add("products", allProducts);
                 model.Add("product", addedProduct);
-                model.Add("user", newUser);
                 model.Add("currentCartProduct", currentCartProduct);
                 return View["confirmation.cshtml", model];
             };
 
-            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Post["/product_added"] = _ => {
-                return View["index.cshtml", ModelMaker()];
+                Dictionary<string, object> model = ModelMaker();
+                return View["index.cshtml", model];
             };
 
             // This view adds products to the database
             Post["/products"] = _ => {
                 Product newProduct = new Product(Request.Form["product-name"], Request.Form["product-count"], Request.Form["product-rating"], Request.Form["product-price"], Request.Form["product-description"]);
                 newProduct.Save();
-                return View["index.cshtml", ModelMaker()];
+                Dictionary<string, object> model = ModelMaker();
+                return View["index.cshtml", model];
             };
 
-            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Get["/checkout"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
+                Dictionary<string,object> model = ModelMaker();
+                User currentUser = (User)model["user"];
                 List<Category> allCategories = Category.GetAll();
-                User newUser = User.Find(1);
-                List<Product> userProducts = newUser.GetCart();
-                List<CartProduct> userCartProducts = newUser.GetCartProducts();
-
-                // Product newProduct = Product.Find(parameters.id);
-                //
-                // model.Add("product", newProduct);
-
-
-
+                List<Product> userProducts = currentUser.GetCart();
+                List<CartProduct> userCartProducts = currentUser.GetCartProducts();
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
-                model.Add("user", newUser);
                 return View["checkout.cshtml", model];
             };
 
-            //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Post["/success"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                User newUser = User.Find(1);
+                Dictionary<string,object> model = ModelMaker();
+                User newUser = (User)model["user"];
                 newUser.Checkout();
                 Profile mainProfile = newUser.GetProfiles()[0];
-                model.Add("user", newUser);
-                model.Add("mainProfile", mainProfile);
-
+                model.Add("mainProfile", newUser.GetProfiles()[0]);
                 return View["success.cshtml", model];
             };
 
@@ -139,33 +120,27 @@ namespace OnlineStore
             };
 
             Delete["product/deleted/{id}"] = parameters => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                User newUser = User.Find(1);
-                Product deletedProduct = Product.Find(parameters.id);
-                newUser.DeleteItem(deletedProduct.GetId());
+                Dictionary<string,object> model = ModelMaker();
+                User newUser = (User)model["user"];
+                newUser.DeleteItem(parameters.id);
                 List<Product> userProducts = newUser.GetCart();
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
-                model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
-                model.Add("user", newUser);
                 return View["checkout.cshtml", model];
             };
 
+// This looks like it will actually create an entirely new cartProduct, instead of updating an existing one?
             Patch["product/update_quantity"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                User newUser = User.Find(1);
+                Dictionary<string,object> model = ModelMaker();
+                User newUser = (User)model["user"];
                 Product updateProduct = Product.Find(Request.Form["product-id"]);
                 CartProduct newCartProduct = new CartProduct(newUser.GetId(), updateProduct.GetId(), 0);
                 newCartProduct.UpdateQuantity(Request.Form["new-quantity"]);
                 List<Product> userProducts = newUser.GetCart();
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
-                model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
-                model.Add("user", newUser);
                 return View["checkout.cshtml", model];
             };
 
@@ -175,14 +150,11 @@ namespace OnlineStore
             };
 
             Post["/clear_cart"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                User newUser = User.Find(1);
+                Dictionary<string,object> model = ModelMaker();
+                User newUser = (User)model["user"];
                 List<Product> userProducts = newUser.GetCart();
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
-                newUser.GetCartProducts();
                 newUser.EmptyCart();
-                model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
                 model.Add("user", newUser);

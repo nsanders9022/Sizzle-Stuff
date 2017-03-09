@@ -15,6 +15,8 @@ namespace OnlineStore.Objects
         private string _username;
         private bool _adminPrivileges;
 
+        public static User currentUser = new User("default", "default", "default", "default", false, 0);
+
         public User (string firstName, string lastName, string username, string password, bool adminPrivileges, int id = 0)
         {
             _id = id;
@@ -23,6 +25,11 @@ namespace OnlineStore.Objects
             _password = password;
             _username = username;
             _adminPrivileges = adminPrivileges;
+        }
+
+        public static void SetCurrentUser(User newUser)
+        {
+            currentUser = newUser;
         }
 
         public int GetId()
@@ -38,10 +45,19 @@ namespace OnlineStore.Objects
         {
             return _firstName;
         }
+        public void SetFirstName(string newFirstName)
+        {
+            _firstName = newFirstName;
+        }
 
         public string GetLastName()
         {
             return _lastName;
+        }
+
+        public void SetLastName(string newLastName)
+        {
+            _lastName = newLastName;
         }
 
         public string GetUsername()
@@ -49,9 +65,19 @@ namespace OnlineStore.Objects
             return _username;
         }
 
+        public void SetUsername(string newUsername)
+        {
+            _username = newUsername;
+        }
+
         public string GetPassword()
         {
             return _password;
+        }
+
+        public void SetPassword(string newPassword)
+        {
+            _password = newPassword;
         }
 
         public bool GetAdminPrivileges()
@@ -59,15 +85,12 @@ namespace OnlineStore.Objects
             return _adminPrivileges;
         }
 
-        public void SetFirstName(string newFirstName)
+        public void SetAdminPrivileges(bool newPriv)
         {
-            _firstName = newFirstName;
+            _adminPrivileges = newPriv;
         }
 
-        public void SetLastName(string newLastName)
-        {
-            _lastName = newLastName;
-        }
+
 
         public static List<User> GetAll()
         {

@@ -24,6 +24,14 @@
                             <input class="form-control" type="number" name="product-count" placeholder="Count">
                             <input class="form-control" type="number" name="product-rating" placeholder="Product Rating">
                             <hr />
+                            <label for="product-category">Select a Category</label>
+                            <select class="form-control" name="product-category">
+                                @foreach(var category in Model["categories"])
+                                {
+                                    <option value="@category.GetId()">@category.GetName()</option>
+                                }
+                            </select>
+                            <hr />
                             <button class="btn btn-success" type="submit" name="button">Add Product</button>
                         </form>
                     </div>

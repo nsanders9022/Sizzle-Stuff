@@ -2,7 +2,16 @@
     Layout="Shared/_Layout.cshtml";
 }
 
-<h1>Thank you for your purchase @Model.GetFirstName()</h1>
-<h2>You have successfully ordered your products and they will be shipped to you in 3-5 business days</h2>
+<h1>Thank you for your purchase @Model["user"].GetFirstName()</h1>
+<h3>You have successfully ordered your products and they will be shipped to you in 3-5 business days</h3>
+
+<h3>Shipping address and contact information</h3>
+<h4>First Name: @Model["user"].GetFirstName()</h4>
+<h4>Last Name: @Model["user"].GetLastName()</h4>
+<h4>Street: @Model["mainProfile"].GetStreet()</h4>
+<h4>City: @Model["mainProfile"].GetCity()</h4>
+<h4>State: @Model["mainProfile"].GetState()</h4>
+<h4>Zip code: @Model["mainProfile"].GetZipCode()</h4>
+<h4>Phone number: @Model["mainProfile"].GetPhoneNumber()</h4>
 
 <p><a href="/">Return home</a></p>

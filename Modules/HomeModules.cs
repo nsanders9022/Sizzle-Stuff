@@ -119,7 +119,11 @@ namespace OnlineStore
                 Dictionary<string,object> model = new Dictionary<string, object>();
                 User newUser = User.Find(1);
                 newUser.Checkout();
-                return View["success.cshtml", newUser];
+                Profile mainProfile = newUser.GetProfiles()[0];
+                model.Add("user", newUser);
+                model.Add("mainProfile", mainProfile);
+
+                return View["success.cshtml", model];
             };
 
             Get["/product/delete/{id}"] = parameters => {
@@ -170,12 +174,12 @@ namespace OnlineStore
                 List<Product> userProducts = newUser.GetCart();
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
                 newUser.GetCartProducts();
+                newUser.EmptyCart();
                 model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
                 model.Add("user", newUser);
-                newUser.EmptyCart();
-                return View["checkout.cshtml", ModelMaker()];
+                return View["checkout.cshtml", model];
             };
             // =====================BEGIN ADMIN VIEWS=========================================
 

@@ -2,16 +2,21 @@
     Layout="Shared/_Layout.cshtml";
 }
 
-<h1>Thank you for your purchase @Model["user"].GetFirstName()</h1>
+<h1 class="signin_header">Thank you for your purchase, @Model["user"].GetFirstName()</h1>
 <h3>Your order will be shipped to you in 3-5 business days</h3>
 
 <h3>Shipping address and contact information</h3>
-<h4>First Name: @Model["user"].GetFirstName()</h4>
-<h4>Last Name: @Model["user"].GetLastName()</h4>
-<h4>Street: @Model["mainProfile"].GetStreet()</h4>
-<h4>City: @Model["mainProfile"].GetCity()</h4>
-<h4>State: @Model["mainProfile"].GetState()</h4>
-<h4>Zip code: @Model["mainProfile"].GetZipCode()</h4>
-<h4>Phone number: @Model["mainProfile"].GetPhoneNumber()</h4>
 
-<p><a href="/">Return home</a></p>
+<div class="row">
+    <div class="col-md-4">
+        <h4><strong>First Name:</strong> @Model["user"].GetFirstName()</h4>
+        <h4><strong>Last Name:</strong> @Model["user"].GetLastName()</h4>
+        <h4><strong>Phone number:</strong> @Model["mainProfile"].GetPhoneNumber()</h4>
+    </div>
+    <div class="col-md-4">
+        <h4><strong>Street:</strong> @Model["mainProfile"].GetStreet()</h4>
+        <h4><strong>City:</strong> @Model["mainProfile"].GetCity()</h4>
+        <h4><strong>State:</strong> @Model["mainProfile"].GetState()</h4>
+        <h4><strong>Zip code:</strong> @Model["mainProfile"].GetZipCode()</h4>
+    </div>
+</div>

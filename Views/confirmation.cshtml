@@ -2,14 +2,16 @@
     Layout="Shared/_Layout.cshtml";
 }
 
-<h2>@Model["product"].GetName() has been added to your cart.</h2>
 
-<form action="/product_added" method="post">
-    <button type="submit" name="button" class="btn btn-info">Keep shopping</button>
-</form>
-
-<form action="/checkout">
-    <button type="submit" name="button" class="btn btn-info">Check out</button>
-</form>
-
-<p><a href="/">Return home</a></p>
+<div class="row">
+    <h2>@Model["product"].GetName() has been added to your cart.</h2>
+    <div class="col-md-1">
+        <form action="/product_added" method="post">
+            <button type="submit" name="button" class="btn btn-success">Keep shopping</button>
+        </form>
+    </div>
+    <div class="col-md-1">
+        <form action="/checkout">
+            <button type="submit" name="button" class="btn btn-warning">Check out</button>
+        </form>
+    </div>

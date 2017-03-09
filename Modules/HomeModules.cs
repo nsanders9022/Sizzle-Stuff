@@ -55,13 +55,20 @@ namespace OnlineStore
                 if(findUser == null)
                 {
                     model["user"] = null;
+                    return View["login_status.cshtml", model];
+                }
+                else if(findUser.GetAdminPrivileges() == true)
+                {
+                    User.SetCurrentUser(findUser);
+                    model["user"] = findUser;
+                    return View["Admin/index.cshtml", model];
                 }
                 else
                 {
                     User.SetCurrentUser(findUser);
                     model["user"] = findUser;
+                    return View["login_status.cshtml", model];
                 }
-                return View["login_status.cshtml", model];
             };
 
             Get["/product/{id}"] = parameters => {
@@ -146,18 +153,19 @@ namespace OnlineStore
 
             // Dummy Search page for table sorting testing
             Post["/search"] = _ => {
-                return View["search.cshtml", ModelMaker()];
+                Dictionary<string, object> model = ModelMaker();
+                model["products"] = Product.SearchProductByName(Request.Form["search-bar"]);
+                return View["search.cshtml", model];
             };
 
             Post["/clear_cart"] = _ => {
                 Dictionary<string,object> model = ModelMaker();
                 User newUser = (User)model["user"];
+                newUser.EmptyCart();
                 List<Product> userProducts = newUser.GetCart();
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
-                newUser.EmptyCart();
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
-                model.Add("user", newUser);
                 return View["checkout.cshtml", model];
             };
             // =====================BEGIN ADMIN VIEWS=========================================

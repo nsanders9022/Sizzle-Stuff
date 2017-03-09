@@ -312,4 +312,11 @@ div.topper {
 .indent {
     padding-left: 5px;
 }
+
+.signin_header {
+    text-align: center;
+    font-size: 36px;
+    /*font-weight: bold;*/
+}
+
 /*=============================================ADMIN VIEWS STYLING END=============================================*/

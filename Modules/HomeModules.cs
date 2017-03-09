@@ -13,34 +13,20 @@ namespace OnlineStore
             Dictionary<string, object> model = new Dictionary<string, object> {
                 {"products", Product.GetAll()},
                 {"categories", Category.GetAll()},
-                {"user", User.Find(1)}
+                {"user", User.currentUser}
             };
             return model;
-        }
-
-        Dictionary<string, object> DefaultModel = new Dictionary<string, object> {
-            {"products", Product.GetAll()},
-            {"categories", Category.GetAll()},
-            {"user", User.Find(1)}
-        };
-
-        public Dictionary<string, object> ModelUpdate()
-        {
-            User currentUser = (User)DefaultModel["user"];
-            DefaultModel = ModelMaker();
-            DefaultModel["user"] = currentUser;
-            return DefaultModel;
         }
 
         public HomeModule()
         {
             Get["/"] = _ => {
-                Dictionary<string, object> model = ModelUpdate();
+                Dictionary<string, object> model = ModelMaker();
                 return View["index.cshtml", model];
             };
 
             Post["/"] = _ => {
-                Dictionary<string, object> model = ModelUpdate();
+                Dictionary<string, object> model = ModelMaker();
                 return View["index.cshtml", model];
             };
 
@@ -58,16 +44,23 @@ namespace OnlineStore
                 newUser.Save();
                 Profile newProfile = new Profile(newUser.GetId(), Request.Form["street"], Request.Form["city"], Request.Form["state"], Request.Form["zip-code"], Request.Form["phone-number"]);
                 newProfile.Save();
-                Dictionary<string, object> model = ModelUpdate();
-                model["user"] = newUser;
+                User.SetCurrentUser(newUser);
+                Dictionary<string, object> model = ModelMaker();
                 return View["login_status.cshtml", newUser];
             };
 
             Post["/signed_in"] = _ => {
                 User findUser = User.FindUserByName(Request.Form["user-name"], Request.Form["password"]);
-                Dictionary<string, object> model = DefaultModel;
-                model["user"] = findUser;
-                ModelUpdate();
+                Dictionary<string, object> model = ModelMaker();
+                if(findUser == null)
+                {
+                    model["user"] = null;
+                }
+                else
+                {
+                    User.SetCurrentUser(findUser);
+                    model["user"] = findUser;
+                }
                 return View["login_status.cshtml", model];
             };
             //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!

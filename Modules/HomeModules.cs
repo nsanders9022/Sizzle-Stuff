@@ -218,9 +218,19 @@ namespace OnlineStore
 
             Post["/admin/product/{id}/photos"] = parameters => {
                 Picture newPicture =  Picture.UploadPicture(Request.Form["new-photo-url"], parameters.id, Request.Form["new-photo-name"], Request.Form["new-photo-alt-text"]);
+                newPicture.Save();
+                Product currentProduct = Product.Find(parameters.id);
+                currentProduct.AddPicture(newPicture);
                 Dictionary<string, object> model = ModelMaker();
-                model.Add("product", Product.Find(parameters.id));
+                model.Add("product", currentProduct);
                 return View["Admin/product", model];
+            };
+
+            Delete["/admin/product/{productId}/photos/{photoId}"] = parameters => {
+              Picture.Find(parameters.photoId).Delete();
+              Dictionary<string, object> model = ModelMaker();
+              model.Add("product", Product.Find(parameters.productId));
+              return View["Admin/product.cshtml", model];
             };
 
             Post["/admin/search"] = _ => {

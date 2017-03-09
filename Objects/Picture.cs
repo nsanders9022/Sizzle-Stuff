@@ -164,7 +164,7 @@ namespace OnlineStore.Objects
         {
             string fileExtension = Picture.ParseFileType(pictureURL);
             string fullFileName = productId.ToString() + "_" + fileName + fileExtension;
-            string picturePath = "\\Content\\img\\products\\" + fullFileName;
+            string picturePath = "Content\\img\\products\\" + fullFileName;
             // Path to pass tests below
             // string picturePath = "C:\\Users\\epicodus\\Desktop\\online_store\\Content\\img\\products\\" + fullFileName;
             WebClient newWebClient = new WebClient();

@@ -23,7 +23,7 @@
                         <p>@product.GetDescription()</p>
                     </td>
                     <td class="rating-column">
-                        @Html.Partial("/Shared/rating_stars.cshtml", Model)
+                          @Html.Partial("/Shared/rating_stars.cshtml", Model)<br><br>
                         <p><a href="#">See Reviews</a></p>
                     </td>
                     <td class="price-column"><h3>$@product.GetPrice()</h3></td>

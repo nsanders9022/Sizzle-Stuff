@@ -8,8 +8,10 @@ h1 { font-size: 1.5em; margin: 10px; }
 
 .rating {
   border: none;
-  float: left;
+  display: block;
+  /*float: left;*/
   margin: 0 auto;
+  text-align: center;
 }
 
 .rating > input { display: none; }
@@ -28,7 +30,7 @@ h1 { font-size: 1.5em; margin: 10px; }
 
 .rating > label {
   color: #ddd;
- float: right;
+ /*float: right;*/
 }
 
 /***** CSS Magic to Highlight Stars on Hover *****/

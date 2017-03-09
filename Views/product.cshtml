@@ -18,18 +18,39 @@
         <li class="breadcrumb-item active">@Model["product"].GetName()</li>
     </ol>
 
-<div class="row">
-    <div class="col-md-7 picture-box">
-        <div class="row">
-            <div class="background-cover-image picture-box">
-                <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+    <div class="row">
+        <div class="col-md-7 picture-box">
+            <div class="row">
+                <div class="background-cover-image picture-box">
+                    <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+                </div>
             </div>
         </div>
+        <div class="col-md-5">
+            <h2>@Model["product"].GetName()</h2>
+            <div class="row rating-container">
+                <div class="col-xs-6 review-count">
+                    @Html.Partial("/Shared/rating_stars.cshtml", Model)
+                </div>
+                <div class="col-xs-6 review-count">
+                    <a href="#">@Model["product"].GetProductReview().Count Reviews</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <span class="price">$@Model["product"].GetPrice()</span>
+                </div>
+                <form class="" action="index.html" method="post">
+
+                </form>
+                <div class="col-xs-4">
+
+                </div>
+            </div>
+            <p>@Model["product"].GetDescription()</p>
+        </div>
     </div>
-    <div class="col-md-5">
-        <h2>@Model["product"].GetName()</h2>
-    </div>
-</div>
 
     <h1>@Model["product"].GetName()</h1>
     <h2>Price: $@Model["product"].GetPrice()</h2>
@@ -63,24 +84,5 @@
 
     <h2>Rating: @Model["product"].GetRating()</h2>
 
-    <form action="/confirmation" method="post">
-    <input id='product-id' name='product-id' type='hidden' value='@Model["product"].GetId()'>
-    @if(@Model["product"].GetCount() == 0)
-    {
-        <h3>Not available in stock.</h3>
-    }
-    else
-    {
-        <button type="submit" name="submit">Add To Cart</button>
-        <label for="quantity">Quantity</label>
-        <select class="product_quantity" name="quantity">
-        @for(int i = 1; i <= @Model["product"].GetCount(); i++ )
-        {
-            <option value="@i">@i</option>
-        }
-        </select>
-    }
-    </form>
-
     <p><a href="/">Return home</a></p>
-</div>
+    </div>

@@ -241,6 +241,14 @@ td.price-column h3 {
     margin: 0 auto;
 }
 
+/* PRODUCT PAGE */
+.main-content {
+    padding-left: 20px;
+}
+.picture-box {
+    padding: 10px;
+}
+
 /*=============================================ADMIN VIEWS STYLING BEGIN=============================================*/
 tr.edit-values {
     display: none;

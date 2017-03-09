@@ -4,9 +4,7 @@
 
 @if (@Model["user"] == null)
 {
-    <h3>Error, user log in failed. Please try again or sign up</h3>
-    <h4><a href="/log_in">Return to log in page</a></h4>
-    <h4><a href="/sign_up">Sign up for an account</a></h4>
+    <h3>Log in failed. Please <a href="/log_in">try again </a> or <a href="/sign_up">create a new account</a>.</h3>
 }
 else
 {

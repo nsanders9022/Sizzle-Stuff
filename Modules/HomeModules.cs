@@ -136,7 +136,6 @@ namespace OnlineStore
                 Product deletedProduct = Product.Find(parameters.id);
                 newUser.DeleteItem(deletedProduct.GetId());
                 List<Product> userProducts = newUser.GetCart();
-                Console.WriteLine(userProducts.Count);
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
                 model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
@@ -145,23 +144,22 @@ namespace OnlineStore
                 return View["checkout.cshtml", model];
             };
 
-            // Patch["product/update_quantity/{id}"] = parameters => {
-            //
-            //     Dictionary<string,object> model = new Dictionary<string, object>();
-            //     List<Category> allCategories = Category.GetAll();
-            //     User newUser = User.Find(1);
-            //     Product updateProduct = Product.Find(parameters.id);
-            //
-            //     List<Product> userProducts = newUser.GetCart();
-            //     Console.WriteLine(userProducts.Count);
-            //     List<CartProduct> userCartProducts = newUser.GetCartProducts();
-            //     model.Add("categories", allCategories);
-            //     model.Add("userProducts", userProducts);
-            //     model.Add("userCartProducts", userCartProducts);
-            //     model.Add("user", newUser);
-            //     return View["checkout.cshtml", model];
-            //
-            // }
+            Patch["product/update_quantity"] = _ => {
+                Dictionary<string,object> model = new Dictionary<string, object>();
+                List<Category> allCategories = Category.GetAll();
+                User newUser = User.Find(1);
+                Product updateProduct = Product.Find(Request.Form["product-id"]);
+                CartProduct newCartProduct = new CartProduct(newUser.GetId(), updateProduct.GetId(), 0);
+                newCartProduct.Save();
+                newCartProduct.UpdateQuantity(Request.Form["new-quantity"]);
+                List<Product> userProducts = newUser.GetCart();
+                List<CartProduct> userCartProducts = newUser.GetCartProducts();
+                model.Add("categories", allCategories);
+                model.Add("userProducts", userProducts);
+                model.Add("userCartProducts", userCartProducts);
+                model.Add("user", newUser);
+                return View["checkout.cshtml", model];
+            };
 
             // Dummy Search page for table sorting testing
             Post["/search"] = _ => {

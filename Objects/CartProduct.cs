@@ -163,7 +163,5 @@ namespace OnlineStore.Objects
 
             DB.CloseSqlConnection(conn, rdr);
         }
-
-
     }
 }

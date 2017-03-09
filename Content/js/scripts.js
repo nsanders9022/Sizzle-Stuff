@@ -96,4 +96,20 @@ $(function(){
         $(".edit-values-product").hide();
         $(".single-edit-button").show();
     });
+
+    if ($('.rating-value').length){
+        var rating = $('.rating-value').val();
+        if (rating == 5) {
+            $('#star5').attr('checked', true);
+        } else if (rating == 4) {
+            $('#star4').attr('checked', true);
+        } else if (rating == 3) {
+            $('#star3').attr('checked', true);
+        } else if (rating == 2) {
+            $('#star2').attr('checked', true);
+        } else if (rating == 1) {
+            $('#star1').attr('checked', true);
+        }
+    }
+
 });

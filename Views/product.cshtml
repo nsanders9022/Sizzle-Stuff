@@ -1,52 +1,74 @@
-<h1>@Model["product"].GetName()</h1>
-<h2>Price: $@Model["product"].GetPrice()</h2>
-<h2>Description: @Model["product"].GetDescription()</h2>
-
-<h2>Categories: </h2>
-@if(@Model["product"].GetCategories().Count == 0)
-{
-  <h3>There are no categories.</h3>
+@{
+    Layout="Shared/_Layout.cshtml";
 }
-else
-{
-  @foreach(var category in @Model["product"].GetCategories())
-  {
-    <h3>@category.GetName()</h3>
-  }
-}
+<!-- hide this if the user is logged in -->
+@* <h2><a href="/sign_up">Create an account</a></h2>
+<h2><a href="/log_in">Log in to your account</a></h2> *@
 
-<h2>Reviews: </h2>
-@if (@Model["product"].GetProductReview().Count == 0)
-{
-  <h3>There are no reviews for this product</h3>
-}
-else
-{
-  @foreach(var review in @Model["product"].GetProductReview())
-  {
-    <h2>@review.GetReviewText()</h2>
-  }
-}
 
-<h2>Rating: @Model["product"].GetRating()</h2>
+<!-- Main page here -->
+<div class="col-md-3">
+    @Html.Partial("/Shared/Categories.cshtml", Model)
+</div>
 
-<form action="/confirmation" method="post">
-  <input id='product-id' name='product-id' type='hidden' value='@Model["product"].GetId()'>
-  @if(@Model["product"].GetCount() == 0)
-  {
-    <h3>Not available in stock.</h3>
-  }
-  else
-  {
-    <button type="submit" name="submit">Add To Cart</button>
-    <label for="quantity">Quantity</label>
-    <select class="product_quantity" name="quantity">
-    @for(int i = 1; i <= @Model["product"].GetCount(); i++ )
+<div class="col-md-9">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="@Model["product"].GetCategories()[0].GetId()">@Model["product"].GetCategories()[0].GetName()</a></li>
+        <li class="breadcrumb-item active">@Model["product"].GetName()</li>
+    </ol>
+
+
+    <h1>@Model["product"].GetName()</h1>
+    <h2>Price: $@Model["product"].GetPrice()</h2>
+    <h2>Description: @Model["product"].GetDescription()</h2>
+
+    <h2>Categories: </h2>
+    @if(@Model["product"].GetCategories().Count == 0)
     {
-      <option value="@i">@i</option>
+        <h3>There are no categories.</h3>
     }
-    </select>
-  }
-</form>
+    else
+    {
+        @foreach(var category in @Model["product"].GetCategories())
+        {
+            <h3>@category.GetName()</h3>
+        }
+    }
 
-<p><a href="/">Return home</a></p>
+    <h2>Reviews: </h2>
+    @if (@Model["product"].GetProductReview().Count == 0)
+    {
+        <h3>There are no reviews for this product</h3>
+    }
+    else
+    {
+        @foreach(var review in @Model["product"].GetProductReview())
+        {
+            <h2>@review.GetReviewText()</h2>
+        }
+    }
+
+    <h2>Rating: @Model["product"].GetRating()</h2>
+
+    <form action="/confirmation" method="post">
+    <input id='product-id' name='product-id' type='hidden' value='@Model["product"].GetId()'>
+    @if(@Model["product"].GetCount() == 0)
+    {
+        <h3>Not available in stock.</h3>
+    }
+    else
+    {
+        <button type="submit" name="submit">Add To Cart</button>
+        <label for="quantity">Quantity</label>
+        <select class="product_quantity" name="quantity">
+        @for(int i = 1; i <= @Model["product"].GetCount(); i++ )
+        {
+            <option value="@i">@i</option>
+        }
+        </select>
+    }
+    </form>
+
+    <p><a href="/">Return home</a></p>
+</div>

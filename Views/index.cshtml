@@ -8,10 +8,12 @@
 
 <!-- Main page here -->
 <div class="col-md-3">
-@Html.Partial("/Shared/Categories.cshtml", Model)
+    @Html.Partial("/Shared/Categories.cshtml", Model)
 </div>
 
 <div class="col-md-9">
-@Html.Partial("/Shared/products.cshtml", Model)
-
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+    </ol>
+    @Html.Partial("/Shared/products.cshtml", Model)
 </div>

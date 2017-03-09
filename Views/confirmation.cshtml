@@ -2,16 +2,21 @@
     Layout="Shared/_Layout.cshtml";
 }
 
+<div class="col-md-3">
+    @Html.Partial("/Shared/Categories.cshtml", Model)
+</div>
 
-<div class="row">
-    <h2>@Model["product"].GetName() has been added to your cart.</h2>
-    <div class="col-md-1">
-        <form action="/product_added" method="post">
-            <button type="submit" name="button" class="btn btn-success">Keep shopping</button>
-        </form>
-    </div>
-    <div class="col-md-1">
-        <form action="/checkout">
-            <button type="submit" name="button" class="btn btn-warning">View cart</button>
-        </form>
+<div class="col-md-9">
+    <div class="row">
+        <h2>@Model["product"].GetName() has been added to your cart.</h2>
+        <div class="col-md-2">
+            <form action="/product_added" method="post">
+                <button type="submit" name="button" class="btn btn-success">Keep shopping</button>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form action="/checkout">
+                <button type="submit" name="button" class="btn btn-warning">View cart</button>
+            </form>
+        </div>
     </div>

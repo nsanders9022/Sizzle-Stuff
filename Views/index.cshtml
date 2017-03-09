@@ -2,18 +2,39 @@
     Layout="Shared/_Layout.cshtml";
 }
 <!-- hide this if the user is logged in -->
-@* <h2><a href="/sign_up">Create an account</a></h2>
-<h2><a href="/log_in">Log in to your account</a></h2> *@
+<h2><a href="/sign_up">Create an account</a></h2>
+<h2><a href="/log_in">Log in to your account</a></h2>
+
 
 
 <!-- Main page here -->
-<div class="col-md-3">
-    @Html.Partial("/Shared/Categories.cshtml", Model)
-</div>
+<h1>All Categories</h1>
+@if(@Model["categories"].Count != 0)
+{
+    @foreach(var category in @Model["categories"])
+    {
+        <h2>@category.GetName()</h2>
+    }
+}
 
-<div class="col-md-9">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">Home</li>
-    </ol>
-    @Html.Partial("/Shared/products.cshtml", Model)
+<h1>All Products</h1>
+@if(@Model["products"].Count != 0)
+{
+    @foreach(var product in @Model["products"])
+    {
+        <h2><a href='/product/@product.GetId()'>@product.GetName()</a></h2>
+    }
+}
+
+@* ===================PRODUCT CREATE TEST SECTION START===================*@
+<div class="form-group">
+    <form action="/products" method="post">
+        <input class="form-control" type="text" name="product-name" placeholder="Product Name">
+        <input class="form-control" type="text" name="product-description" placeholder="Description">
+        <input class="form-control" type="number" name="product-price" placeholder="Product Price">
+        <input class="form-control" type="number" name="product-count" placeholder="Product Count">
+        <input class="form-control" type="number" name="product-rating" placeholder="Product Rating">
+        <button class="btn btn-success" type="submit" name="button">Add Product</button>
+    </form>
 </div>
+@* ===================PRODUCT CREATE TEST SECTION END=====================*@

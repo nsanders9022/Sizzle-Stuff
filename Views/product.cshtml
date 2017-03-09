@@ -24,7 +24,7 @@
                 <div class="background-cover-image picture-box">
                     @if(Model["product"].GetPictures().Count != 0)
                     {
-                        <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+                        <img class="picture-box" src="/@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
                     }
                 </div>
             </div>

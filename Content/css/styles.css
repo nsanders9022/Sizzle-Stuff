@@ -239,6 +239,7 @@ td.price-column h3 {
 
 .star-container {
     margin: 0 auto;
+    display: block;
 }
 
 /* PRODUCT PAGE */
@@ -247,6 +248,37 @@ td.price-column h3 {
 }
 .picture-box {
     padding: 10px;
+}
+
+.rating-container:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+div.review-count {
+    display: table-cell;
+    height: 28px;
+    border: 1px solid red;
+}
+
+div.review-count a {
+    margin-top: 5px;
+}
+
+div.rating-container {
+    display: table;
+    width: 100%;
+}
+
+.rating-container .rating {
+    text-align: left;
+}
+
+.col-xs-6 {
+    float: none;
 }
 
 /*=============================================ADMIN VIEWS STYLING BEGIN=============================================*/

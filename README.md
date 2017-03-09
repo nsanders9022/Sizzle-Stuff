@@ -172,3 +172,7 @@ This website will host a multitude of kitchen gadgets. Users can create a profil
 * Delete all profiles
 
 * Find a profile
+
+
+## Technologies
+https://gist.github.com/barnettjw/56b04f5a9393e094db22 Rating stars

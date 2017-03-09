@@ -18,18 +18,27 @@
         <li class="breadcrumb-item active">@Model["product"].GetName()</li>
     </ol>
 
-<div class="row">
-    <div class="col-md-7 picture-box">
-        <div class="row">
-            <div class="background-cover-image picture-box">
-                <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+    <div class="row">
+        <div class="col-md-7 picture-box">
+            <div class="row">
+                <div class="background-cover-image picture-box">
+                    <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+                </div>
             </div>
         </div>
+        <div class="col-md-5">
+            <h2>@Model["product"].GetName()</h2>
+            <div class="row rating-container">
+                <div class="col-xs-6 review-count">
+                    @Html.Partial("/Shared/rating_stars.cshtml", Model)
+                </div>
+                <div class="col-xs-6 review-count">
+                    <a href="#">@Model["product"].GetProductReview().Count Reviews</a>
+                </div>
+            </div>
+            <p>@Model["product"].GetDescription()</p>
+        </div>
     </div>
-    <div class="col-md-5">
-        <h2>@Model["product"].GetName()</h2>
-    </div>
-</div>
 
     <h1>@Model["product"].GetName()</h1>
     <h2>Price: $@Model["product"].GetPrice()</h2>
@@ -83,4 +92,4 @@
     </form>
 
     <p><a href="/">Return home</a></p>
-</div>
+    </div>

@@ -308,4 +308,8 @@ ul.individual-product {
 div.topper {
     height: 60px;
 }
+
+.indent {
+    padding-left: 5px;
+}
 /*=============================================ADMIN VIEWS STYLING END=============================================*/

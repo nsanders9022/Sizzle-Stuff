@@ -12,28 +12,35 @@ namespace OnlineStore
         {
             Dictionary<string, object> model = new Dictionary<string, object> {
                 {"products", Product.GetAll()},
-                {"categories", Category.GetAll()}
+                {"categories", Category.GetAll()},
+                {"user", User.Find(1)}
             };
             return model;
+        }
+
+        Dictionary<string, object> DefaultModel = new Dictionary<string, object> {
+            {"products", Product.GetAll()},
+            {"categories", Category.GetAll()},
+            {"user", User.Find(1)}
+        };
+
+        public Dictionary<string, object> ModelUpdate()
+        {
+            User currentUser = (User)DefaultModel["user"];
+            DefaultModel = ModelMaker();
+            DefaultModel["user"] = currentUser;
+            return DefaultModel;
         }
 
         public HomeModule()
         {
             Get["/"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                List<Product> allProducts = Product.GetAll();
-                model.Add("categories", allCategories);
-                model.Add("products", allProducts);
+                Dictionary<string, object> model = ModelUpdate();
                 return View["index.cshtml", model];
             };
 
             Post["/"] = _ => {
-                Dictionary<string,object> model = new Dictionary<string, object>();
-                List<Category> allCategories = Category.GetAll();
-                List<Product> allProducts = Product.GetAll();
-                model.Add("categories", allCategories);
-                model.Add("products", allProducts);
+                Dictionary<string, object> model = ModelUpdate();
                 return View["index.cshtml", model];
             };
 
@@ -51,12 +58,17 @@ namespace OnlineStore
                 newUser.Save();
                 Profile newProfile = new Profile(newUser.GetId(), Request.Form["street"], Request.Form["city"], Request.Form["state"], Request.Form["zip-code"], Request.Form["phone-number"]);
                 newProfile.Save();
+                Dictionary<string, object> model = ModelUpdate();
+                model["user"] = newUser;
                 return View["login_status.cshtml", newUser];
             };
 
             Post["/signed_in"] = _ => {
                 User findUser = User.FindUserByName(Request.Form["user-name"], Request.Form["password"]);
-                return View["login_status.cshtml", findUser];
+                Dictionary<string, object> model = DefaultModel;
+                model["user"] = findUser;
+                ModelUpdate();
+                return View["login_status.cshtml", model];
             };
             //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Get["/product/{id}"] = parameters=> {

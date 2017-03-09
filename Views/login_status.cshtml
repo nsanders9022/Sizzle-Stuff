@@ -2,7 +2,7 @@
     Layout="Shared/_Layout.cshtml";
 }
 
-@if (@Model == null)
+@if (@Model["user"] == null)
 {
     <h3>Error, user log in failed. Please try again or sign up</h3>
     <h4><a href="/log_in">Return to log in page</a></h4>
@@ -10,6 +10,6 @@
 }
 else
 {
-    <h1>Welcome!!!</h1>
+    <h1>Welcome @Model["user"].GetFirstName()!!!</h1>
     <h2><a href="/">Start shopping</a></h2>
 }

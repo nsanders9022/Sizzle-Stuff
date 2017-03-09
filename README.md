@@ -1,4 +1,4 @@
-# Library Manager
+# Online Store
 
 #### By _**Alexandra Holcombe, Sam Kirsch, Shruti Priya, & Nicole Sanders**_
 

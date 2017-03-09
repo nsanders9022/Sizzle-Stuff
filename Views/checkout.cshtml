@@ -27,7 +27,7 @@
                         <tr>
                             <td><img class="checkoutimage" src='@Model["userProducts"][i].GetPictures()[0].GetPictureKey()' alt=""></td>
                             <td>@Model["userProducts"][i].GetName()
-                                <a href='/product/delete/@Model["userProducts"][i].GetId()'><img class="icon" id="trash" src="../Content/img/layout/trash.png"></a>
+                                <p><a href='/product/delete/@Model["userProducts"][i].GetId()'><img class="icon" id="trash" src="../Content/img/layout/trash.png"></a></p>
                             </td>
                             <td>@Model["userProducts"][i].GetPrice()</td>
                             <td><p>@Model["userCartProducts"][i].GetQuantity()</p>
@@ -51,13 +51,16 @@
 
             </table>
             <h3>Total amount: $@Model["user"].GetTotal()</h3>
-            <form action="/success" method="post">
-                <button type="submit" name="button" class="btn btn-info">Order products</button>
-            </form>
-            <br/>
-            <form action="/clear_cart" method="post">
-                <button type="submit" name="button" class="btn btn-danger">Remove all items in cart</button>
-            </form>
+            <div class="col-md-3">
+                <form action="/success" method="post">
+                    <button type="submit" name="button" class="btn btn-success">Order products</button>
+                </form>
+            </div>
+            <div class="col-md-3">
+                <form action="/clear_cart" method="post">
+                    <button type="submit" name="button" class="btn btn-danger">Remove all items in cart</button>
+                </form>
+            </div>
         }
         else
         {

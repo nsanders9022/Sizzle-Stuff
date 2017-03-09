@@ -178,6 +178,13 @@ namespace OnlineStore
                 return View["Admin/products.cshtml", ModelMaker()];
             };
 
+            Post["/admin/product/{id}/photos"] = parameters => {
+                Picture newPicture =  Picture.UploadPicture(Request.Form["new-photo-url"], parameters.id, Request.Form["new-photo-name"], Request.Form["new-photo-alt-text"]);
+                Dictionary<string, object> model = ModelMaker();
+                model.Add("product", Product.Find(parameters.id));
+                return View["Admin/product"];
+            };
+
             Post["/admin/search"] = _ => {
                 Dictionary<string, object> model = ModelMaker();
                 model["products"] = Product.SearchProductByName(Request.Form["search-bar"]);

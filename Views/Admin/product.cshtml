@@ -82,12 +82,24 @@
                     @foreach(var photo in @Model["product"].GetPictures())
                     {
                         <img src="@photo.GetPictureKey()" alt="@photo.GetAltText()">
-                        <form action="/products/photos/@photo.GetId()" method="post">
+                        <form action="/admin/product/photos/@photo.GetId()" method="post">
                             <input type="hidden" name="_method" value="DELETE">
                             <button type="submit" name="button">Delete Photo</button>
                         </form>
                     }
                 }
+                <hr />
+                <div class="photo-uploader">
+                    <form class="" action="/admin/product/@Model["product"].GetId()/photos" method="post">
+                        <label for="new-photo-url">Add a new photo from URL</label>
+                        <input type="text" name="new-photo-url">
+                        <label for="new-photo-alt-text">Name for the new photo</label>
+                        <input type="text" name="new-photo-name">
+                        <label for="new-photo-alt-text">Description for the new Photo</label>
+                        <input type="text" name="new-photo-alt-text">
+                        <button type="submit" name="button">Add Photo</button>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="panel panel-default">

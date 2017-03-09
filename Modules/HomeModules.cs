@@ -74,7 +74,7 @@ namespace OnlineStore
             Post["/confirmation"] = _ => {
                 Dictionary<string,object> model = ModelMaker();
                 Product addedProduct = Product.Find(Request.Form["product-id"]);
-                CartProduct currentCartProduct = new CartProduct(addedProduct.GetId(), ((User)model["user"]).GetId(), Request.Form["quantity"]);
+                CartProduct currentCartProduct = new CartProduct(((User)model["user"]).GetId(), addedProduct.GetId(), Request.Form["quantity"]);
                 currentCartProduct.Save();
                 model.Add("product", addedProduct);
                 model.Add("currentCartProduct", currentCartProduct);
@@ -110,9 +110,7 @@ namespace OnlineStore
                 User newUser = (User)model["user"];
                 newUser.Checkout();
                 Profile mainProfile = newUser.GetProfiles()[0];
-                model.Add("user", newUser);
-                model.Add("mainProfile", mainProfile);
-
+                model.Add("mainProfile", newUser.GetProfiles()[0]);
                 return View["success.cshtml", model];
             };
 

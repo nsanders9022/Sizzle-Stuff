@@ -13,30 +13,35 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var product in @Model["userProducts"])
-            {
-                <tr>
+                @foreach(var product in @Model["userProducts"])
+                {
+                    <tr>
+
                     <td>@product.GetName()</td>
                     <td>@product.GetPrice()</td>
-                    <td>QUALITY GOES HERE</td>
+
+                    <td>
+                        <form action = "/product/delete/@product.GetId()">
+                            <button name="submit" class="btn btn-lg btn-primary" type="submit">Delete</button>
+                        </form>
+                    </td>
                 </tr>
-            }
+                }
+
         </tbody>
     </table>
+    <h3>Total amount: $@Model["user"].GetTotal()</h3>
+    <form action="/success" method="post">
+        <button type="submit" name="button">Order products</button>
+    </form>
+    <form action="/clear_cart" method="post">
+        <button type="submit" name="button">Remove all items in cart</button>
+    </form>
 }
 else
 {
     <h2>You do not have any products in your cart</h2>
 }
-<h3>Total amount: @Model["user"].GetTotal()</h3>
-
-<form action="/success" method="post">
-    <button type="submit" name="button">Order products</button>
-</form>
-
-<form action="/clear_cart" method="post">
-    <button type="submit" name="button">Remove all items in cart</button>
-</form>
 
 
 <p><a href="/">Return home</a></p>

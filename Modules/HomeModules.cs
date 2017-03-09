@@ -16,6 +16,7 @@ namespace OnlineStore
             };
             return model;
         }
+
         public HomeModule()
         {
             Get["/"] = _ => {
@@ -90,7 +91,6 @@ namespace OnlineStore
 
             //DEFAULTING TO USING USER 1. NEED TO CHANGE TO SET TO THE LOGGED IN USER!!!!
             Post["/product_added"] = _ => {
-
                 return View["index.cshtml", ModelMaker()];
             };
 
@@ -122,6 +122,19 @@ namespace OnlineStore
                 User newUser = User.Find(1);
                 newUser.Checkout();
                 return View["success.cshtml", newUser];
+            };
+
+            Get["/product/delete/{id}"] = parameters => {
+                CartProduct SelectedProduct = CartProduct.Find(parameters.id);
+                SelectedProduct.DeleteItem();
+                return View["product_delete.cshtml", SelectedProduct];
+            };
+
+            Delete["product/delete/{id}"] = parameters => {
+                CartProduct SelectedProduct = CartProduct.Find(parameters.id);
+                SelectedProduct.DeleteItem();
+                List<CartProduct> allProducts = CartProduct.GetAll();
+                return View["checkout.cshtml",allProducts];
             };
 
             // Dummy Search page for table sorting testing

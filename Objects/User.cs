@@ -511,5 +511,17 @@ namespace OnlineStore.Objects
                 return null;
             }
         }
+
+        public void DeleteItem(int productId)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM cart_products WHERE user_id = @UserId AND product_id = @ProductId;",conn);
+            cmd.Parameters.Add(new SqlParameter ("@ProductId",productId));
+            cmd.Parameters.Add(new SqlParameter ("@UserId",this.GetId()));
+            cmd.ExecuteNonQuery();
+            DB.CloseSqlConnection(conn);
+        }
     }
 }

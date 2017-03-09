@@ -1,3 +1,7 @@
+@{
+    Layout="Shared/_Layout.cshtml";
+}
+
 @if (@Model == null)
 {
     <h3>Error, user log in failed. Please try again or sign up</h3>
@@ -6,6 +10,6 @@
 }
 else
 {
-    <h1>Welcome!!!</h1>
+    <h1>Welcome @Model.GetFirstName()</h1>
     <h2><a href="/">Start shopping</a></h2>
 }

@@ -1,6 +1,6 @@
 <form action="/confirmation" method="post">
 
-    <input id='product-id' name='product-id' type='hidden' value='@Model["product"].GetId()'>
+    <input id='product-id' name='product-id' type='hidden' value="@Model["product"].GetId()">
     @if(@Model["product"].GetCount() == 0)
     {
         <div class = "col-xs-8">

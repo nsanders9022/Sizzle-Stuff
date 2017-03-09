@@ -6,7 +6,7 @@
     {
         @foreach(var category in @Model["categories"])
         {
-            <a href="#" class="list-group-item">@category.GetName()</a>
+            <a href="/categories/@category.GetId()" class="list-group-item">@category.GetName()</a>
         }
     }
 </div>

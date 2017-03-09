@@ -164,7 +164,7 @@ namespace OnlineStore.Objects
         {
             string fileExtension = Picture.ParseFileType(pictureURL);
             string fullFileName = productId.ToString() + "_" + fileName + fileExtension;
-            string picturePath = "Content\\img\\products\\" + fullFileName;
+            string picturePath = "\\Content\\img\\products\\" + fullFileName;
             WebClient newWebClient = new WebClient();
             newWebClient.DownloadFile(pictureURL, picturePath);
             if(newWebClient != null)

@@ -183,6 +183,18 @@ namespace OnlineStore
                 model["products"] = Product.SearchProductByName(Request.Form["search-bar"]);
                 return View["Admin/products.cshtml"];
             };
+
+            //Gets category page
+            Get["/categories/{id}"] = parameters => {
+                Dictionary<string, object> model = new Dictionary<string, object>{};
+                List<Category> allCategories = Category.GetAll();
+                Category thisCategory = Category.Find(parameters.id);
+                List<Product> catProducts = thisCategory.GetProducts();
+                model.Add("thisCategory", thisCategory);
+                model.Add("products", catProducts);
+                model.Add("categories", allCategories);
+                return View["category.cshtml", model];
+            };
         }
     }
 }

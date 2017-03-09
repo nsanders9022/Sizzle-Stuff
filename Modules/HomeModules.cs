@@ -110,10 +110,16 @@ namespace OnlineStore
                 List<Product> userProducts = newUser.GetCart();
                 Console.WriteLine(userProducts.Count);
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
+
+                Dictionary<string,object> cart = new Dictionary<string, object>();
+                cart.Add("userProducts", userProducts);
+                cart.Add("userCartProducts", userCartProducts);
+
                 model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
                 model.Add("user", newUser);
+                model.Add("dictionary", cart);
                 return View["checkout.cshtml", model];
             };
 

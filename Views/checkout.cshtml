@@ -14,25 +14,25 @@
                 <th>Product(s)</th>
                 <th>Price</th>
                 <th>Quantity</th>
+                <th>Edit Cart</th>
             </tr>
         </thead>
         <tbody>
-                @foreach(var product in @Model["userProducts"])
-                {
-                    <tr>
-
-                    <td>@product.GetName()</td>
-                    <td>@product.GetPrice()</td>
-
+            @for(var i = 0; i < @Model["userProducts"].Count; i++)
+            {
+                <tr>
+                    <td>@Model["userProducts"][i].GetName()</td>
+                    <td>@Model["userProducts"][i].GetPrice()</td>
+                    <td>@Model["userCartProducts"][i].GetQuantity()</td>
                     <td>
-                        <form action = "/product/delete/@product.GetId()">
+                        <form action = '/product/delete/@Model["userProducts"][@i].GetId()'>
                             <button name="submit" class="btn btn-lg btn-primary" type="submit">Delete</button>
                         </form>
                     </td>
                 </tr>
-                }
-
+            }
         </tbody>
+
     </table>
     <h3>Total amount: $@Model["user"].GetTotal()</h3>
     <form action="/success" method="post">

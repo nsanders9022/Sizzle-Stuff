@@ -107,9 +107,14 @@ namespace OnlineStore
                 List<Category> allCategories = Category.GetAll();
                 User newUser = User.Find(1);
                 List<Product> userProducts = newUser.GetCart();
-                Console.WriteLine(userProducts.Count);
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
-                model.Add("categories", allCategories);
+
+                // Product newProduct = Product.Find(parameters.id);
+                //
+                // model.Add("product", newProduct);
+
+
+
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
                 model.Add("user", newUser);
@@ -121,20 +126,47 @@ namespace OnlineStore
                 Dictionary<string,object> model = new Dictionary<string, object>();
                 User newUser = User.Find(1);
                 newUser.Checkout();
-                return View["success.cshtml", newUser];
+                Profile mainProfile = newUser.GetProfiles()[0];
+                model.Add("user", newUser);
+                model.Add("mainProfile", mainProfile);
+
+                return View["success.cshtml", model];
             };
 
             Get["/product/delete/{id}"] = parameters => {
-                CartProduct SelectedProduct = CartProduct.Find(parameters.id);
-                SelectedProduct.DeleteItem();
+                Product SelectedProduct = Product.Find(parameters.id);
                 return View["product_delete.cshtml", SelectedProduct];
             };
 
-            Delete["product/delete/{id}"] = parameters => {
-                CartProduct SelectedProduct = CartProduct.Find(parameters.id);
-                SelectedProduct.DeleteItem();
-                List<CartProduct> allProducts = CartProduct.GetAll();
-                return View["checkout.cshtml",allProducts];
+            Delete["product/deleted/{id}"] = parameters => {
+                Dictionary<string,object> model = new Dictionary<string, object>();
+                List<Category> allCategories = Category.GetAll();
+                User newUser = User.Find(1);
+                Product deletedProduct = Product.Find(parameters.id);
+                newUser.DeleteItem(deletedProduct.GetId());
+                List<Product> userProducts = newUser.GetCart();
+                List<CartProduct> userCartProducts = newUser.GetCartProducts();
+                model.Add("categories", allCategories);
+                model.Add("userProducts", userProducts);
+                model.Add("userCartProducts", userCartProducts);
+                model.Add("user", newUser);
+                return View["checkout.cshtml", model];
+            };
+
+            Patch["product/update_quantity"] = _ => {
+                Dictionary<string,object> model = new Dictionary<string, object>();
+                List<Category> allCategories = Category.GetAll();
+                User newUser = User.Find(1);
+                Product updateProduct = Product.Find(Request.Form["product-id"]);
+                CartProduct newCartProduct = new CartProduct(newUser.GetId(), updateProduct.GetId(), 0);
+                newCartProduct.UpdateQuantity(Request.Form["new-quantity"]);
+                List<Product> userProducts = newUser.GetCart();
+                List<CartProduct> userCartProducts = newUser.GetCartProducts();
+                model.Add("categories", allCategories);
+                model.Add("userProducts", userProducts);
+                model.Add("userCartProducts", userCartProducts);
+                model.Add("user", newUser);
+                return View["checkout.cshtml", model];
             };
 
             // Dummy Search page for table sorting testing
@@ -147,14 +179,14 @@ namespace OnlineStore
                 List<Category> allCategories = Category.GetAll();
                 User newUser = User.Find(1);
                 List<Product> userProducts = newUser.GetCart();
-                Console.WriteLine(userProducts.Count);
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
+                newUser.GetCartProducts();
+                newUser.EmptyCart();
                 model.Add("categories", allCategories);
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
                 model.Add("user", newUser);
-                newUser.EmptyCart();
-                return View["checkout.cshtml", ModelMaker()];
+                return View["checkout.cshtml", model];
             };
             // =====================BEGIN ADMIN VIEWS=========================================
 
@@ -193,9 +225,19 @@ namespace OnlineStore
 
             Post["/admin/product/{id}/photos"] = parameters => {
                 Picture newPicture =  Picture.UploadPicture(Request.Form["new-photo-url"], parameters.id, Request.Form["new-photo-name"], Request.Form["new-photo-alt-text"]);
+                newPicture.Save();
+                Product currentProduct = Product.Find(parameters.id);
+                currentProduct.AddPicture(newPicture);
                 Dictionary<string, object> model = ModelMaker();
-                model.Add("product", Product.Find(parameters.id));
+                model.Add("product", currentProduct);
                 return View["Admin/product", model];
+            };
+
+            Delete["/admin/product/{productId}/photos/{photoId}"] = parameters => {
+              Picture.Find(parameters.photoId).Delete();
+              Dictionary<string, object> model = ModelMaker();
+              model.Add("product", Product.Find(parameters.productId));
+              return View["Admin/product.cshtml", model];
             };
 
             Post["/admin/search"] = _ => {

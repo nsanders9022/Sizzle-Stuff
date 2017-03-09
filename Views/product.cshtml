@@ -18,69 +18,61 @@
         <li class="breadcrumb-item active">@Model["product"].GetName()</li>
     </ol>
 
-<div class="row">
-    <div class="col-md-7 picture-box">
-        <div class="row">
-            <div class="background-cover-image picture-box">
-                <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+    <div class="row">
+        <div class="col-md-7 picture-box">
+            <div class="row">
+                <div class="background-cover-image picture-box">
+                    <img class="picture-box" src="@Model["product"].GetPictures()[0].GetPictureKey()" alt="@Model["product"].GetName()">
+                </div>
             </div>
         </div>
+        <div class="col-md-5">
+            <h2>@Model["product"].GetName()</h2>
+            <div class="row rating-container">
+                <div class="col-xs-6 review-count">
+                    @Html.Partial("/Shared/rating_stars.cshtml", Model)
+                </div>
+                <div class="col-xs-6 review-count">
+                    <a href="#">@Model["product"].GetProductReview().Count Reviews</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <span class="price">$@Model["product"].GetPrice()</span>
+                </div>
+                <form class="" action="index.html" method="post">
+
+                </form>
+                @Html.Partial("/Shared/addtocart.cshtml", Model)
+            </div>
+            <p>@Model["product"].GetDescription()</p>
+            <p>Categories: </p>
+            @if(@Model["product"].GetCategories().Count == 0)
+            {
+                <p class="indent">There are no categories.</p>
+            }
+            else
+            {
+                @foreach(var category in @Model["product"].GetCategories())
+                {
+                    <p class="indent">@category.GetName()</p>
+                }
+            }
+            <p>Reviews: </p>
+            @if (@Model["product"].GetProductReview().Count == 0)
+            {
+                <p class="indent">There are no reviews for this product</p>
+            }
+            else
+            {
+                @foreach(var review in @Model["product"].GetProductReview())
+                {
+                    <p class="indent">@review.GetReviewText()</p>
+                }
+            }
+            <p><a href="/">Return home</a></p>
+        </div>
     </div>
-    <div class="col-md-5">
-        <h2>@Model["product"].GetName()</h2>
-    </div>
-</div>
 
-    <h1>@Model["product"].GetName()</h1>
-    <h2>Price: $@Model["product"].GetPrice()</h2>
-    <h2>Description: @Model["product"].GetDescription()</h2>
-
-    <h2>Categories: </h2>
-    @if(@Model["product"].GetCategories().Count == 0)
-    {
-        <h3>There are no categories.</h3>
-    }
-    else
-    {
-        @foreach(var category in @Model["product"].GetCategories())
-        {
-            <h3>@category.GetName()</h3>
-        }
-    }
-
-    <h2>Reviews: </h2>
-    @if (@Model["product"].GetProductReview().Count == 0)
-    {
-        <h3>There are no reviews for this product</h3>
-    }
-    else
-    {
-        @foreach(var review in @Model["product"].GetProductReview())
-        {
-            <h2>@review.GetReviewText()</h2>
-        }
-    }
-
-    <h2>Rating: @Model["product"].GetRating()</h2>
-
-    <form action="/confirmation" method="post">
-    <input id='product-id' name='product-id' type='hidden' value='@Model["product"].GetId()'>
-    @if(@Model["product"].GetCount() == 0)
-    {
-        <h3>Not available in stock.</h3>
-    }
-    else
-    {
-        <button type="submit" name="submit">Add To Cart</button>
-        <label for="quantity">Quantity</label>
-        <select class="product_quantity" name="quantity">
-        @for(int i = 1; i <= @Model["product"].GetCount(); i++ )
-        {
-            <option value="@i">@i</option>
-        }
-        </select>
-    }
-    </form>
-
-    <p><a href="/">Return home</a></p>
 </div>

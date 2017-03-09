@@ -5,64 +5,56 @@
 <h1 class="signin_header">Review your cart</h1>
 
 <div class="row">
-    <div class="col-xs-2">
-
-    </div>
-    <div class="col-xs-8">
-        @if(@Model["userProducts"].Count != 0 && @Model["user"].GetTotal() != 0)
-        {
-            <table class="table table-striped table-bordered">
-                <thead>
+    @if(@Model["userProducts"].Count != 0 && @Model["user"].GetTotal() != 0)
+    {
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(var i = 0; i < @Model["userProducts"].Count; i++)
+                {
                     <tr>
-                        <th>Image</th>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
+                        <td><img class="checkoutimage" src='@Model["userProducts"][i].GetPictures()[0].GetPictureKey()' alt=""></td>
+                        <td>@Model["userProducts"][i].GetName()
+                            <a href='/product/delete/@Model["userProducts"][i].GetId()'><img class="icon" id="trash" src="../Content/img/layout/trash.png"></a>
+                        </td>
+                        <td>@Model["userProducts"][i].GetPrice()</td>
+                        <td><p>@Model["userCartProducts"][i].GetQuantity()</p>
+                            <!-- <a href="#" class="icon"><img src="../Content/img/layout/update.png"></a> -->
+                            <form action='/product/update_quantity' method="post">
+                                <input type="hidden" name="_method" value="PATCH">
+                                <input  name='product-id' type='hidden' value='@Model["userProducts"][i].GetId()'>
+                                <select name="new-quantity">
+                                    @for(int j = 1; j <= @Model["userProducts"][i].GetCount(); j++ )
+                                    {
+                                        <option value="@j">@j</option>
+                                    }
+                                </select>
+                                <button type="submit"><img class="icon"src="../Content/img/layout/update.png"></button>
+                            </form>
+
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @for(var i = 0; i < @Model["userProducts"].Count; i++)
-                    {
-                        <tr>
-                            <td><img class="checkoutimage" src='@Model["userProducts"][i].GetPictures()[0].GetPictureKey()' alt=""></td>
-                            <td>@Model["userProducts"][i].GetName()
-                            <p><a href='/product/delete/@Model["userProducts"][i].GetId()'><img  class="icon"src="../Content/img/layout/trash.png"></a></p>
-                            </td>
-                            <td>@Model["userProducts"][i].GetPrice()</td>
-                            <td><p>@Model["userCartProducts"][i].GetQuantity()</p>
-                                    <!-- <a href="#" class="icon"><img src="../Content/img/layout/update.png"></a> -->
-                                <form action='/product/update_quantity' method="post">
-                                    <input type="hidden" name="_method" value="PATCH">
-                                    <input  name='product-id' type='hidden' value='@Model["userProducts"][i].GetId()'>
-                                    <select name="new-quantity">
-                                        @for(int j = 1; j <= @Model["userProducts"][i].GetCount(); j++ )
-                                        {
-                                            <option value="@j">@j</option>
-                                        }
-                                    </select>
-                                    <button type="submit"><img class="icon"src="../Content/img/layout/update.png"></button>
-                                </form>
+                }
+            </tbody>
 
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-
-            </table>
-            <h3>Total amount: $@Model["user"].GetTotal()</h3>
-            <form action="/success" method="post">
-                <button type="submit" name="button" class="btn btn-info">Order products</button>
-            </form>
-            <form action="/clear_cart" method="post">
-                <button type="submit" name="button" class="btn btn-danger">Remove all items in cart</button>
-            </form>
-        }
-        else
-        {
-            <h2>You do not have any products in your cart</h2>
-        }
-    </div>
-    <div class="col-xs-2">
-
-    </div>
+        </table>
+        <h3>Total amount: $@Model["user"].GetTotal()</h3>
+        <form action="/success" method="post">
+            <button type="submit" name="button" class="btn btn-info">Order products</button>
+        </form>
+        <form action="/clear_cart" method="post">
+            <button type="submit" name="button" class="btn btn-danger">Remove all items in cart</button>
+        </form>
+    }
+    else
+    {
+        <h2>You do not have any products in your cart</h2>
+    }
 </div>

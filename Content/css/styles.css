@@ -185,6 +185,10 @@ td.image-column {
     width: 20%;
 }
 
+.image-column img{
+    width: 200px;
+}
+
 td.product-column {
     width: 41.66666667%;
 }

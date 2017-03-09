@@ -3,7 +3,7 @@
 }
 
 <div class="jumbotron">
-    <h1>Hello</h1>
+    <h1>Hello @Model["user"].GetFirstName()</h1>
 </div>
 <div class="container">
     <div class="row">
@@ -67,14 +67,32 @@
                         Add a new User
                     </div>
                     <div class="panel-body">
-                        <form action="/products" method="post">
-                            <input class="form-control" type="text" name="product-name" placeholder="Product Name">
-                            <input class="form-control" type="text" name="product-description" placeholder="Description">
-                            <input class="form-control" type="number" name="product-price" placeholder="Price" step="0.01">
-                            <input class="form-control" type="number" name="product-count" placeholder="Count">
-                            <input class="form-control" type="number" name="product-rating" placeholder="Product Rating">
+                        <form action="/admin/users" method="post">
+                            <label for="first-name">First Name: </label>
+                            <input type="text" name="first-name" class="form-control" required>
+                            <label for="last-name">Last Name: </label>
+                            <input type="text" name="last-name" class="form-control" required>
+                            <label for="user-name">User Name: </label>
+                            <input type="text" name="user-name" class="form-control" required>
+                            <label for="password">Password: </label>
+                            <input type="text" name="password" class="form-control" required>
+                            <label for="admin-privileges">Give Admin Privileges?</label>
+                            <select name="admin-privileges">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <label for="street">Street: </label>
+                            <input type="text" name="street" class="form-control" required>
+                            <label for="city">City: </label>
+                            <input type="text" name="city" class="form-control" required>
+                            <label for="State">State: </label>
+                            <input type="text" name="State" class="form-control" required>
+                            <label for="zip-code">Zip code: </label>
+                            <input type="number" name="zip-code" class="form-control" required>
+                            <label for="phone-number">Phone number: </label>
+                            <input type="text" name="phone-number" class="form-control" required>
                             <hr />
-                            <button class="btn btn-success" type="submit" name="button">Add Product</button>
+                            <button class="btn btn-success" type="submit" name="button">Add User</button>
                         </form>
                     </div>
                 </div>

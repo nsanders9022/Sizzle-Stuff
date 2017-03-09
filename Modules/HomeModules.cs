@@ -108,6 +108,13 @@ namespace OnlineStore
                 User newUser = User.Find(1);
                 List<Product> userProducts = newUser.GetCart();
                 List<CartProduct> userCartProducts = newUser.GetCartProducts();
+
+                // Product newProduct = Product.Find(parameters.id);
+                //
+                // model.Add("product", newProduct);
+
+
+
                 model.Add("userProducts", userProducts);
                 model.Add("userCartProducts", userCartProducts);
                 model.Add("user", newUser);

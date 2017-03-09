@@ -2,28 +2,33 @@
     Layout="Shared/_Layout.cshtml";
 }
 <div class="row">
-<h1 class="signin_header">Create an account</h1>
-<form action="/user_created" method="post" class="form-group">
-    <label for="first-name">First Name: </label>
-    <input type="text" name="first-name" class="form-control" required>
-    <label for="last-name">Last Name: </label>
-    <input type="text" name="last-name" class="form-control" required>
-    <label for="user-name">User Name: </label>
-    <input type="text" name="user-name" class="form-control" required>
-    <label for="password">Password: </label>
-    <input type="text" name="password" class="form-control" required>
+    <div class="col-xs-2">
+    </div>
+    <div class="col-xs-8">
+        <h1 class="signin_header">Create an account</h1>
+        <form action="/user_created" method="post" class="form-group">
+            <label for="first-name">First Name: </label>
+            <input type="text" name="first-name" class="form-control" required>
+            <label for="last-name">Last Name: </label>
+            <input type="text" name="last-name" class="form-control" required>
+            <label for="user-name">User Name: </label>
+            <input type="text" name="user-name" class="form-control" required>
+            <label for="password">Password: </label>
+            <input type="text" name="password" class="form-control" required>
+            <label for="street">Street: </label>
+            <input type="text" name="street" class="form-control" required>
+            <label for="city">City: </label>
+            <input type="text" name="city" class="form-control" required>
+            <label for="State">State: </label>
+            <input type="text" name="State" class="form-control" required>
+            <label for="zip-code">Zip code: </label>
+            <input type="number" name="zip-code" class="form-control" required>
+            <label for="phone-number">Phone number: </label>
+            <input type="text" name="phone-number" class="form-control" required>
 
-    <label for="street">Street: </label>
-    <input type="text" name="street" class="form-control" required>
-    <label for="city">City: </label>
-    <input type="text" name="city" class="form-control" required>
-    <label for="State">State: </label>
-    <input type="text" name="State" class="form-control" required>
-    <label for="zip-code">Zip code: </label>
-    <input type="number" name="zip-code" class="form-control" required>
-    <label for="phone-number">Phone number: </label>
-    <input type="text" name="phone-number" class="form-control" required>
-
-    <button type="submit" class="btn btn-info">Submit</button>
-</form>
+            <button type="submit" class="btn btn-info signin-button">Submit</button>
+        </form>
+    </div>
+    <div class="col-xs-2">
+    </div>
 </div>

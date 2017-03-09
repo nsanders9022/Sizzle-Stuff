@@ -232,6 +232,21 @@ namespace OnlineStore
                 return View["Admin/users.cshtml", model];
             };
 
+            Post["/admin/users"] = _ => {
+                bool newAdminPriv = false;
+                if(Request.Form["admin-privileges"] == true)
+                {
+                    newAdminPriv = true;
+                }
+                User newUser = new User(Request.Form["first-name"], Request.Form["last-name"], Request.Form["user-name"], Request.Form["password"], newAdminPriv);
+                newUser.Save();
+                Profile newProfile = new Profile(newUser.GetId(), Request.Form["street"], Request.Form["city"], Request.Form["state"], Request.Form["zip-code"], Request.Form["phone-number"]);
+                newProfile.Save();
+                Dictionary<string, object> model = ModelMaker();
+                model.Add("users", User.GetAll());
+                return View["Admin/users.cshtml", model];
+            };
+
             //Gets category page
             Get["/categories/{id}"] = parameters => {
                 Dictionary<string, object> model = new Dictionary<string, object>{};
